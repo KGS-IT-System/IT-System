@@ -1481,6 +1481,9 @@ html,body{margin:0; padding:0;}
   html[data-bh="on"][data-bhtone="cyan"] .modal.editing{border-color:rgba(255,200,92,.6); box-shadow:0 20px 60px rgba(0,0,0,0.31), 0 0 0 1px rgba(255,200,92,.35), 0 0 36px rgba(255,200,92,.10);}
   html[data-bh="on"][data-bhtone="cyan"] .ro-val{padding:8px 10px; border-radius:7px; border:1px dashed rgba(41,241,255,.16); background:rgba(5,8,16,0.30); min-height:35px; white-space:pre-wrap; word-break:break-word; font-size:13.5px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
   html[data-bh="on"][data-bhtone="cyan"] .policy-card .pc-edit{width:100%; min-height:240px; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,200,92,.5); background:rgba(5,8,16,0.37); color:var(--text); line-height:1.6; resize:vertical;}
+
+  /* login style bar + style panel are hidden by default (choice already made); Ctrl+Alt+S shows them again */
+  html:not([data-showstyle]) #bhScene, html:not([data-showstyle]) #bhStyle{display:none !important;}
 </style>
 </head>
 <body>
@@ -6770,6 +6773,9 @@ var KGSSAT = (function(){
   function surfOn(){ load(); return ss.sf2; }
   return {setColor:setColor, colorOn:colorOn, setClose:setClose, closeOn:closeOn, burst:burst, init:init, state:ss, toggleSurf:toggleSurf, toggleRing:toggleRing, setSurf:setSurf, setRing:setRing, ringOn:ringOn, surfOn:surfOn, login:login, loginEnd:loginEnd, forceOff:forceOff, setSound:setSound, hasSound:hasSound, setView:setView, isLogin:isLogin, setMode:setMode, curMode:curMode};
 })();
+
+/* Ctrl+Alt+S shows / hides the login style bar and style panel (hidden by default) */
+(function(){ document.addEventListener('keydown',function(e){ if(e.ctrlKey&&e.altKey&&(e.key==='s'||e.key==='S')){ e.preventDefault(); var h=document.documentElement; if(h.hasAttribute('data-showstyle')) h.removeAttribute('data-showstyle'); else h.setAttribute('data-showstyle','1'); } }); })();
 
 function initShell(){
   renderNav();
