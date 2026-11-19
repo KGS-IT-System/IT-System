@@ -8867,6 +8867,61 @@ var KGSTask = (function(){
   return { begin:begin, flash:flash, _snd:SND };
 })();
 
+/* ---------- Login UI sounds: typing tick, click, error buzz, success chime.
+   Always available (no hidden switch): follows the app sound switch (Sound.isMuted).
+   Skipped while the login-scene sound (KGSSAT/KGSBH) is ON, because that module already plays them. ---------- */
+(function kgsLoginSounds(){
+  var AC = null, last = 0, wasLocked = null;
+  function muted(){ try{ return Sound.isMuted(); }catch(e){ return false; } }
+  function scene(){ try{ return (window.KGSSAT && KGSSAT.hasSound && KGSSAT.hasSound()) || (window.KGSBH && KGSBH.state && 0); }catch(e){ return false; } }
+  function ctx(){ try{ if(!AC){ var C = window.AudioContext || window.webkitAudioContext; if(C) AC = new C(); } if(AC && AC.state === 'suspended') AC.resume(); }catch(e){} return AC; }
+  function blip(f, t0, d, type, g, f2, pan){
+    var a = ctx(); if(!a) return; try{
+      var T = a.currentTime + t0, o = a.createOscillator(), G = a.createGain(), out = a.destination;
+      o.type = type; o.frequency.setValueAtTime(f, T); if(f2) o.frequency.exponentialRampToValueAtTime(f2, T + d);
+      G.gain.setValueAtTime(0.0001, T); G.gain.linearRampToValueAtTime(g, T + .004); G.gain.exponentialRampToValueAtTime(.0001, T + d);
+      o.connect(G);
+      if(a.createStereoPanner && pan){ var P = a.createStereoPanner(); P.pan.value = pan; G.connect(P); P.connect(out); } else G.connect(out);
+      o.start(T); o.stop(T + d + .05);
+    }catch(e){}
+  }
+  var TK = [1568, 1760, 1976, 2349, 2637, 2093];
+  var S = {
+    tick:function(){ var f = TK[Math.floor(Math.random() * TK.length)]; blip(f, 0, .06, 'triangle', .07, f * .92, Math.random() * .8 - .4); },
+    beep:function(){ blip(1320, 0, .08, 'triangle', .09, null, -.15); blip(1760, .07, .1, 'triangle', .09, null, .15); },
+    data:function(){ for(var i = 0; i < 9; i++){ var f = 1200 + Math.random() * 2200; blip(f, i * .055 + Math.random() * .02, .05, 'square', .03, f * 1.15, Math.random() * 1.2 - .6); } },
+    err:function(){ [0, .16].forEach(function(d){ blip(190, d, .13, 'square', .07, 140); }); },
+    ok:function(){ [880, 1174.66, 1568, 2093].forEach(function(f, i){ blip(f, i * .09, .5 - i * .04, 'sine', .13, null, (i - 1.5) * .25); blip(f * 2, i * .09, .25, 'triangle', .03); }); }
+  };
+  function on(){ return !muted() && !scene(); }
+  function inAuth(t){ return t && t.closest && t.closest('#authRoot'); }
+  function init(){
+    document.addEventListener('keydown', function(e){
+      if(!document.body.classList.contains('auth-locked') || !inAuth(e.target) || e.repeat) return;
+      if(e.key === 'Escape' || e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta' || e.key === 'Tab') return;
+      if(!on()) return; var n = performance.now(); if(n - last < 35) return; last = n; S.tick();
+    }, true);
+    document.addEventListener('click', function(e){
+      if(!document.body.classList.contains('auth-locked') || !inAuth(e.target) || !on()) return;
+      var b = e.target.closest('button, a, .auth-link, [role="button"]'); if(!b) return;
+      if(b.id === 'aGo' || b.id === 'sGo' || b.id === 'cGo') S.data(); else S.beep();
+    }, true);
+    var errEl = null, lastErr = '';
+    new MutationObserver(function(){
+      var el = document.getElementById('aErr') || document.querySelector('#authRoot .auth-err'); var tx = el ? el.textContent : '';
+      if(tx && tx !== lastErr){ lastErr = tx; if(on() && document.body.classList.contains('auth-locked')) S.err(); } else if(!tx) lastErr = '';
+    }).observe(document.getElementById('authRoot') || document.body, {childList:true, subtree:true, characterData:true});
+    wasLocked = document.body.classList.contains('auth-locked');
+    new MutationObserver(function(){
+      var l = document.body.classList.contains('auth-locked');
+      if(wasLocked && !l && on()) S.ok();
+      wasLocked = l;
+    }).observe(document.body, {attributes:true, attributeFilter:['class']});
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  window.KGSLoginSnd = S;
+})();
+
 Auth.start(initShell);
 
 })();
