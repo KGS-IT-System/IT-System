@@ -1827,6 +1827,295 @@ html[data-glass="frosted"][data-gsb][data-gsb][data-gsb] .kd-card .kd-l{min-heig
 html[data-glass="frosted"][data-gsb][data-gsb][data-gsb] .kd-card .kd-v{font-family:'Inter','Noto Sans Lao',sans-serif; font-variant-numeric:tabular-nums; font-size:30px; margin:2px 0 8px; color:#fff; text-shadow:0 0 18px color-mix(in srgb,var(--kc) 55%,transparent)}
 html[data-glass="frosted"][data-gsb][data-gsb][data-gsb] .kd-card .kd-m{color:#a9bfdc}
 @media (max-width:600px){ html[data-glass="frosted"][data-gsb][data-gsb][data-gsb] .kd-cards{grid-template-columns:1fr} }
+
+/* ---- dock moved into the top bar ---- */
+html[data-gsb][data-gsb][data-gsb] .gdash-bar .gdash-dock{position:static; left:auto; bottom:auto; transform:none; z-index:auto; flex:none; padding:3px; gap:2px;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none;}
+html[data-gsb][data-gsb][data-gsb] .gdash-bar .gdash-dock button{padding:7px 12px; font-size:12px; gap:6px;}
+html[data-gsb][data-gsb][data-gsb] .gdash-bar .gd-search{flex:1 1 120px; min-width:90px; padding:9px 14px;}
+html[data-gsb][data-gsb][data-gsb] .gdash-bar .gd-search kbd{display:none;}
+html[data-glass="frosted"][data-gsb][data-gsb][data-gsb] .content{padding-bottom:40px;}
+@media (max-width:1380px){ html[data-gsb][data-gsb][data-gsb] .gdash-bar .gdash-dock button:not(.on) span:not(.gd-ico){display:none;} html[data-gsb][data-gsb][data-gsb] .gdash-bar .gdash-dock button:not(.on){padding:8px 10px;} }
+@media (max-width:1180px){ html[data-gsb][data-gsb][data-gsb] .gdash-bar .gd-search .gd-ph{display:none;} }
+
+/* ---- Face ID ---- */
+.fid-login{margin-top:12px}
+.fid-or{display:flex; align-items:center; gap:10px; color:#8fa6c9; font-size:11.5px; margin:2px 0 10px}
+.fid-or:before,.fid-or:after{content:""; flex:1; height:1px; background:rgba(255,255,255,.14)}
+.fid-btn{position:relative; overflow:hidden; width:100%; display:flex; align-items:center; justify-content:center; gap:9px; padding:12px 14px; border-radius:14px; background:linear-gradient(135deg,rgba(0,238,255,.12),rgba(176,76,255,.12)); border:1px solid rgba(0,238,255,.45); color:#fff; font-weight:600; cursor:pointer}
+.fid-btn:hover{background:linear-gradient(135deg,rgba(0,238,255,.22),rgba(176,76,255,.2)); box-shadow:0 0 22px rgba(0,238,255,.3)}
+.fid-btn:after{content:""; position:absolute; top:0; bottom:0; width:40%; left:-50%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent); animation:fidBtn 3.2s ease-in-out infinite}
+@keyframes fidBtn{0%,60%{left:-50%}100%{left:130%}}
+.fid-btn .fi{display:inline-grid; font-size:21px; color:#00EEFF; filter:drop-shadow(0 0 6px rgba(0,238,255,.8))}
+.fid-card{--c:#00EEFF; width:min(450px,94vw)}
+.fid-card[data-s="load"]{--c:#7DF7FF} .fid-card[data-s="find"]{--c:#00EEFF} .fid-card[data-s="blink"]{--c:#FFC85C} .fid-card[data-s="verify"]{--c:#B04CFF} .fid-card[data-s="ok"]{--c:#3CFFB0} .fid-card[data-s="fail"]{--c:#FF4D6D}
+.fid-card .auth-badge svg{width:1em; height:1em}
+.fid-top{display:flex; align-items:center; gap:12px; margin-bottom:6px}
+.fid-top h2{flex:1; margin:0}
+.fid-snd{flex:none; width:36px; height:36px; display:grid; place-items:center; border-radius:50%; cursor:pointer; padding:0; color:#00EEFF; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16)}
+.fid-snd svg{width:19px; height:19px} .fid-snd:hover{background:rgba(0,238,255,.16)}
+.fid-snd.off{color:#8fa6c9} .fid-snd.off .w{display:none} .fid-snd.off:after{content:""; position:absolute; width:22px; height:2px; background:#FF4D6D; transform:rotate(-45deg)}
+.fid-snd{position:relative}
+.fid-stage{position:relative; width:290px; height:290px; margin:8px auto 10px}
+.fid-arc{position:absolute; inset:0; width:100%; height:100%; transform:rotate(-90deg); overflow:visible}
+.fid-arc circle{fill:none; stroke-width:2.6}
+.fid-arc .trk{stroke:rgba(255,255,255,.09)}
+.fid-arc .prg{stroke:var(--c); stroke-linecap:round; stroke-dasharray:351.86; stroke-dashoffset:351.86; transition:stroke-dashoffset .4s ease, stroke .3s; filter:drop-shadow(0 0 5px var(--c))}
+.fid-cam{position:absolute; inset:16px; border-radius:50%; overflow:hidden; background:#02060f; box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 45%,transparent), 0 0 40px color-mix(in srgb,var(--c) 32%,transparent), inset 0 0 40px rgba(0,0,0,.65); transition:box-shadow .3s}
+.fid-cam video{width:100%; height:100%; object-fit:cover; transform:scaleX(-1); display:block; transition:filter .4s}
+.fid-card[data-s="ok"] .fid-cam video{filter:blur(5px) brightness(.55)} .fid-card[data-s="fail"] .fid-cam video{filter:grayscale(.8) brightness(.5)}
+.fid-grid{position:absolute; inset:0; pointer-events:none; opacity:.55; background:radial-gradient(circle,transparent 52%,rgba(2,6,15,.75) 100%), repeating-linear-gradient(0deg,rgba(0,238,255,.07) 0 1px,transparent 1px 22px), repeating-linear-gradient(90deg,rgba(0,238,255,.07) 0 1px,transparent 1px 22px)}
+.fid-sweep{position:absolute; left:0; right:0; height:3px; top:0; background:linear-gradient(90deg,transparent,var(--c),transparent); box-shadow:0 0 18px var(--c); animation:fidSweep 2.2s ease-in-out infinite; pointer-events:none}
+.fid-card[data-s="load"] .fid-sweep,.fid-card[data-s="ok"] .fid-sweep,.fid-card[data-s="fail"] .fid-sweep{display:none}
+@keyframes fidSweep{0%{top:4%}50%{top:94%}100%{top:4%}}
+.fid-load{position:absolute; inset:0; display:none; align-items:center; justify-content:center; gap:9px; background:radial-gradient(circle,rgba(0,40,70,.85),#02060f)}
+.fid-card[data-s="load"] .fid-load{display:flex}
+.fid-load i{width:12px; height:12px; border-radius:50%; background:#00EEFF; box-shadow:0 0 14px #00EEFF; animation:fidDot 1s ease-in-out infinite}
+.fid-load i:nth-child(2){animation-delay:.15s} .fid-load i:nth-child(3){animation-delay:.3s}
+@keyframes fidDot{0%,100%{transform:scale(.5); opacity:.4}50%{transform:scale(1.1); opacity:1}}
+.fb{position:absolute; width:30px; height:30px; border:3px solid var(--c); filter:drop-shadow(0 0 5px var(--c)); transition:border-color .3s; pointer-events:none}
+.fb.tl{left:0; top:0; border-right:0; border-bottom:0; border-top-left-radius:16px} .fb.tr{right:0; top:0; border-left:0; border-bottom:0; border-top-right-radius:16px}
+.fb.bl{left:0; bottom:0; border-right:0; border-top:0; border-bottom-left-radius:16px} .fb.br{right:0; bottom:0; border-left:0; border-top:0; border-bottom-right-radius:16px}
+.fid-card[data-s="find"] .fb,.fid-card[data-s="blink"] .fb{animation:fidFb 1.4s ease-in-out infinite}
+@keyframes fidFb{0%,100%{transform:scale(1); opacity:1}50%{transform:scale(.88); opacity:.65}}
+.fid-mark{position:absolute; left:50%; top:50%; width:104px; height:104px; margin:-52px 0 0 -52px; border-radius:50%; display:none; place-items:center; color:#04150f; background:var(--c); box-shadow:0 0 40px var(--c), 0 0 0 10px color-mix(in srgb,var(--c) 25%,transparent)}
+.fid-mark svg{width:56px; height:56px}
+.fid-card[data-s="ok"] .fid-mark.ok,.fid-card[data-s="fail"] .fid-mark.bad{display:grid; animation:fidPop .5s cubic-bezier(.2,1.5,.4,1)}
+.fid-card[data-s="fail"] .fid-mark.bad{color:#2a0610}
+@keyframes fidPop{0%{transform:scale(.2); opacity:0}100%{transform:scale(1); opacity:1}}
+.fid-card[data-s="fail"] .fid-stage{animation:fidShake .45s}
+@keyframes fidShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+.fid-chip{display:flex; align-items:center; justify-content:center; gap:9px; min-height:36px; margin:0 auto; padding:7px 16px; width:fit-content; max-width:100%; border-radius:999px; font-size:13.5px; color:#fff; background:color-mix(in srgb,var(--c) 14%,transparent); border:1px solid color-mix(in srgb,var(--c) 45%,transparent); transition:all .3s}
+.fid-chip:has(#fidStep:empty){display:none}
+.fid-chip .dot{flex:none; width:9px; height:9px; border-radius:50%; background:var(--c); box-shadow:0 0 10px var(--c); animation:fidDot 1.2s ease-in-out infinite}
+.fid-steps{display:flex; gap:8px; justify-content:center; list-style:none; padding:0; margin:12px 0 4px; flex-wrap:wrap}
+.fid-steps li{display:flex; align-items:center; gap:7px; padding:5px 12px 5px 6px; border-radius:999px; font-size:12px; color:#8fa6c9; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1)}
+.fid-steps li b{display:grid; place-items:center; width:20px; height:20px; border-radius:50%; font-size:11px; background:rgba(255,255,255,.1); color:#b8cbe6}
+.fid-steps li.on{color:#fff; border-color:color-mix(in srgb,var(--c) 60%,transparent); background:color-mix(in srgb,var(--c) 16%,transparent)}
+.fid-steps li.on b{background:var(--c); color:#04101a}
+.fid-steps li.done{color:#d7ffe9; border-color:rgba(60,255,176,.4)} .fid-steps li.done b{background:#3CFFB0; color:#04150f; font-size:0} .fid-steps li.done b:after{content:"\2713"; font-size:12px; font-weight:700}
+.fid-prog{height:4px; border-radius:9px; background:rgba(255,255,255,.08); margin:10px 6px 6px; overflow:hidden}
+.fid-prog i{display:block; height:100%; width:0; background:linear-gradient(90deg,#00EEFF,var(--c)); transition:width .3s}
+.fid-err{white-space:pre-line; word-break:break-all}
+.fid-pill{display:flex; align-items:center; gap:9px; width:fit-content; max-width:100%; margin:6px 0 12px; padding:6px 14px; border-radius:999px; font-size:12.5px; color:#b8cbe6; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14)}
+.fid-pill i{width:9px; height:9px; border-radius:50%; background:#8fa6c9} .fid-pill.on{color:#d7ffe9; background:rgba(60,255,176,.1); border-color:rgba(60,255,176,.4)} .fid-pill.on i{background:#3CFFB0; box-shadow:0 0 10px #3CFFB0}
+.fid-note{display:flex; gap:12px; padding:12px 14px; border-radius:16px; font-size:12.5px; line-height:1.55; color:#cfe0f7; background:linear-gradient(145deg,rgba(0,238,255,.09),rgba(176,76,255,.07)); border:1px solid rgba(0,238,255,.25)}
+.fid-note .ic{flex:none; width:36px; height:36px; display:grid; place-items:center; border-radius:12px; color:#00EEFF; background:rgba(0,238,255,.12); border:1px solid rgba(0,238,255,.35)} .fid-note .ic svg{width:20px; height:20px}
+.fid-warn{margin:10px 0 12px; padding:9px 13px; border-radius:14px; font-size:12px; line-height:1.5; color:#FFE1A3; background:rgba(255,200,92,.1); border:1px solid rgba(255,200,92,.38)}
+@media (prefers-reduced-motion:reduce){ .fid-sweep,.fid-btn:after,.fid-chip .dot,.fid-load i,.fb{animation:none !important} }
+
+/* ---- logo = settings button + menu ---- */
+html[data-gsb][data-gsb][data-gsb] .gsb-setbtn{position:relative; cursor:pointer; overflow:visible; transition:transform .15s, filter .15s;}
+html[data-gsb][data-gsb][data-gsb] .gsb-setbtn:hover{transform:scale(1.06); filter:drop-shadow(0 0 10px rgba(0,238,255,.55));}
+html[data-gsb][data-gsb][data-gsb] .gsb-setbtn:active{transform:scale(.97);}
+html[data-gsb][data-gsb][data-gsb] .gsb-setbtn:focus-visible{outline:2px solid #00EEFF; outline-offset:3px;}
+html[data-gsb][data-gsb][data-gsb] .gsb-gear{position:absolute; right:-4px; bottom:-4px; width:20px; height:20px; display:grid; place-items:center; border-radius:50%; font-size:12px; color:#04101a; background:#00EEFF; border:2px solid #0a1a36; box-shadow:0 0 10px rgba(0,238,255,.7); transition:transform .3s; z-index:3;}
+html[data-gsb][data-gsb][data-gsb] .gsb-gear svg{width:1em; height:1em;}
+html[data-gsb][data-gsb][data-gsb] .gsb-setbtn.open .gsb-gear{transform:rotate(90deg); background:#FFC85C;}
+.gsb-menu{position:fixed; inset:0; z-index:2147482000; width:100vw; height:100vh; height:100dvh; max-width:none; padding:18px clamp(16px,4vw,56px) 12px; display:flex; flex-direction:column; overflow:hidden; border-radius:0; opacity:0; transform:scale(1.02); transform-origin:center; transition:opacity .18s, transform .18s;
+  background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.05)), rgba(5,11,30,.94); border:0;
+  -webkit-backdrop-filter:blur(36px) saturate(150%); backdrop-filter:blur(36px) saturate(150%); box-shadow:none;}
+.gsb-menu[hidden]{display:none;}
+.gsb-menu .gm-body{overflow-y:auto; overflow-x:hidden; padding:0 4px 4px 2px; margin-right:-4px; scrollbar-width:thin;}
+.gsb-menu .gm-head .gm-who{flex:1; min-width:0;}
+.gsb-menu .gm-x{flex:none; width:32px; height:32px; display:grid; place-items:center; border-radius:50%; cursor:pointer; padding:0; font-size:20px; line-height:1; color:#cfe0f7; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16);}
+.gsb-menu .gm-x:hover{background:rgba(255,77,109,.2); border-color:rgba(255,77,109,.5);}
+.gsb-menu .gm-sec{margin:12px 6px 6px; font:700 11px 'Inter',sans-serif; letter-spacing:.08em; text-transform:uppercase; color:#7fe9ff;}
+.gsb-menu .gm-sec:first-child{margin-top:4px;}
+.gsb-menu .gm-data,.gsb-menu .gm-extra{display:flex; flex-direction:column; gap:7px; padding:0 2px;}
+.gsb-menu .gm-data > div{margin:0 !important;}
+.gsb-menu .gm-body .btn{width:100%; margin:0 !important; justify-content:flex-start; text-align:left; font-size:12.5px; padding:9px 12px; border-radius:12px; white-space:normal;}
+.gsb-menu .gm-data > div .btn{width:auto;}
+.gsb-menu .gm-body .bh-box{margin:0; padding:0; border:0; border-radius:0; background:none;}
+.gsb-menu .gm-body .bh-box #bhOpts,.gsb-menu .gm-body .bh-box #satOpts{margin-top:8px; padding:10px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);}
+.gsb-menu .gm-body .sound-toggle{width:100%; margin:0;}
+.gsb-menu .gm-notes{margin:12px 6px 4px; font-size:11px; line-height:1.55; color:#8fa6c9;} .gsb-menu .gm-notes br{display:none;} .gsb-menu .gm-notes .i18n-static{display:block;}
+.gsb-menu.on{opacity:1; transform:none;}
+body.auth-locked .gsb-menu{display:none !important;}
+.gsb-menu .gm-head{display:flex; align-items:center; gap:12px; padding:6px 8px 12px; margin-bottom:6px; border-bottom:1px solid rgba(255,255,255,.12);}
+.gsb-menu .gm-av{flex:none; width:38px; height:38px; display:grid; place-items:center; border-radius:50%; font:700 16px 'Inter',sans-serif; color:#04101a; background:linear-gradient(135deg,#00EEFF,#B04CFF);}
+.gsb-menu .gm-name{font:700 14px 'Inter','Noto Sans Lao',sans-serif; color:#fff;} .gsb-menu .gm-sub{font-size:11.5px; color:#9db4d6; margin-top:1px;}
+.gsb-menu .gsb-acts{display:flex; flex-direction:column; gap:4px;}
+.gsb-menu .ga{display:flex; align-items:center; gap:12px; width:100%; padding:10px 10px; border-radius:14px; cursor:pointer; text-align:left; color:#E8F4FF; background:transparent; border:1px solid transparent; box-shadow:none; clip-path:none; outline:0; font-family:'Noto Sans Lao','Inter',sans-serif; transition:background .12s, border-color .12s;}
+.gsb-menu .ga:hover,.gsb-menu .ga:focus-visible{background:rgba(0,238,255,.12); border-color:rgba(0,238,255,.4);}
+.gsb-menu .ga-i{flex:none; width:36px; height:36px; display:grid; place-items:center; border-radius:12px; font-size:20px; color:#00EEFF; background:rgba(0,238,255,.1); border:1px solid rgba(0,238,255,.3);}
+.gsb-menu .ga-lock .ga-i{color:#FFC85C; background:rgba(255,200,92,.1); border-color:rgba(255,200,92,.35);}
+.gsb-menu .ga svg{width:1em; height:1em;}
+.gsb-menu .ga-tw{flex:1; min-width:0; display:flex; flex-direction:column; gap:1px;}
+.gsb-menu .ga-t{font-size:13.5px; font-weight:600; line-height:1.3;} .gsb-menu .ga-s{font-size:11px; color:#9db4d6; line-height:1.3;}
+.gsb-menu .ga-c{flex:none; font-size:16px; color:#6f87ab; display:grid;}
+html[data-gsb][data-gsb][data-gsb] #acctBox{display:none;}
+
+.gsb-menu .gm-head{max-width:1200px; width:100%; margin:0 auto 6px; box-sizing:border-box;}
+.gsb-menu .gm-body{flex:1; min-height:0; width:100%; max-width:1200px; margin:0 auto; padding:6px 6px 24px; box-sizing:border-box;}
+.gsb-menu .gm-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; align-items:start;}
+.gsb-menu .gm-col{padding:14px 14px 16px; border-radius:20px; background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.12); min-width:0;}
+.gsb-menu .gm-sec{margin:2px 6px 10px; font-size:12.5px;}
+.gsb-menu .gm-head .gm-av{width:46px; height:46px; font-size:19px;} .gsb-menu .gm-name{font-size:17px;} .gsb-menu .gm-sub{font-size:12.5px;}
+.gsb-menu .gm-x{width:42px; height:42px; font-size:26px;}
+.gsb-menu .gm-notes{max-width:1200px; margin:18px auto 0; text-align:center;}
+@media (max-width:1000px){ .gsb-menu .gm-grid{grid-template-columns:1fr;} .gsb-menu{padding:12px 12px 8px;} }
+/* ===== Settings v4: glass / neon HUD look (matches dashboard cards) ===== */
+@property --kx{syntax:'<length>'; inherits:false; initial-value:15px;}
+html .gsb-menu{inset:0; width:auto; height:auto; max-width:none; padding:22px clamp(16px,3.5vw,56px) 14px; gap:16px; border:0; border-radius:0; overflow:hidden; display:flex; flex-direction:column;
+  background:radial-gradient(ellipse at 50% 12%, rgba(16,70,170,.55), rgba(4,12,34,.78) 55%, rgba(2,6,20,.9) 100%); -webkit-backdrop-filter:blur(20px) saturate(150%); backdrop-filter:blur(20px) saturate(150%); box-shadow:none;}
+.gm-bg{position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:0;}
+.gm-grid-bg{position:absolute; inset:0; opacity:.14; background-image:linear-gradient(#00EEFF 1px,transparent 1px),linear-gradient(90deg,#00EEFF 1px,transparent 1px); background-size:56px 56px; -webkit-mask-image:radial-gradient(circle at 50% 45%,#000,transparent 72%); mask-image:radial-gradient(circle at 50% 45%,#000,transparent 72%);}
+.gm-ckt{position:absolute; top:46%; width:min(32vw,470px); height:auto; color:#00EEFF; opacity:.55; overflow:visible; fill:none; stroke:currentColor; stroke-width:1.4; transform:translateY(-50%);} .gm-ckt circle{fill:#fff; stroke:none; filter:drop-shadow(0 0 6px #00EEFF);} .gm-cl{left:0;} .gm-cr{right:0; transform:translateY(-50%) scaleX(-1);}
+.gm-disc{position:absolute; left:50%; width:min(70vw,780px); transform:translateX(-50%); color:#00EEFF; fill:none; stroke:currentColor; opacity:.35; filter:drop-shadow(0 0 6px #00EEFF);} .gm-dt{top:-4vh;} .gm-db{bottom:-6vh;}
+.gm-disc ellipse{stroke-width:1.4; stroke-dasharray:3 9; animation:gmDash 16s linear infinite;} .gm-disc .e2{stroke-dasharray:22 10; animation-direction:reverse; animation-duration:10s;} .gm-disc .e3{stroke-width:2.2; stroke-dasharray:40 14; animation-duration:7s;}
+@keyframes gmDash{to{stroke-dashoffset:-240;}}
+.gsb-menu > *:not(.gm-bg){position:relative; z-index:1;}
+.gsb-menu .gm-head{max-width:1500px; width:100%; margin:0 auto; padding:4px 6px 14px; border-bottom:0; gap:18px; box-sizing:border-box; position:relative;}
+.gsb-menu .gm-head::after{content:''; position:absolute; left:0; right:0; bottom:0; height:2px; background:linear-gradient(90deg,transparent,#00EEFF,#B04CFF,transparent); box-shadow:0 0 14px rgba(0,238,255,.7); border-radius:2px;}
+.gm-avr{position:relative; flex:none; width:64px; height:64px; display:grid; place-items:center; border-radius:50%; background:conic-gradient(from 0deg,#00EEFF,#B04CFF,#FF4DB8,#00EEFF); animation:gmSpin 6s linear infinite; box-shadow:0 0 22px rgba(0,238,255,.55);}
+.gm-avr .gm-av{width:54px; height:54px; font-size:24px; background:linear-gradient(135deg,#0b3a8c,#4a1a8c); color:#fff; animation:gmSpinR 6s linear infinite; box-shadow:inset 0 0 12px rgba(0,238,255,.5);}
+@keyframes gmSpin{to{transform:rotate(360deg);}} @keyframes gmSpinR{to{transform:rotate(-360deg);}}
+.gm-title{font:800 clamp(24px,3.4vh,34px) 'Noto Sans Lao','Inter',sans-serif; letter-spacing:.02em; background:linear-gradient(90deg,#7FF3FF,#fff 40%,#D58BFF); -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 0 14px rgba(0,238,255,.45));}
+.gm-title span{font-weight:600; font-size:.6em; letter-spacing:.2em; opacity:.85;}
+html .gsb-menu .gm-name{font-size:15px; color:#9fd8ff; margin-top:2px;}
+html .gsb-menu .gm-x{width:46px; height:46px; font-size:28px; border-radius:50%; background:rgba(255,255,255,.06); border:1px solid rgba(0,238,255,.4); box-shadow:0 0 16px rgba(0,238,255,.25); transition:transform .25s, background .15s, box-shadow .15s;}
+html .gsb-menu .gm-x:hover{transform:rotate(90deg); background:rgba(255,77,109,.25); border-color:#FF4D6D; box-shadow:0 0 20px rgba(255,77,109,.55);}
+/* stats */
+.gm-stats{max-width:1500px; width:100%; margin:0 auto; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; box-sizing:border-box; padding:0 4px;}
+.gm-stat{--t:#00EEFF; position:relative; display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:18px; overflow:hidden; background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.03)); border:1px solid color-mix(in srgb,var(--t) 40%,transparent); box-shadow:inset 0 1px 0 rgba(255,255,255,.2), 0 0 22px color-mix(in srgb,var(--t) 18%,transparent);}
+.gm-stat.t2{--t:#B04CFF;} .gm-stat.t3{--t:#3CFFB0;} .gm-stat.t4{--t:#FFC85C;}
+.gm-stat::before{content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--t); box-shadow:0 0 12px var(--t);}
+.gs-i{flex:none; width:46px; height:46px; display:grid; place-items:center; border-radius:14px; color:var(--t); background:color-mix(in srgb,var(--t) 14%,transparent); border:1px solid color-mix(in srgb,var(--t) 45%,transparent); box-shadow:0 0 16px color-mix(in srgb,var(--t) 30%,transparent);} .gs-i svg{width:24px; height:24px;}
+.gs-t{display:flex; flex-direction:column; min-width:0; flex:1;} .gs-t b{font:700 clamp(22px,3.2vh,30px) 'Inter',sans-serif; color:#fff; line-height:1.1; text-shadow:0 0 14px color-mix(in srgb,var(--t) 70%,transparent); font-variant-numeric:tabular-nums;}
+.gs-t i{font-style:normal; font-size:12.5px; color:var(--t); font-weight:600;} .gs-t u{text-decoration:none; font-size:10.5px; color:#8fb0d8; letter-spacing:.05em;}
+.gs-bar{position:absolute; left:0; right:0; bottom:0; height:4px; background:rgba(255,255,255,.1);} .gs-bar i{display:block; height:100%; width:0; background:linear-gradient(90deg,#18d68d,#3CFFB0); box-shadow:0 0 10px #3CFFB0; transition:width .8s ease;}
+/* body + cards */
+html .gsb-menu .gm-body{flex:1; min-height:0; width:100%; max-width:1500px; margin:0 auto; padding:0 4px 4px; overflow:hidden; display:flex; flex-direction:column; gap:10px; box-sizing:border-box;}
+html .gsb-menu .gm-grid{flex:1; min-height:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:minmax(0,1fr); gap:18px; align-items:stretch;}
+html .gsb-menu .gm-col{--t:#00EEFF; position:relative; min-width:0; min-height:0; overflow-y:auto; overflow-x:hidden; padding:0 18px 18px; border-radius:24px; scrollbar-width:thin; scrollbar-color:var(--t) transparent;
+  display:flex; flex-direction:column; -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.03) 40%,rgba(6,14,40,.62)), rgba(6,14,40,.55); border:1px solid color-mix(in srgb,var(--t) 38%,transparent); box-shadow:inset 0 1px 0 rgba(255,255,255,.22), 0 0 34px color-mix(in srgb,var(--t) 14%,transparent), 0 18px 40px rgba(0,0,0,.35);
+  opacity:0; transform:translateY(18px);}
+html .gsb-menu.on .gm-col{animation:gmIn .55s cubic-bezier(.2,.8,.2,1) forwards;} html .gsb-menu.on .c2{animation-delay:.08s;} html .gsb-menu.on .c3{animation-delay:.16s;}
+@keyframes gmIn{to{opacity:1; transform:none;}}
+.gm-col.c2{--t:#B04CFF;} .gm-col.c3{--t:#FFC85C;}
+.gm-col::before{content:''; position:sticky; top:0; display:block; height:2px; margin:0 -18px; z-index:3; background:linear-gradient(90deg,transparent,var(--t),transparent); box-shadow:0 0 16px var(--t);}
+.gm-ch{position:sticky; top:2px; z-index:2; flex:none; display:flex; align-items:center; gap:14px; margin:0 -18px 14px; padding:16px 18px 12px; background:linear-gradient(180deg,rgba(6,14,40,.92),rgba(6,14,40,.55)); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); border-bottom:1px solid color-mix(in srgb,var(--t) 25%,transparent);}
+.gm-ci{flex:none; width:46px; height:46px; display:grid; place-items:center; border-radius:15px; color:var(--t); background:color-mix(in srgb,var(--t) 15%,transparent); border:1px solid color-mix(in srgb,var(--t) 50%,transparent); box-shadow:0 0 18px color-mix(in srgb,var(--t) 40%,transparent);} .gm-ci svg{width:25px; height:25px;}
+.gm-ct{display:flex; flex-direction:column; line-height:1.15;} .gm-ct b{font:700 19px 'Noto Sans Lao','Inter',sans-serif; color:#fff;} .gm-ct i{font:600 11.5px 'Inter',sans-serif; letter-spacing:.2em; color:var(--t); font-style:normal;}
+.gm-cs{margin-left:auto; font-size:11px; color:#8fb0d8; text-align:right;}
+.gm-prof{display:flex; align-items:center; gap:16px; padding:16px; margin-bottom:12px; border-radius:20px; background:linear-gradient(135deg,rgba(0,238,255,.12),rgba(176,76,255,.10)); border:1px solid rgba(0,238,255,.28);}
+.gp-ring{position:relative; flex:none; width:78px; height:78px; display:grid; place-items:center; border-radius:50%; background:conic-gradient(from 0deg,#00EEFF,#B04CFF,#FF4DB8,#00EEFF); animation:gmSpin 8s linear infinite; box-shadow:0 0 26px rgba(0,238,255,.5);}
+.gp-av{width:68px; height:68px; display:grid; place-items:center; border-radius:50%; font:700 30px 'Inter',sans-serif; color:#fff; background:linear-gradient(135deg,#0b3a8c,#4a1a8c); animation:gmSpinR 8s linear infinite;}
+.gp-t{display:flex; flex-direction:column; gap:3px; min-width:0;} .gp-t b{font:700 20px 'Inter',sans-serif; color:#fff; word-break:break-all;} .gp-t i{font-style:normal; font-size:12px; color:#9db4d6;}
+/* account rows */
+html .gsb-menu .gsb-acts{gap:10px;}
+html .gsb-menu .ga{position:relative; padding:14px 14px; border-radius:18px; background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.12); transition:transform .15s, border-color .15s, box-shadow .15s, background .15s;}
+html .gsb-menu .ga:hover,html .gsb-menu .ga:focus-visible{transform:translateX(5px); background:linear-gradient(135deg,rgba(0,238,255,.2),rgba(0,238,255,.05)); border-color:#00EEFF; box-shadow:0 0 24px rgba(0,238,255,.35);}
+html .gsb-menu .ga-i{width:46px; height:46px; font-size:24px; border-radius:15px; box-shadow:0 0 16px rgba(0,238,255,.3);} html .gsb-menu .ga-t{font-size:15.5px;} html .gsb-menu .ga-s{font-size:12px;}
+html .gsb-menu .ga-c{transition:transform .15s;} html .gsb-menu .ga:hover .ga-c{transform:translateX(4px); color:#00EEFF;}
+/* data tiles */
+html .gsb-menu .gm-data,html .gsb-menu .gm-extra{gap:12px; padding:0;}
+html .gsb-menu .gm-data > div{display:grid !important; grid-template-columns:1fr 1fr; gap:12px !important; margin:0 !important;}
+html .gsb-menu .gm-body .btn,html .gsb-menu .gm-body .sound-toggle{--tc:#00EEFF; position:relative; display:block; width:100% !important; box-sizing:border-box; margin:0 !important; padding:19px 14px 19px 76px !important; min-height:78px; text-align:left; border-radius:20px; cursor:pointer; font:600 15px/1.35 'Noto Sans Lao','Inter',sans-serif !important; color:#fff !important; white-space:normal;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--tc) 16%,transparent),rgba(255,255,255,.025)) !important; border:1px solid color-mix(in srgb,var(--tc) 42%,transparent) !important; box-shadow:inset 0 1px 0 rgba(255,255,255,.15); transition:transform .15s, box-shadow .15s, border-color .15s; clip-path:none;}
+html .gsb-menu .gm-body .btn:hover,html .gsb-menu .gm-body .sound-toggle:hover{transform:translateY(-2px); border-color:var(--tc) !important; box-shadow:0 0 26px color-mix(in srgb,var(--tc) 45%,transparent), inset 0 1px 0 rgba(255,255,255,.2);}
+html .gsb-menu .gm-body .btn::first-letter{font-size:0; color:transparent;}
+html .gsb-menu .gm-body .btn::before,html .gsb-menu .gm-body .sound-toggle::before{content:''; position:absolute; left:14px; top:50%; transform:translateY(-50%); width:50px; height:50px; border-radius:16px; background-repeat:no-repeat; background-position:center; background-size:26px 26px; background-color:color-mix(in srgb,var(--tc) 14%,transparent); border:1px solid color-mix(in srgb,var(--tc) 50%,transparent); box-shadow:0 0 16px color-mix(in srgb,var(--tc) 35%,transparent);}
+html .gsb-menu .gm-body .btn::after{display:block; font:500 12px 'Noto Sans Lao','Inter',sans-serif; color:#9db4d6; margin-top:2px;}
+/* per-button colours + icons (24px glyphs drawn as data-URI svg) */
+html .gsb-menu #backupBtn{--tc:#00EEFF;}
+html .gsb-menu #backupBtn::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300EEFF' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5.5' rx='7' ry='2.8'/%3E%3Cpath d='M5 5.5v6c0 1.5 3.1 2.8 7 2.8'/%3E%3Cpath d='M5 11.5v6c0 1.5 3.1 2.8 7 2.8'/%3E%3Cpath d='M19 5.5v4'/%3E%3Cpath d='M19 13v7m0 0l-2.6-2.6M19 20l2.6-2.6'/%3E%3C/svg%3E"); background-size:24px 24px;}
+html .gsb-menu #backupBtn::after{content:"ບັນທຶກເປັນໄຟລ໌ JSON";}
+html .gsb-menu #restoreBtn{--tc:#FFC85C;}
+html .gsb-menu #restoreBtn::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFC85C' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5.5' rx='7' ry='2.8'/%3E%3Cpath d='M5 5.5v6c0 1.5 3.1 2.8 7 2.8'/%3E%3Cpath d='M5 11.5v6c0 1.5 3.1 2.8 7 2.8'/%3E%3Cpath d='M19 5.5v4'/%3E%3Cpath d='M19 20v-7m0 0l-2.6 2.6M19 13l2.6 2.6'/%3E%3C/svg%3E"); background-size:24px 24px;}
+html .gsb-menu #restoreBtn::after{content:"ກູ້ຄືນຈາກໄຟລ໌ Backup";}
+html .gsb-menu #importExcelBtn{--tc:#B04CFF;}
+html .gsb-menu #importExcelBtn::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B04CFF' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H6.5A1.5 1.5 0 005 4.5v15A1.5 1.5 0 006.5 21H17.5a1.5 1.5 0 001.5-1.5V8z'/%3E%3Cpath d='M14 3v5h5'/%3E%3Cpath d='M12 11v7m0 0l-2.5-2.5M12 18l2.5-2.5'/%3E%3C/svg%3E"); background-size:24px 24px;}
+html .gsb-menu #importExcelBtn::after{content:"ອ່ານໄຟລ໌ .xlsx ເຂົ້າລະບົບ";}
+html .gsb-menu #exportAllCsvBtn{--tc:#3CFFB0;}
+html .gsb-menu #exportAllCsvBtn::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233CFFB0' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H6.5A1.5 1.5 0 005 4.5v15A1.5 1.5 0 006.5 21H17.5a1.5 1.5 0 001.5-1.5V8z'/%3E%3Cpath d='M14 3v5h5'/%3E%3Cpath d='M12 18v-7m0 0l-2.5 2.5M12 11l2.5 2.5'/%3E%3C/svg%3E"); background-size:24px 24px;}
+html .gsb-menu #exportAllCsvBtn::after{content:"ດາວໂຫຼດແບບຟອມ Excel ທຸກໂມດູນ";}
+html .gsb-menu #exportAllZipBtn{--tc:#5CA8FF;}
+html .gsb-menu #exportAllZipBtn::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235CA8FF' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7.5l8-4 8 4v9l-8 4-8-4z'/%3E%3Cpath d='M4 7.5l8 4 8-4'/%3E%3Cpath d='M12 11.5v9'/%3E%3C/svg%3E"); background-size:24px 24px;}
+html .gsb-menu #exportAllZipBtn::after{content:"ແຍກເປັນ CSV ຕໍ່ໂມດູນ";}
+html .gsb-menu #soundToggle{--tc:#00EEFF;}
+html .gsb-menu #soundToggle::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300EEFF' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z'/%3E%3Cpath d='M15.5 9a4 4 0 010 6'/%3E%3Cpath d='M18 6.5a8 8 0 010 11'/%3E%3C/svg%3E"); background-size:24px 24px;}
+html .gsb-menu #bhToggle{--tc:#B04CFF;}
+html .gsb-menu #bhToggle::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B04CFF' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='3.2'/%3E%3Cellipse cx='12' cy='12' rx='9.5' ry='3.6'/%3E%3Cpath d='M7 5.8c1.4-.9 3.1-1.3 5-1.3s3.6.4 5 1.3'/%3E%3C/svg%3E"); background-size:24px 24px;}
+html .gsb-menu #satToggle{--tc:#FFC85C;}
+html .gsb-menu #satToggle::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFC85C' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='5.2'/%3E%3Cellipse cx='12' cy='12' rx='10' ry='3.4' transform='rotate%28-22 12 12%29'/%3E%3C/svg%3E"); background-size:24px 24px;}
+
+/* toggles: switch pill */
+html .gsb-menu .gm-extra .btn,html .gsb-menu .gm-extra .sound-toggle{padding:27px 76px 27px 76px !important; min-height:84px;}
+html .gsb-menu .gm-extra .btn::after,html .gsb-menu .gm-extra .sound-toggle::after{content:''; position:absolute; right:16px; top:50%; margin:-13px 0 0; width:46px; height:26px; border-radius:26px; --kx:15px; background:radial-gradient(circle at var(--kx) 50%,#fff 0 9px,transparent 10px), rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.25); transition:--kx .22s, background-color .2s, box-shadow .2s;}
+html .gsb-menu .gm-extra .btn.on::after,html .gsb-menu .gm-extra .sound-toggle:not(.muted)::after{--kx:31px; background:radial-gradient(circle at var(--kx) 50%,#fff 0 9px,transparent 10px), var(--tc); box-shadow:0 0 16px var(--tc); border-color:var(--tc);}
+html .gsb-menu .sound-toggle .dot{display:none;} html .gsb-menu .sound-toggle #soundToggleLabel{font-weight:600;}
+html .gsb-menu .gm-extra .btn.on{box-shadow:0 0 28px color-mix(in srgb,var(--tc) 45%,transparent), inset 0 1px 0 rgba(255,255,255,.2); border-color:var(--tc) !important;}
+html .gsb-menu .gm-body .bh-box #bhOpts,html .gsb-menu .gm-body .bh-box #satOpts{margin-top:10px; padding:14px; border-radius:18px; background:rgba(4,12,34,.55); border:1px dashed color-mix(in srgb,#FFC85C 55%,transparent); box-shadow:inset 0 0 24px rgba(255,200,92,.06);}
+html .gsb-menu .gm-body .bh-box #bhOpts .btn,html .gsb-menu .gm-body .bh-box #satOpts .btn{display:block; min-height:0; padding:9px 12px !important; text-align:center; font-size:13px !important; border-radius:12px;} html .gsb-menu .gm-body .bh-box #bhOpts .btn::before,html .gsb-menu .gm-body .bh-box #satOpts .btn::before,html .gsb-menu .gm-body .bh-box #bhOpts .btn::after,html .gsb-menu .gm-body .bh-box #satOpts .btn::after{display:none;}
+html .gsb-menu .gm-body .bh-box #bhOpts .btn::first-letter,html .gsb-menu .gm-body .bh-box #satOpts .btn::first-letter{font-size:inherit; color:inherit;}
+html .gsb-menu .gm-notes{max-width:1500px; width:100%; margin:0 auto; padding:10px 6px 0; display:flex; flex-wrap:wrap; justify-content:center; gap:4px 22px; font-size:11.5px; color:#8fb0d8; text-align:center; border-top:1px solid rgba(255,255,255,.1);} html .gsb-menu .gm-notes .i18n-static{display:inline;}
+@media (max-width:1000px){
+  html .gsb-menu{padding:14px 12px 10px;} .gm-stats{grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px;}
+  html .gsb-menu .gm-body{overflow-y:auto;} html .gsb-menu .gm-grid{grid-template-columns:1fr; grid-template-rows:none; flex:none;} html .gsb-menu .gm-col{overflow:visible;} .gm-cs{display:none;}
+}
+@media (max-height:760px){ .gm-stats{display:none;} }
+@media (prefers-reduced-motion:reduce){ .gsb-menu *{animation:none !important;} html .gsb-menu .gm-col{opacity:1; transform:none;} }
+
+html .gsb-menu .gm-data{flex:none;} html .gsb-menu .gm-data,html .gsb-menu .gm-extra{gap:14px;}
+.gm-tip{margin-top:auto; display:flex; gap:10px; align-items:flex-start; padding:12px 14px; border-radius:16px; font-size:12px; line-height:1.5; color:#b9d3f5; background:color-mix(in srgb,var(--t) 9%,transparent); border:1px dashed color-mix(in srgb,var(--t) 45%,transparent);}
+.gm-tip svg{flex:none; width:18px; height:18px; color:var(--t); margin-top:1px;} .gm-tip b{color:var(--t);}
+html .gsb-menu .gm-col > :not(.gm-ch):not(.gm-tip):last-of-type{margin-bottom:14px;}
+/* ---------- Task HUD ---------- */
+.kt-root{--c:#00EEFF; --c2:#29b6ff; position:fixed; inset:0; z-index:2147482500; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; color:#E8F4FF; font-family:'Noto Sans Lao','Inter',sans-serif; overflow:hidden; opacity:0; transition:opacity .22s;
+  background:radial-gradient(ellipse at 50% 46%, #0a3c8f 0%, #06235f 38%, #030c26 78%, #020715 100%);}
+.kt-root[hidden]{display:none;} .kt-root.on{opacity:1;}
+.kt-root[data-s="ok"]{--c:#3CFFB0; --c2:#18d68d;} .kt-root[data-s="warn"]{--c:#FFC85C; --c2:#ff9f2e;}
+.kt-root[data-s="fail"]{--c:#FF4D6D; --c2:#ff2d55; background:radial-gradient(ellipse at 50% 46%, #6b0f26 0%, #3a0716 40%, #1a030a 80%, #0d0206 100%);}
+.kt-vig{position:absolute; inset:0; pointer-events:none; box-shadow:inset 0 0 160px rgba(0,0,0,.6);}
+.kt-root[data-s="fail"] .kt-vig{animation:ktVig .9s ease-in-out infinite alternate; box-shadow:inset 0 0 200px rgba(255,45,85,.45);}
+.kt-grid{position:absolute; inset:0; opacity:.18; background-image:linear-gradient(var(--c) 1px,transparent 1px),linear-gradient(90deg,var(--c) 1px,transparent 1px); background-size:56px 56px; -webkit-mask-image:radial-gradient(circle at 50% 50%,#000,transparent 70%); mask-image:radial-gradient(circle at 50% 50%,#000,transparent 70%);}
+.kt-disc{position:absolute; left:50%; width:min(78vw,820px); height:auto; transform:translateX(-50%); color:var(--c); fill:none; stroke:currentColor; filter:drop-shadow(0 0 8px var(--c)); opacity:.85;}
+.kt-disc.kt-top{top:2vh;} .kt-disc.kt-bot{bottom:2vh;}
+.kt-disc ellipse{stroke-width:1.6; stroke-dasharray:3 9;} .kt-e1{animation:ktDash 14s linear infinite;} .kt-e2{stroke-width:2.2; stroke-dasharray:22 10; animation:ktDash 9s linear infinite reverse;} .kt-e3{stroke-dasharray:2 6; animation:ktDash 6s linear infinite;} .kt-e4{stroke-width:3; stroke-dasharray:40 14; animation:ktDash 5s linear infinite reverse; opacity:.8;}
+.kt-ckt{position:absolute; top:50%; width:min(34vw,470px); height:auto; transform:translateY(-50%); color:var(--c); overflow:visible;}
+.kt-ckt.kt-l{left:0;} .kt-ckt.kt-r{right:0; transform:translateY(-50%) scaleX(-1);}
+.kt-wire{fill:none; stroke:currentColor; stroke-width:1.6; opacity:.55;} .kt-dot{fill:#fff; filter:drop-shadow(0 0 6px var(--c)) drop-shadow(0 0 12px var(--c));}
+.kt-core{position:relative; width:min(46vh,340px); height:min(46vh,340px); flex:none;}
+.kt-core svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible;}
+.kt-core circle{transform-box:view-box; transform-origin:0 0;}
+.kt-r1{stroke:var(--c); stroke-width:2; stroke-dasharray:6 10 40 10; opacity:.7; animation:ktSpin 26s linear infinite;}
+.kt-r2{stroke:var(--c); stroke-width:1; opacity:.5;}
+.kt-r3{stroke:var(--c); stroke-width:5; stroke-dasharray:70 14 24 14 10 14; opacity:.55; animation:ktSpin 18s linear infinite reverse;}
+.kt-track{stroke:rgba(255,255,255,.12); stroke-width:10;}
+.kt-arc{stroke:var(--c); stroke-width:10; stroke-linecap:round; filter:drop-shadow(0 0 8px var(--c)) drop-shadow(0 0 18px var(--c)); transform-origin:0 0;}
+.kt-r4{stroke:var(--c); stroke-width:14; stroke-dasharray:1.5 5.2; opacity:.65; animation:ktSpin 8s linear infinite;}
+.kt-glow{fill:var(--c); opacity:.14; animation:ktPulse 2.2s ease-in-out infinite;}
+.kt-in{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;}
+.kt-ic{width:34px; height:34px; color:var(--c); filter:drop-shadow(0 0 8px var(--c));} .kt-ic svg{width:100%; height:100%;}
+.kt-root[data-s="run"] .kt-ic{animation:ktBob 1.4s ease-in-out infinite;}
+.kt-pct{display:flex; align-items:baseline; gap:2px; font-family:'Inter','Noto Sans Lao',sans-serif; color:#fff; text-shadow:0 0 18px var(--c);}
+.kt-pct b{font-size:clamp(44px,9vh,70px); font-weight:700; line-height:1; font-variant-numeric:tabular-nums;} .kt-pct i{font-style:normal; font-size:22px; color:var(--c); font-weight:600;}
+.kt-root[data-s="fail"] .kt-core{animation:ktShake .5s 1;} .kt-root[data-s="fail"] .kt-r1,.kt-root[data-s="fail"] .kt-r3,.kt-root[data-s="fail"] .kt-r4{animation-play-state:paused;}
+.kt-root[data-s="fail"] .kt-ic{animation:ktBlink .8s steps(2) infinite;} .kt-root[data-s="ok"] .kt-core,.kt-root[data-s="warn"] .kt-core{animation:ktPop .5s 1;}
+.kt-txt{position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:8px; width:min(86vw,560px); text-align:center;}
+.kt-title{font-size:clamp(20px,3.2vh,28px); font-weight:700; color:#fff; letter-spacing:.02em; text-shadow:0 0 16px var(--c);}
+.kt-stage{font-size:15px; color:var(--c); min-height:22px;}
+.kt-bar{width:100%; height:6px; border-radius:6px; background:rgba(255,255,255,.12); overflow:hidden;} .kt-bar i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--c2),var(--c)); box-shadow:0 0 12px var(--c);}
+.kt-msg{min-height:0; font-size:13px; color:#ffd5dc; max-width:100%; word-break:break-word;} .kt-root:not([data-s="fail"]) .kt-msg{color:#b9d3f5;}
+.kt-btns{display:flex; gap:10px; margin-top:6px;} .kt-btn{padding:9px 22px; border-radius:999px; cursor:pointer; font:600 14px 'Noto Sans Lao','Inter',sans-serif; color:#04101a; background:var(--c); border:0; box-shadow:0 0 18px var(--c);} .kt-btn[hidden]{display:none;}
+.kt-btn-x{color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.3); box-shadow:none;}
+.kt-time{font:500 11px 'Inter',sans-serif; color:#7fa3d6; letter-spacing:.1em;}
+@keyframes ktSpin{to{transform:rotate(360deg);}} @keyframes ktDash{to{stroke-dashoffset:-240;}} @keyframes ktPulse{0%,100%{opacity:.1;}50%{opacity:.28;}}
+@keyframes ktBob{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}} @keyframes ktBlink{50%{opacity:.25;}}
+@keyframes ktVig{from{opacity:.5;}to{opacity:1;}} @keyframes ktShake{0%,100%{transform:translateX(0);}20%{transform:translateX(-12px);}40%{transform:translateX(10px);}60%{transform:translateX(-7px);}80%{transform:translateX(4px);}}
+@keyframes ktPop{0%{transform:scale(.94);}60%{transform:scale(1.05);}100%{transform:scale(1);}}
+@media (max-width:760px){ .kt-ckt{opacity:.5;} .kt-disc{width:120vw;} }
+@media (prefers-reduced-motion:reduce){ .kt-root *{animation:none !important;} }
+body.auth-locked .kt-root,body.auth-locked .kt-flash{display:none !important;}
+.kt-flash{--c:#3CFFB0; position:fixed; top:96px; right:24px; z-index:2147482400; display:flex; align-items:center; gap:12px; max-width:min(380px,90vw); padding:10px 16px 10px 10px; border-radius:16px; cursor:pointer; opacity:0; pointer-events:none; transform:translateX(30px); transition:opacity .2s, transform .2s;
+  background:rgba(6,16,40,.92); border:1px solid var(--c); box-shadow:0 0 24px color-mix(in srgb,var(--c) 45%,transparent), 0 10px 30px rgba(0,0,0,.5); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); color:#E8F4FF; font-family:'Noto Sans Lao','Inter',sans-serif;}
+.kt-flash.on{opacity:1; transform:none; pointer-events:auto;} .kt-flash[data-s="fail"]{--c:#FF4D6D; animation:ktShake .45s 1;}
+.kt-fi{position:relative; flex:none; width:40px; height:40px; display:grid; place-items:center; color:var(--c);} .kt-fi>svg:not(.kt-fring){width:20px; height:20px;}
+.kt-fring{position:absolute; inset:0; width:40px; height:40px;} .kt-fring circle{stroke:var(--c); stroke-width:2.5; stroke-dasharray:107; stroke-dashoffset:107; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; filter:drop-shadow(0 0 4px var(--c));}
+.kt-flash.on .kt-fring circle{animation:ktRing .6s ease-out forwards;} @keyframes ktRing{to{stroke-dashoffset:0;}}
+.kt-ft{display:flex; flex-direction:column; min-width:0;} .kt-ft b{font-size:13.5px; color:var(--c);} .kt-ft i{font-style:normal; font-size:12px; color:#cfe0f7; word-break:break-word;}
 </style>
 </head>
 <body>
@@ -1839,7 +2128,7 @@ html[data-glass="frosted"][data-gsb][data-gsb][data-gsb] .kd-card .kd-m{color:#a
   <button class="gsb-toggle" id="gsbToggle" type="button" aria-label="Collapse / Expand menu"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M15 6l-6 6l6 6"></path></svg></button><div class="gsb-tip" id="gsbTip"></div>
   <aside class="sidebar" id="sidebar">
     <div class="brand">
-      <div class="brand-mark">🖥️</div>
+      <div class="brand-mark gsb-setbtn" id="gsbSet" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false" title="ຕັ້ງຄ່າ / Settings">🖥️</div>
       <div class="brand-text">
         <div class="k1">KGS IT SYSTEM</div>
         <div class="k2">ລະບົບຄຸ້ມຄອງໄອທີ &middot; KGS-IT-MAN-01</div>
@@ -1849,9 +2138,29 @@ html[data-glass="frosted"][data-gsb][data-gsb][data-gsb] .kd-card .kd-m{color:#a
         <button type="button" class="lang-btn" data-lang="en">EN</button>
       </div>
     </div>
-    <div class="gsb-search" id="gsbSearch" title="Ctrl + K"><span class="gsb-sico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg></span><input id="gsbQ" type="text" placeholder="ຄົ້ນຫາໜ້າ / Search" autocomplete="off" spellcheck="false"><kbd>Ctrl K</kbd></div>
-    <nav class="nav" id="navRoot"></nav>
-    <div class="sidebar-foot">
+    <div class="gsb-menu" id="gsbMenu" hidden role="dialog" aria-label="Settings">
+      <div class="gm-bg"><i class="gm-grid-bg"></i><svg class="gm-ckt gm-cl" viewBox="0 0 470 380" preserveAspectRatio="xMinYMid meet"><path d="M0 120H240L300 180H470"/><path d="M0 205H120L160 245H330L360 275H470"/><path d="M0 300H210L250 340H470"/><circle r="4"><animateMotion dur="4s" repeatCount="indefinite" path="M0 120H240L300 180H470"/></circle><circle r="4"><animateMotion dur="5.4s" begin="1s" repeatCount="indefinite" path="M0 205H120L160 245H330L360 275H470"/></circle></svg><svg class="gm-ckt gm-cr" viewBox="0 0 470 380" preserveAspectRatio="xMinYMid meet"><path d="M0 120H240L300 180H470"/><path d="M0 205H120L160 245H330L360 275H470"/><path d="M0 300H210L250 340H470"/><circle r="4"><animateMotion dur="4.6s" begin=".5s" repeatCount="indefinite" path="M0 300H210L250 340H470"/></circle><circle r="4"><animateMotion dur="5s" begin="2s" repeatCount="indefinite" path="M0 120H240L300 180H470"/></circle></svg><svg class="gm-disc gm-dt" viewBox="0 0 600 150"><ellipse class="e1" cx="300" cy="75" rx="290" ry="62"/><ellipse class="e2" cx="300" cy="75" rx="220" ry="46"/><ellipse class="e3" cx="300" cy="75" rx="140" ry="28"/></svg><svg class="gm-disc gm-db" viewBox="0 0 600 150"><ellipse class="e1" cx="300" cy="75" rx="290" ry="62"/><ellipse class="e2" cx="300" cy="75" rx="220" ry="46"/><ellipse class="e3" cx="300" cy="75" rx="140" ry="28"/></svg></div>
+      <div class="gm-head"><span class="gm-avr"><span class="gm-av" id="gmAv">K</span></span><div class="gm-who"><div class="gm-title">ຕັ້ງຄ່າ <span>/ SETTINGS</span></div><div class="gm-name" id="gmName">KGS IT</div></div><button class="gm-x" id="gmX" type="button" aria-label="Close">&times;</button></div>
+      <div class="gm-stats"><div class="gm-stat t1"><span class="gs-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5l9 4.5 9-4.5"/></svg></span><span class="gs-t"><b id="gmSGrp">0</b><i>ກຸ່ມຂໍ້ມູນ</i><u>Data groups</u></span></div><div class="gm-stat t2"><span class="gs-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="6" rx="1.5"/><rect x="4" y="14" width="16" height="6" rx="1.5"/><path d="M8 7h.01M8 17h.01"/></svg></span><span class="gs-t"><b id="gmSRec">0</b><i>ລາຍການທັງໝົດ</i><u>Records</u></span></div><div class="gm-stat t3"><span class="gs-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M7 14h5"/><path d="M17 14h.01"/></svg></span><span class="gs-t"><b id="gmSKb">0</b><i>KB ໃນບຣາວເຊີ</i><u>Browser storage</u></span><span class="gs-bar"><i id="gmSBar"></i></span></div><div class="gm-stat t4"><span class="gs-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 010 6"/><path d="M18 6.5a8 8 0 010 11"/></svg></span><span class="gs-t"><b id="gmSSnd">0</b><i>ສຽງລະບົບ</i><u>System sound</u></span></div></div>
+      <div class="gm-body"><div class="gm-grid">
+      <section class="gm-col c1"><header class="gm-ch"><span class="gm-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-4 3.7-6 7.5-6s6.7 2 7.5 6"/></svg></span><span class="gm-ct"><b>ບັນຊີ</b><i>ACCOUNT</i></span><span class="gm-cs">Lock · Password · Face ID</span></header><div class="gm-prof"><span class="gp-ring"><span class="gp-av" id="gmAv2">K</span></span><span class="gp-t"><b id="gmName2">KGS IT</b><i>ຜູ້ໃຊ້ປັດຈຸບັນ · Current user</i></span></div>
+      <div class="gsb-acts" id="gsbActs">
+        <button class="ga ga-lock" id="lockBtn" type="button"><span class="ga-i"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6"></path><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path><path d="M8 11v-4a4 4 0 1 1 8 0v4"></path></svg></span><span class="ga-tw"><span class="ga-t">ລ໋ອກໜ້າຈໍ</span><span class="ga-s">Lock · ອອກຈາກລະບົບຊົ່ວຄາວ</span></span><span class="ga-c"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6l-6 6"></path></svg></span></button>
+        <button class="ga" id="pwBtn" type="button"><span class="ga-i"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0"></path><path d="M15 9h.01"></path></svg></span><span class="ga-tw"><span class="ga-t">ປ່ຽນລະຫັດຜ່ານ</span><span class="ga-s">Password</span></span><span class="ga-c"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6l-6 6"></path></svg></span></button>
+      </div><div class="gm-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z"/></svg><span><b>ຄຳແນະນຳ:</b> Face ID ເກັບສະເພາະໃນເຄື່ອງນີ້ (ບໍ່ເກັບຮູບ) — ຍັງຕ້ອງຈື່ລະຫັດຜ່ານໄວ້ສະເໝີ</span></div></section>
+      <section class="gm-col c2"><header class="gm-ch"><span class="gm-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7" ry="2.8"/><path d="M5 5.5v6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8v-6"/><path d="M5 11.5v6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8v-6"/></svg></span><span class="gm-ct"><b>ຂໍ້ມູນ</b><i>DATA</i></span><span class="gm-cs">Backup · Import · Export</span></header><div class="gm-data">
+      <div style="display:flex; gap:6px; margin-bottom:12px;">
+        <button class="btn btn-sm" id="backupBtn" style="flex:1; background:rgba(41,241,255,.08); border-color:var(--border); color:#fff;">⬇ Backup</button>
+        <button class="btn btn-sm" id="restoreBtn" style="flex:1; background:rgba(41,241,255,.08); border-color:var(--border); color:#fff;">⬆ Restore</button>
+      </div>
+      <input type="file" id="restoreFile" accept="application/json" hidden>
+      <button class="btn btn-sm" id="importExcelBtn" style="width:100%; margin-bottom:8px; background:rgba(183,108,255,.12); border-color:rgba(183,108,255,.35); color:#fff;">📥 ນຳເຂົ້າຈາກ Excel (.xlsx)</button>
+      <input type="file" id="importExcelFile" accept=".xlsx" hidden>
+      <button class="btn btn-sm" id="exportAllCsvBtn" style="width:100%; margin-bottom:8px; background:rgba(60,255,176,.10); border-color:rgba(60,255,176,.35); color:#fff;">⬇ Excel Template ທັງໝົດ (.xlsx)</button>
+      <button class="btn btn-sm" id="exportAllZipBtn" style="width:100%; margin-bottom:8px; background:rgba(41,241,255,.06); border-color:var(--border); color:var(--muted); font-size:11px;">⬇ CSV ແຍກຟາຍ (.zip)</button>
+</div><div class="gm-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z"/></svg><span><b>ຄຳແນະນຳ:</b> ກົດ Backup ເປັນປະຈຳ ແລະ ເກັບໄຟລ໌ໄວ້ບ່ອນປອດໄພ — ຂໍ້ມູນຢູ່ໃນບຣາວເຊີເທົ່ານັ້ນ</span></div></section>
+      <section class="gm-col c3"><header class="gm-ch"><span class="gm-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span><span class="gm-ct"><b>ເສີມ</b><i>EXTRAS</i></span><span class="gm-cs">Sound · Add-ons</span></header><div class="gm-extra">
+      <button class="sound-toggle" id="soundToggle" type="button"><span class="dot"></span><span id="soundToggleLabel">ສຽງໂຮໂລແກຣມ: ເປີດ</span></button>
       <div class="bh-box" id="bhBox">
         <button class="btn btn-sm" id="bhToggle" type="button">🕳️ ຫຼຸມດຳ (ໂຕເສີມ): ປິດ</button>
         <div id="bhOpts" hidden>
@@ -1890,36 +2199,21 @@ html[data-glass="frosted"][data-gsb][data-gsb][data-gsb] .kd-card .kd-m{color:#a
           <div class="bh-note">ແບບຈຳລອງ procedural: ຂອບວົງແຫວນ/ຊ່ອງ Cassini/ຄວາມແປ ຕາມຄ່າຈິງ, ດວງຈັນ Mimas/Enceladus/Tethys ໃຊ້ໄລຍະວົງໂຄຈອນຈິງ ແຕ່ຂະໜາດຂະຫຍາຍ. ໃນອາວະກາດບໍ່ມີສຽງຈິງ — ສຽງແມ່ນຄວາມຖີ່ໂຄຈອນຂອງວົງແຫວນທີ່ຂະຫຍາຍເຂົ້າຊ່ວງທີ່ໄດ້ຍິນ (Doppler ຕາມມຸມເບິ່ງ). ບໍ່ແມ່ນຂໍ້ມູນຈາກຍານສຳຫຼວດ.</div>
         </div>
       </div>
-      <button class="sound-toggle" id="soundToggle" type="button"><span class="dot"></span><span id="soundToggleLabel">ສຽງໂຮໂລແກຣມ: ເປີດ</span></button>
-      <button class="btn btn-sm" id="importExcelBtn" style="width:100%; margin-bottom:8px; background:rgba(183,108,255,.12); border-color:rgba(183,108,255,.35); color:#fff;">📥 ນຳເຂົ້າຈາກ Excel (.xlsx)</button>
-      <input type="file" id="importExcelFile" accept=".xlsx" hidden>
-      <button class="btn btn-sm" id="exportAllCsvBtn" style="width:100%; margin-bottom:8px; background:rgba(60,255,176,.10); border-color:rgba(60,255,176,.35); color:#fff;">⬇ Excel Template ທັງໝົດ (.xlsx)</button>
-      <button class="btn btn-sm" id="exportAllZipBtn" style="width:100%; margin-bottom:8px; background:rgba(41,241,255,.06); border-color:var(--border); color:var(--muted); font-size:11px;">⬇ CSV ແຍກຟາຍ (.zip)</button>
-      <div style="display:flex; gap:6px; margin-bottom:12px;">
-        <button class="btn btn-sm" id="backupBtn" style="flex:1; background:rgba(41,241,255,.08); border-color:var(--border); color:#fff;">⬇ Backup</button>
-        <button class="btn btn-sm" id="restoreBtn" style="flex:1; background:rgba(41,241,255,.08); border-color:var(--border); color:#fff;">⬆ Restore</button>
-      </div>
-      <input type="file" id="restoreFile" accept="application/json" hidden>
+</div><div class="gm-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z"/></svg><span><b>ຄຳແນະນຳ:</b> ໂຕເສີມ (ຫຼຸມດຳ/ດາວເສົາ) ໃຊ້ GPU ຫຼາຍ — ປິດໄວ້ຖ້າເຄື່ອງຊ້າ ຫຼື ແບັດໜ້ອຍ</span></div></section>
+      </div><div class="gm-notes">
       <div class="acct-box" id="acctBox"></div>
-      <div style="display:flex; gap:6px; margin-bottom:12px;">
-        <button class="btn btn-sm" id="lockBtn" type="button" style="flex:1; background:rgba(255,200,92,.10); border-color:rgba(255,200,92,.4); color:#fff;">🔒 ລ໋ອກ / Lock</button>
-        <button class="btn btn-sm" id="pwBtn" type="button" style="flex:1; background:rgba(41,241,255,.08); border-color:var(--border); color:#fff;">🔑 ລະຫັດ / Password</button>
-      </div>
       <span class="i18n-static">Khammany General Service (KGS)</span><br>
       <span class="i18n-static">ອີງຕາມ ISO 9001 / ISO 45001</span><br>
       <span class="i18n-static">ອ້າງອີງແນວທາງ ISO/IEC 27001</span><br>
       <span class="i18n-static" style="opacity:.7;">ຂໍ້ມູນບັນທຶກໄວ້ໃນບຣາວເຊີ້ນີ້ (Local Storage)</span>
+</div>
+      </div>
     </div>
+    <div class="gsb-search" id="gsbSearch" title="Ctrl + K"><span class="gsb-sico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg></span><input id="gsbQ" type="text" placeholder="ຄົ້ນຫາໜ້າ / Search" autocomplete="off" spellcheck="false"><kbd>Ctrl K</kbd></div>
+    <nav class="nav" id="navRoot"></nav>
   <button class="gsb-lock" id="gsbLock" type="button" title="ລ໋ອກ / Lock" aria-label="Lock"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6"></path><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path><path d="M8 11v-4a4 4 0 1 1 8 0v4"></path></svg></button>
   </aside>
   <div class="scrim" id="scrim"></div>
-  <nav class="gdash-dock" id="gdDock" aria-label="Quick links">
-    <button type="button" data-key="dashboard" data-kind="dashboard"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"></path><path d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"></path><path d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"></path><path d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"></path></svg></span><span>ພາບລວມ</span></button>
-    <button type="button" data-key="assets" data-kind="module"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M3 5a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10"></path><path d="M7 20h10"></path><path d="M9 16v4"></path><path d="M15 16v4"></path></svg></span><span>ຊັບສິນ / Assets</span></button>
-    <button type="button" data-key="issues" data-kind="module"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v4"></path><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0"></path><path d="M12 16h.01"></path></svg></span><span>Issues</span></button>
-    <button type="button" data-key="kpiDash" data-kind="kpidash"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path><path d="M7 12a5 5 0 1 0 10 0a5 5 0 1 0 -10 0"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path></svg></span><span>KPI</span></button>
-    <button type="button" data-key="backups" data-kind="module"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3"></path><path d="M4 6v6c0 1.657 3.582 3 8 3c1.118 0 2.183 -.086 3.15 -.241"></path><path d="M20 12v-6"></path><path d="M4 12v6c0 1.657 3.582 3 8 3c.157 0 .312 -.002 .466 -.005"></path><path d="M16 19h6"></path><path d="M19 16l3 3l-3 3"></path></svg></span><span>Backup</span></button>
-  </nav>
   
 
   <div class="main">
@@ -1929,6 +2223,13 @@ html[data-glass="frosted"][data-gsb][data-gsb][data-gsb] .kd-card .kd-m{color:#a
     </div>
     <div class="gdash-bar" id="gdBar">
       <div class="gd-user"><span class="gd-av" id="gdAv">K</span><span class="gd-hi">ຍິນດີຕ້ອນຮັບ, <b id="gdName">KGS IT</b></span></div>
+      <nav class="gdash-dock" id="gdDock" aria-label="Quick links">
+    <button type="button" title="ພາບລວມ" data-key="dashboard" data-kind="dashboard"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"></path><path d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"></path><path d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"></path><path d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"></path></svg></span><span>ພາບລວມ</span></button>
+    <button type="button" title="ຊັບສິນ / Assets" data-key="assets" data-kind="module"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M3 5a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10"></path><path d="M7 20h10"></path><path d="M9 16v4"></path><path d="M15 16v4"></path></svg></span><span>ຊັບສິນ / Assets</span></button>
+    <button type="button" title="Issues" data-key="issues" data-kind="module"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v4"></path><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0"></path><path d="M12 16h.01"></path></svg></span><span>Issues</span></button>
+    <button type="button" title="KPI" data-key="kpiDash" data-kind="kpidash"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path><path d="M7 12a5 5 0 1 0 10 0a5 5 0 1 0 -10 0"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path></svg></span><span>KPI</span></button>
+    <button type="button" title="Backup" data-key="backups" data-kind="module"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3"></path><path d="M4 6v6c0 1.657 3.582 3 8 3c1.118 0 2.183 -.086 3.15 -.241"></path><path d="M20 12v-6"></path><path d="M4 12v6c0 1.657 3.582 3 8 3c.157 0 .312 -.002 .466 -.005"></path><path d="M16 19h6"></path><path d="M19 16l3 3l-3 3"></path></svg></span><span>Backup</span></button>
+  </nav>
       <button class="gd-search" id="gdSearch" type="button"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg></span><span class="gd-ph">ຄົ້ນຫາໜ້າ / Search pages…</span><kbd>Ctrl K</kbd></button>
       <div class="gd-clock" id="gdClock"><span class="gd-ico"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12"></path><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M4 11h16"></path><path d="M11 15h1"></path><path d="M12 15v3"></path></svg></span><span id="gdClockTxt"></span></div>
       <button class="gd-lock" id="gdLock" type="button" title="ລ໋ອກ / Lock" aria-label="Lock"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6"></path><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path><path d="M8 11v-4a4 4 0 1 1 8 0v4"></path></svg></button>
@@ -4076,15 +4377,25 @@ var MiniZipWriter = (function(){
   return { build: build };
 })();
 
-function exportAllCsvZip(){
-  var files = [];
-  Object.keys(MODULES).forEach(function(key){
-    files.push({ name: MODULES[key].code+'_'+key+'.csv', content: csvForModule(key) });
-  });
-  files.push({ name:'KGS-IT-FRM-15_auditChecklist.csv', content: csvForAudit() });
-  var zipBytes = MiniZipWriter.build(files);
-  var ok = downloadFile('KGS_IT_CSV_Templates.zip', zipBytes, 'application/zip');
-  toast(ok? 'ດາວໂຫຼດ CSV Template ທັງໝົດສຳເລັດ (ZIP)' : 'ດາວໂຫຼດບໍ່ສຳເລັດ', !ok);
+async function exportAllCsvZip(){
+  var T = KGSTask.begin('zip', {retry: exportAllCsvZip});
+  try{
+    var files = [], keys = Object.keys(MODULES), n = keys.length + 2;
+    await T.yield();
+    for(var i=0;i<keys.length;i++){
+      var key = keys[i];
+      files.push({ name: MODULES[key].code+'_'+key+'.csv', content: csvForModule(key) });
+      T.set(5 + 70*(i+1)/n, 'ກຳລັງສ້າງ CSV: '+MODULES[key].code+' ('+(i+1)+'/'+n+')', 'Building CSV: '+MODULES[key].code+' ('+(i+1)+'/'+n+')');
+      await T.yield();
+    }
+    files.push({ name:'KGS-IT-FRM-15_auditChecklist.csv', content: csvForAudit() });
+    T.set(78, 'ກຳລັງບີບອັດ ZIP...', 'Compressing ZIP...'); await T.yield();
+    var zipBytes = MiniZipWriter.build(files);
+    T.set(92, 'ກຳລັງບັນທຶກໄຟລ໌...', 'Saving file...'); await T.yield();
+    var ok = downloadFile('KGS_IT_CSV_Templates.zip', zipBytes, 'application/zip');
+    if(ok) await T.done('ດາວໂຫຼດ CSV Template ທັງໝົດສຳເລັດ (ZIP)', 'CSV templates downloaded (ZIP)');
+    else await T.fail('ດາວໂຫຼດບໍ່ສຳເລັດ', 'Download failed', 'ບຣາວເຊີບໍ່ອະນຸຍາດໃຫ້ບັນທຶກໄຟລ໌');
+  }catch(err){ await T.fail('ສົ່ງອອກບໍ່ສຳເລັດ', 'Export failed', String(err && err.message || err)); }
 }
 
 /* ============================================================
@@ -4265,10 +4576,17 @@ function excelRowsForTemplate(tpl){
   return rows;
 }
 
-function exportAllExcelTemplate(){
-  var sheets = SHEET_TEMPLATES.map(function(tpl){
-    return { name: tpl.name, data: excelRowsForTemplate(tpl) };
-  });
+async function exportAllExcelTemplate(){
+  var T = KGSTask.begin('xlsx', {retry: exportAllExcelTemplate});
+  try{
+  await T.yield();
+  var sheets = [];
+  for(var si=0; si<SHEET_TEMPLATES.length; si++){
+    var tpl = SHEET_TEMPLATES[si];
+    sheets.push({ name: tpl.name, data: excelRowsForTemplate(tpl) });
+    T.set(5 + 65*(si+1)/(SHEET_TEMPLATES.length+1), 'ກຳລັງສ້າງຊີດ: '+tpl.name+' ('+(si+1)+'/'+(SHEET_TEMPLATES.length+1)+')', 'Building sheet: '+tpl.name+' ('+(si+1)+'/'+(SHEET_TEMPLATES.length+1)+')');
+    await T.yield();
+  }
   var auditTitle = 'Pre-Audit Checklist — Checklist ກ່ອນ Audit (10 ລາຍການ) (KGS-IT-FRM-15)';
   var auditNote = 'ອ້າງອີງຄູ່ມືຫົວຂໍ້ 17 · ໃຊ້ກວດຄວາມພ້ອມກ່ອນການກວດສອບພາຍໃນ ຫຼື ການກວດຢັ້ງຢືນມາດຕະຖານ';
   var auditHeaders = ['ລຳດັບ','ລາຍການກວດສອບ','ຜົນ (ຜ່ານ/ບໍ່ຜ່ານ/N-A)','ຫຼັກຖານອ້າງອີງ','ຜູ້ກວດ'];
@@ -4284,9 +4602,13 @@ function exportAllExcelTemplate(){
   }
   sheets.push({ name: EXCEL_AUDIT_SHEET, data: auditRows });
 
+  T.set(75, 'ກຳລັງສ້າງໄຟລ໌ .xlsx...', 'Building .xlsx file...'); await T.yield();
   var bytes = MiniXLSXWriter.build(sheets);
+  T.set(92, 'ກຳລັງບັນທຶກໄຟລ໌...', 'Saving file...'); await T.yield();
   var ok = downloadFile('KGS_IT_Data_Template.xlsx', bytes, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  toast(ok? 'ດາວໂຫຼດໄຟລ໌ Excel Template ສຳເລັດ — ຕື່ມຂໍ້ມູນແລ້ວ Import ກັບຄືນໄດ້ເລີຍ' : 'ດາວໂຫຼດບໍ່ສຳເລັດ', !ok);
+  if(ok) await T.done('ດາວໂຫຼດໄຟລ໌ Excel Template ສຳເລັດ — ຕື່ມຂໍ້ມູນແລ້ວ Import ກັບຄືນໄດ້ເລີຍ', 'Excel template downloaded — fill it in and import it back');
+  else await T.fail('ດາວໂຫຼດບໍ່ສຳເລັດ', 'Download failed', 'ບຣາວເຊີບໍ່ອະນຸຍາດໃຫ້ບັນທຶກໄຟລ໌');
+  }catch(err){ await T.fail('ສົ່ງອອກບໍ່ສຳເລັດ', 'Export failed', String(err && err.message || err)); }
 }
 
 /* ---------- Record modal ---------- */
@@ -4422,8 +4744,8 @@ function saveRecord(key, id, data, done){
     data._createdAt = now;
     p = col.add(data);
   }
-  p.then(function(){ toast('ບັນທຶກສຳເລັດ'); if(done) done(); })
-   .catch(function(e){ toast('ບັນທຶກບໍ່ສຳເລັດ: '+(e&&e.code||'error'), true); });
+  p.then(function(){ KGSTask.flash('save', true, 'ບັນທຶກສຳເລັດ', 'Saved'); if(done) done(); })
+   .catch(function(e){ KGSTask.flash('save', false, 'ບັນທຶກບໍ່ສຳເລັດ', 'Could not save', String(e&&e.code||'error')); });
 }
 
 function confirmDelete(key, id){
@@ -4443,8 +4765,8 @@ function confirmDelete(key, id){
   $('#scrimConfirm').addEventListener('click', function(e){ if(e.target.id==='scrimConfirm') close(); });
   $('#cOk').addEventListener('click', function(){
     state.db.collection(key).doc(id).delete()
-      .then(function(){ toast('ລຶບແລ້ວ'); close(); })
-      .catch(function(e){ toast('ລຶບບໍ່ສຳເລັດ: '+(e&&e.code||'error'), true); close(); });
+      .then(function(){ KGSTask.flash('del', true, 'ລຶບແລ້ວ', 'Deleted'); close(); })
+      .catch(function(e){ KGSTask.flash('del', false, 'ລຶບບໍ່ສຳເລັດ', 'Could not delete', String(e&&e.code||'error')); close(); });
   });
 }
 
@@ -5685,21 +6007,28 @@ async function importReg003(wb, summary, warnings){
 }
 
 async function importExcelFile(file){
+  var T = KGSTask.begin('import', {retry: function(){ var f = $('#importExcelFile'); if(f) f.click(); }});
   if(!window.DecompressionStream || !window.DOMParser){
-    toast('ບຣາວເຊີ້ນີ້ບໍ່ຮອງຮັບການອ່ານໄຟລ໌ Excel ໂດຍກົງ — ກະລຸນາໃຊ້ Chrome/Edge ລຸ້ນໃໝ່', true);
+    await T.fail('ບຣາວເຊີນີ້ບໍ່ຮອງຮັບການອ່ານ Excel', 'This browser cannot read Excel files', 'ກະລຸນາໃຊ້ Chrome/Edge ລຸ້ນໃໝ່');
     return;
   }
-  toast('ກຳລັງອ່ານໄຟລ໌ Excel...');
   try{
+    await T.yield();
+    T.set(6, 'ກຳລັງອ່ານໄຟລ໌: '+file.name, 'Reading file: '+file.name);
     var buf = await file.arrayBuffer();
+    T.set(18, 'ກຳລັງແກະໄຟລ໌ Excel...', 'Unpacking Excel file...'); await T.yield();
     var wb = await MiniXLSX.read(buf);
+    T.set(40, 'ກຳລັງຈັບຄູ່ຊີດກັບໂມດູນ...', 'Matching sheets to modules...'); await T.yield();
     var summary = [];
     var warnings = [];
     var regHandled = await importReg003(wb, summary, warnings);
+    T.set(48, 'ກຳລັງນຳເຂົ້າ KPI...', 'Importing KPI...'); await T.yield();
     var kpiHandled = await importKpiWorkbook(wb, summary, warnings, file.name);
+    T.set(55, 'ກຳລັງນຳເຂົ້າຂໍ້ມູນ...', 'Importing data...'); await T.yield();
     Object.keys(kpiHandled).forEach(function(k){ regHandled[k] = true; });
     for(var i=0;i<wb.sheetNames.length;i++){
       var sname = wb.sheetNames[i];
+      T.set(55 + 42*i/wb.sheetNames.length, 'ກຳລັງນຳເຂົ້າຊີດ: '+sname+' ('+(i+1)+'/'+wb.sheetNames.length+')', 'Importing sheet: '+sname+' ('+(i+1)+'/'+wb.sheetNames.length+')'); await T.yield();
       var grid = wb.sheets[sname];
       if(!grid || !grid.length) continue;
       if(regHandled[normalizeName(sname)]) continue;
@@ -5714,9 +6043,16 @@ async function importExcelFile(file){
       var n2 = await importModuleSheet(map, grid);
       if(n2>0) summary.push({label:MODULES[map.key].title, count:n2});
     }
-    showImportSummary(summary, warnings);
+    if(!summary.length){
+      await T.fail('ບໍ່ພົບຂໍ້ມູນທີ່ນຳເຂົ້າໄດ້', 'Nothing could be imported', 'ບໍ່ພົບຊີດທີ່ກົງກັບໂມດູນ ຫຼື ບໍ່ມີແຖວຂໍ້ມູນໃໝ່');
+      showImportSummary(summary, warnings);
+    } else {
+      var tot = summary.reduce(function(a, b){ return a + (b.count||0); }, 0);
+      await T.done('ນຳເຂົ້າສຳເລັດ '+tot+' ລາຍການ', 'Imported '+tot+' records', {warn: !!(warnings && warnings.length), sub: (warnings && warnings.length) ? ('ມີໝາຍເຫດ/ຕ້ອງກວດ '+warnings.length+' ລາຍການ') : ''});
+      showImportSummary(summary, warnings);
+    }
   }catch(err){
-    toast('ນຳເຂົ້າ Excel ບໍ່ສຳເລັດ: '+(err&&err.message||'error'), true);
+    await T.fail('ນຳເຂົ້າ Excel ບໍ່ສຳເລັດ', 'Excel import failed', String(err && err.message || 'error'));
   }
 }
 
@@ -5732,7 +6068,6 @@ function showImportSummary(summary, warnings){
       '<div class="page-sub" style="margin-top:10px;">ກະລຸນາກວດທານຂໍ້ມູນທີ່ນຳເຂົ້າໄດ້ໃນແຕ່ລະໂມດູນ — ລຶບແຖວທີ່ບໍ່ຕ້ອງການໄດ້ຕາມປົກກະຕິ (ແຖວຕົວຢ່າງໃນ Excel ຖືກຂ້າມໄປແລ້ວ)</div></div>'+
     '<div class="modal-foot"><button class="btn btn-primary" id="impOk">ຕົກລົງ — ໂຫຼດຄືນ</button></div>'+
   '</div></div>';
-  try{ summary.length ? Sound.success() : Sound.error(); }catch(e){}
   $('#impClose').addEventListener('click', function(){ root.innerHTML=''; });
   $('#scrimImp').addEventListener('click', function(e){ if(e.target.id==='scrimImp') root.innerHTML=''; });
   $('#impOk').addEventListener('click', function(){ window.location.reload(); });
@@ -7170,11 +7505,24 @@ function initShell(){
   state.db = createLocalDb();
   state.dbReady = true;
 
-  $('#backupBtn').addEventListener('click', function(){
-    var all = state.db.exportAll();
-    var ok = downloadFile('kgs-it-backup-'+new Date().toISOString().slice(0,10)+'.json', JSON.stringify(all, null, 2), 'application/json');
-    toast(ok? 'ສຳຮອງຂໍ້ມູນສຳເລັດ — ເກັບໄຟລ໌ນີ້ໄວ້ໃຫ້ປອດໄພ' : 'ສຳຮອງບໍ່ສຳເລັດ', !ok);
-  });
+  function doBackup(){
+    (async function(){
+      var T = KGSTask.begin('backup', {retry: doBackup});
+      try{
+        await T.yield();
+        T.set(12, 'ກຳລັງອ່ານຂໍ້ມູນທຸກໂມດູນ...', 'Reading all modules...'); await T.yield();
+        var all = state.db.exportAll(), nCol = Object.keys(all).length, nRec = 0;
+        Object.keys(all).forEach(function(k){ var v = all[k]; nRec += (v && typeof v === 'object') ? Object.keys(v).length : 0; });
+        T.set(45, 'ກຳລັງແປງເປັນ JSON ('+nCol+' ກຸ່ມ)...', 'Serialising JSON ('+nCol+' groups)...'); await T.yield();
+        var json = JSON.stringify(all, null, 2);
+        T.set(75, 'ກຳລັງບັນທຶກໄຟລ໌ ('+Math.max(1, Math.round(json.length/1024))+' KB)...', 'Saving file ('+Math.max(1, Math.round(json.length/1024))+' KB)...'); await T.yield();
+        var ok = downloadFile('kgs-it-backup-'+new Date().toISOString().slice(0,10)+'.json', json, 'application/json');
+        if(ok) await T.done('ສຳຮອງຂໍ້ມູນສຳເລັດ — ເກັບໄຟລ໌ນີ້ໄວ້ໃຫ້ປອດໄພ', 'Backup complete — keep this file safe', {sub: nCol+' ກຸ່ມ · '+nRec+' ລາຍການ'});
+        else await T.fail('ສຳຮອງບໍ່ສຳເລັດ', 'Backup failed', 'ບຣາວເຊີບໍ່ອະນຸຍາດໃຫ້ບັນທຶກໄຟລ໌');
+      }catch(err){ await T.fail('ສຳຮອງບໍ່ສຳເລັດ', 'Backup failed', String(err && err.message || err)); }
+    })();
+  }
+  $('#backupBtn').addEventListener('click', doBackup);
   $('#importExcelBtn').addEventListener('click', function(){ $('#importExcelFile').click(); });
   $('#importExcelFile').addEventListener('change', function(e){
     var file = e.target.files[0]; if(!file) return;
@@ -7187,16 +7535,25 @@ function initShell(){
   $('#restoreBtn').addEventListener('click', function(){ $('#restoreFile').click(); });
   $('#restoreFile').addEventListener('change', function(e){
     var file = e.target.files[0]; if(!file) return;
-    var reader = new FileReader();
-    reader.onload = function(){
+    e.target.value = '';
+    (async function(){
+      var T = KGSTask.begin('restore', {retry: function(){ $('#restoreFile').click(); }});
       try{
-        var obj = JSON.parse(reader.result);
+        await T.yield();
+        T.set(10, 'ກຳລັງອ່ານໄຟລ໌: '+file.name, 'Reading file: '+file.name);
+        var text = await file.text();
+        T.set(30, 'ກຳລັງກວດໄຟລ໌ Backup...', 'Validating backup file...'); await T.yield();
+        var obj; try{ obj = JSON.parse(text); }catch(pe){ await T.fail('ໄຟລ໌ບໍ່ຖືກຕ້ອງ', 'Invalid file', 'ຕ້ອງເປັນໄຟລ໌ Backup JSON ຈາກແອັບນີ້'); return; }
+        if(!obj || typeof obj !== 'object' || Array.isArray(obj) || !Object.keys(obj).length){ await T.fail('ໄຟລ໌ບໍ່ຖືກຕ້ອງ', 'Invalid file', 'ໂຄງສ້າງບໍ່ແມ່ນ Backup ຂອງລະບົບນີ້ ຫຼື ວ່າງເປົ່າ'); return; }
+        var keys = Object.keys(obj), nRec = 0;
+        for(var i=0;i<keys.length;i++){ var v = obj[keys[i]]; if(!v || typeof v !== 'object'){ await T.fail('ໄຟລ໌ບໍ່ຖືກຕ້ອງ', 'Invalid file', 'ກຸ່ມຂໍ້ມູນ "'+keys[i]+'" ຜິດຮູບແບບ — ບໍ່ໄດ້ຂຽນທັບຂໍ້ມູນເກົ່າ'); return; } nRec += Object.keys(v).length; }
+        T.set(50, 'ກຳລັງຂຽນຂໍ້ມູນ '+keys.length+' ກຸ່ມ...', 'Writing '+keys.length+' groups...'); await T.yield();
         state.db.importAll(obj);
-        toast('ນຳເຂົ້າຂໍ້ມູນສຳເລັດ — ກຳລັງໂຫຼດຄືນ...');
-        setTimeout(function(){ window.location.reload(); }, 700);
-      }catch(err){ toast('ໄຟລ໌ບໍ່ຖືກຕ້ອງ — ຕ້ອງເປັນໄຟລ໌ Backup JSON ຈາກແອັບນີ້', true); }
-    };
-    reader.readAsText(file);
+        T.set(90, 'ກຳລັງໂຫຼດລະບົບຄືນ...', 'Reloading...'); await T.yield();
+        await T.done('ກູ້ຄືນຂໍ້ມູນສຳເລັດ — ກຳລັງໂຫຼດຄືນ', 'Restore complete — reloading', {sub: keys.length+' ກຸ່ມ · '+nRec+' ລາຍການ'});
+        window.location.reload();
+      }catch(err){ await T.fail('ກູ້ຄືນບໍ່ສຳເລັດ', 'Restore failed', String(err && err.message || err)); }
+    })();
   });
 
   if(state.db.usingMemory){ toast('ຫນ່ວຍຈື່ບຣາວເຊີບໍ່ພ້ອມໃຊ້ງານ — ຂໍ້ມູນຈະຫາຍເມື່ອປິດແທັບ', true); }
@@ -7718,6 +8075,7 @@ var Auth = (function(){
     }
     $('#aForm').addEventListener('submit', doLogin);
     $('#aGo').addEventListener('click', doLogin);
+    try{ if(window.KGSFace) KGSFace.login(); }catch(e){}
     setTimeout(function(){ u.focus(); }, 50);
   }
   function validatePair(a, b){
@@ -7837,7 +8195,7 @@ var Auth = (function(){
         if(!ok){ err.textContent = tt('badCur'); shake(); $('#cpGo').disabled = false; return; }
         return check(other, p).then(function(same){
           if(same){ err.textContent = tt('samePw'); $('#cpGo').disabled = false; return; }
-          return newCred(p).then(function(n){ rec.users[i] = Object.assign({name:rec.users[i].name, last:rec.users[i].last}, n); save(); d.remove(); toast(tt('done')); });
+          return newCred(p).then(function(n){ rec.users[i] = Object.assign({name:rec.users[i].name, last:rec.users[i].last, face:rec.users[i].face}, n); save(); d.remove(); toast(tt('done')); });
         });
       }).catch(function(){ err.textContent = tt('noCrypto'); $('#cpGo').disabled = false; });
     });
@@ -7853,6 +8211,13 @@ var Auth = (function(){
       var ss = getSess();
       if(ss && rec.users[ss.u]){ unlock(ss.u); return; }
       showLogin('');
+    },
+    face:{
+      get:function(){ return rec ? rec.users.map(function(u){ return u.face || null; }) : []; },
+      cur:function(){ return cur; },
+      set:function(i, v){ if(!rec || i !== cur) return false; if(v) rec.users[i].face = v; else delete rec.users[i].face; return save(); },
+      check:function(pw){ return (rec && cur>=0) ? check(rec.users[cur], pw) : Promise.resolve(false); },
+      unlock:function(i){ if(rec && rec.users[i]) unlock(i, true); }
     },
     IDLE_MIN:AUTH_IDLE_MIN
   };
@@ -7985,6 +8350,521 @@ var Auth = (function(){
     setUser(); clock(); mark(); setInterval(clock, 20000);
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+
+/* ---------- Face ID (face scan sign-in, offline, template stored on this device only) ---------- */
+(function kgsFaceId(){
+  var TH = 0.5, SAMPLES = 5, NEED_BLINK = true, DIR = 'faceid/', FKEY = 'kgsit_facefail';
+  var ICO = '<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M4 8v-2a2 2 0 0 1 2 -2h2"></path><path d="M4 16v2a2 2 0 0 0 2 2h2"></path><path d="M16 4h2a2 2 0 0 1 2 2v2"></path><path d="M16 20h2a2 2 0 0 0 2 -2v-2"></path><path d="M9 10l.01 0"></path><path d="M15 10l.01 0"></path><path d="M9.5 15a3.5 3.5 0 0 0 5 0"></path></svg>';
+  var L = {
+    lo:{ btn:'ເຂົ້າດ້ວຍໃບໜ້າ', or:'ຫຼື', side:'Face ID / ສະແກນໜ້າ', sideOn:'Face ID ✓', scanH:'ສະແກນໜ້າເພື່ອເຂົ້າລະບົບ', enrolH:'ຕັ້ງຄ່າ Face ID',
+      loadM:'ກຳລັງໂຫຼດໂມເດວໃບໜ້າ…', cam:'ກຳລັງເປີດກ້ອງ…', look:'ເບິ່ງກົງກ້ອງ ໃຫ້ເຫັນໜ້າຊັດເຈນ', one:'ໃຫ້ມີແຕ່ໜ້າດຽວໃນກອບ', blink:'ກະພິບຕາ 1 ເທື່ອ ເພື່ອຢືນຢັນວ່າເປັນຄົນຈິງ',
+      match:'ກຳລັງກວດໃບໜ້າ…', ok:'ສຳເລັດ', nomatch:'ບໍ່ກົງກັບໃບໜ້າທີ່ລົງທະບຽນ', timeout:'ໝົດເວລາ — ລອງໃໝ່ ຫຼື ໃຊ້ລະຫັດຜ່ານ', cancel:'ຍົກເລີກ', close:'ປິດ',
+      noCam:'ເປີດກ້ອງບໍ່ໄດ້ (ກວດສິດໃຊ້ກ້ອງ ຫຼື ມີແອັບອື່ນໃຊ້ຢູ່) — ໃຊ້ລະຫັດຜ່ານແທນ', noLib:'ບໍ່ພົບໂຟນເດີ faceid ຂ້າງໄຟລ໌ນີ້ — ໃຊ້ລະຫັດຜ່ານແທນ', lookedIn:'ຄົ້ນຫາຢູ່:', btnSub:'ສະແກນໜ້າເຂົ້າລະບົບ', noPrev:'ໄຟລ໌ນີ້ຖືກເປີດໃນໜ້າຕ່າງ preview ຂອງແອັບ ບໍ່ແມ່ນຈາກໂຟນເດີ — ປິດແລ້ວເປີດຈາກ File Explorer: D:\\IT System\\KGS_IT_System_FACEID_SAMPLE.html ດ້ວຍ Chrome ຫຼື Edge', s1:'ຊອກຫາໃບໜ້າ', s2:'ກະພິບຕາ', s3:'ກວດຕົວຕົນ', s3e:'ເກັບຕົວຢ່າງ', snd:'ສຽງ', ready:'ກ້ອງພ້ອມ', found:'ພົບໃບໜ້າ', stat1:'ຄົນດຽວໃນກອບ · ແສງພໍ', statOn:'ລົງທະບຽນແລ້ວ',
+      locked:'ລອງຜິດຫຼາຍເທື່ອ — ລໍຖ້າ {n} ວິນາທີ ຫຼື ໃຊ້ລະຫັດຜ່ານ', consentH:'ຂໍ້ມູນໃບໜ້າ (ຂໍ້ມູນຊີວະມິຕິ)',
+      consent:'ລະບົບຈະເກັບ “ຄ່າຕົວເລກຂອງໃບໜ້າ” (128 ຄ່າ) ໄວ້ໃນເຄື່ອງນີ້ເທົ່ານັ້ນ — ບໍ່ເກັບຮູບ ແລະ ບໍ່ສົ່ງອອກນອກເຄື່ອງ. ລຶບໄດ້ທຸກເວລາ. ໃຊ້ເປັນທາງເຂົ້າເພີ່ມເຕີມ; ລະຫັດຜ່ານຍັງໃຊ້ໄດ້ສະເໝີ.',
+      chk:'ຂ້ອຍຍິນຍອມໃຫ້ເກັບຄ່າໃບໜ້າຂອງຂ້ອຍໃນເຄື່ອງນີ້', pw:'ຢືນຢັນລະຫັດຜ່ານປັດຈຸບັນ', badPw:'ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ', start:'ເລີ່ມສະແກນ', remove:'ລຶບ Face ID', removed:'ລຶບ Face ID ແລ້ວ',
+      saved:'ບັນທຶກ Face ID ແລ້ວ', stat:'ລົງທະບຽນແລ້ວ: {t}', stat0:'ຍັງບໍ່ໄດ້ລົງທະບຽນ', cap:'ເກັບຕົວຢ່າງ {a}/{b}', unstable:'ໃບໜ້າບໍ່ນິ່ງ/ບໍ່ຄົງທີ່ — ລອງໃໝ່ໃນບ່ອນມີແສງພໍ', warn:'ໝາຍເຫດ: ການສະແກນໜ້າໃນໄຟລ໌ອອບລາຍບໍ່ແມ່ນຄວາມປອດໄພເຕັມຮູບແບບ (ຍັງຖືກຫຼອກດ້ວຍວິດີໂອໄດ້). ກ່ອນໃຊ້ທົ່ວອົງກອນ ໃຫ້ HR/Legal ກວດຄືນ.' },
+    en:{ btn:'Sign in with face', or:'or', side:'Face ID / Face scan', sideOn:'Face ID ✓', scanH:'Face scan sign-in', enrolH:'Set up Face ID',
+      loadM:'Loading face models…', cam:'Opening camera…', look:'Look straight at the camera, face clearly visible', one:'Only one face in frame, please', blink:'Blink once to confirm you are live',
+      match:'Checking face…', ok:'Done', nomatch:'Face does not match an enrolled account', timeout:'Timed out — try again or use your password', cancel:'Cancel', close:'Close',
+      noCam:'Cannot open the camera (check permission or another app using it) — use your password', noLib:'The faceid folder next to this file was not found — use your password', lookedIn:'Looked in:', btnSub:'Sign in by face scan', noPrev:'This file is open inside an app preview, not from its folder — close it and open D:\\IT System\\KGS_IT_System_FACEID_SAMPLE.html from File Explorer with Chrome or Edge', s1:'Find face', s2:'Blink', s3:'Verify', s3e:'Capture', snd:'Sound', ready:'Camera ready', found:'Face found', stat1:'One person · good light', statOn:'Enrolled',
+      locked:'Too many failures — wait {n} s or use your password', consentH:'Face data (biometric)',
+      consent:'The app stores a “face template” (128 numbers) on this device only — no photo, nothing leaves the device. You can delete it any time. It is an extra way in; the password always works.',
+      chk:'I consent to storing my face template on this device', pw:'Confirm current password', badPw:'Incorrect password', start:'Start scan', remove:'Remove Face ID', removed:'Face ID removed',
+      saved:'Face ID saved', stat:'Enrolled: {t}', stat0:'Not enrolled', cap:'Capturing sample {a}/{b}', unstable:'Face unstable — retry with better light', warn:'Note: face scan in an offline file app is not full security (a video can still fool it). Have HR/Legal review before organisation-wide use.' }
+  };
+  function lang(){ return (typeof state!=='undefined' && state.lang==='en') ? 'en' : 'lo'; }
+  function t(k){ return L[lang()][k]; }
+  function $g(id){ return document.getElementById(id); }
+  function esc2(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  /* ---- model loading (lazy, from faceid/ next to index.html; works on file://) ---- */
+  var loading = null, ready = false;
+  function loadScript(src){ return new Promise(function(res, rej){ var s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = function(){ rej(new Error('nolib')); }; document.head.appendChild(s); }); }
+  function b2b(b64){ var s = atob(b64), a = new Uint8Array(s.length); for(var i=0;i<s.length;i++) a[i] = s.charCodeAt(i); return a.buffer; }
+  function loadModels(){
+    if(ready) return Promise.resolve(); if(loading) return loading;
+    loading = loadScript(DIR+'face-api.js').then(function(){ return loadScript(DIR+'models.js'); }).then(function(){
+      var fa = window.faceapi, M = window.KGS_FACE_MODELS;
+      if(!fa || !M) throw new Error('nolib');
+      return fa.tf.setBackend('webgl').catch(function(){ return fa.tf.setBackend('cpu'); }).then(function(){ return fa.tf.ready(); }).then(function(){
+        function wm(m){ var specs = []; m.manifest.forEach(function(g){ specs = specs.concat(g.weights); }); return fa.tf.io.decodeWeights(b2b(m.bin), specs); }
+        fa.nets.tinyFaceDetector.loadFromWeightMap(wm(M.det));
+        fa.nets.faceLandmark68TinyNet.loadFromWeightMap(wm(M.lm));
+        fa.nets.faceRecognitionNet.loadFromWeightMap(wm(M.rec));
+        window.KGS_FACE_MODELS = null; ready = true;
+      });
+    }).catch(function(e){ loading = null; throw e; });
+    return loading;
+  }
+
+  /* ---- maths ---- */
+  function dist(a, b){ var s = 0; for(var i=0;i<a.length;i++){ var d = a[i]-b[i]; s += d*d; } return Math.sqrt(s); }
+  function ear(p){
+    function d(i, j){ return Math.hypot(p[i].x-p[j].x, p[i].y-p[j].y); }
+    function one(o){ return (d(o+1, o+5) + d(o+2, o+4)) / (2*d(o, o+3) || 1); }
+    return (one(36) + one(42)) / 2;
+  }
+  function blinkTracker(){
+    var hist = [], st = 0;
+    return function(e){
+      hist.push(e); if(hist.length > 40) hist.shift();
+      if(hist.length < 6) return false;
+      var mx = Math.max.apply(null, hist);
+      if(st === 0 && e < mx*0.72 && mx-e > 0.04){ st = 1; return false; }
+      if(st === 1 && e > mx*0.88){ st = 0; return true; }
+      return false;
+    };
+  }
+  function bestOf(descs, faces){ /* faces: array of {d:[[..]..]} or null per user */
+    var best = {i:-1, d:9};
+    faces.forEach(function(f, i){ if(!f) return; f.d.forEach(function(s){ var x = dist(descs, s); if(x < best.d){ best = {i:i, d:x}; } }); });
+    return best;
+  }
+
+  /* ---- lockout ---- */
+  function fails(){ try{ var o = JSON.parse(localStorage.getItem(FKEY)||'null'); return o || {n:0, until:0}; }catch(e){ return {n:0, until:0}; } }
+  function setFails(o){ try{ localStorage.setItem(FKEY, JSON.stringify(o)); }catch(e){} }
+  function lockLeft(){ var o = fails(); return o.until > Date.now() ? Math.ceil((o.until-Date.now())/1000) : 0; }
+  function addFail(){ var o = fails(); o.n = (o.n||0)+1; if(o.n >= 5){ o.until = Date.now()+60000; o.n = 0; } setFails(o); }
+  function clearFails(){ setFails({n:0, until:0}); }
+
+  /* ---- sounds (synthesised; respects the app mute) ---- */
+  var ac = null;
+  function actx(){ if(!ac){ try{ ac = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){} } if(ac && ac.state === 'suspended'){ try{ ac.resume(); }catch(e){} } return ac; }
+  function muted(){ try{ return Sound.isMuted(); }catch(e){ return false; } }
+  function tn(f, o){
+    if(muted()) return; var c = actx(); if(!c) return; o = o || {};
+    var t0 = c.currentTime + (o.d||0), dur = o.dur || .12, osc = c.createOscillator(), g = c.createGain();
+    osc.type = o.type || 'sine'; osc.frequency.setValueAtTime(f, t0); if(o.to) osc.frequency.exponentialRampToValueAtTime(o.to, t0+dur);
+    g.gain.setValueAtTime(.0001, t0); g.gain.linearRampToValueAtTime(o.v || .05, t0+.012); g.gain.exponentialRampToValueAtTime(.0001, t0+dur);
+    osc.connect(g); g.connect(c.destination); try{ osc.start(t0); osc.stop(t0+dur+.03); }catch(e){}
+  }
+  var S = {
+    open:function(){ tn(380, {to:1400, dur:.22, v:.045}); tn(2000, {d:.16, dur:.08, v:.02}); },
+    found:function(){ tn(1175, {dur:.07, type:'triangle', v:.05}); tn(1760, {d:.07, dur:.1, type:'triangle', v:.045}); },
+    pulse:function(){ tn(520, {to:980, dur:.28, v:.018}); },
+    prompt:function(){ tn(880, {dur:.06, type:'triangle', v:.04}); tn(660, {d:.07, dur:.07, type:'triangle', v:.03}); },
+    blink:function(){ tn(1568, {dur:.05, type:'triangle', v:.05}); tn(2093, {d:.06, dur:.08, type:'triangle', v:.045}); },
+    cap:function(n){ tn(700+n*140, {dur:.09, type:'triangle', v:.05}); },
+    ok:function(){ [659, 784, 988, 1319].forEach(function(f, i){ tn(f, {d:i*.075, dur:.28, type:'triangle', v:.05}); }); tn(2637, {d:.32, dur:.35, v:.02}); },
+    fail:function(){ tn(220, {to:130, dur:.18, type:'square', v:.035}); tn(220, {d:.2, to:130, dur:.2, type:'square', v:.035}); },
+    warn:function(){ try{ Sound.warn(); }catch(e){} }
+  };
+  var SVG_SND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="w" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+  var SVG_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var SVG_X = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+
+  /* ---- camera dialog ---- */
+  var run = null, pulseT = null;
+  function stopRun(){ if(pulseT){ clearInterval(pulseT); pulseT = null; } if(run){ run.stop = true; try{ run.stream && run.stream.getTracks().forEach(function(tr){ tr.stop(); }); }catch(e){} run = null; } var d = $g('faceDlg'); if(d) d.remove(); }
+  function shellDlg(inner){
+    stopRun();
+    var d = document.createElement('div'); d.id = 'faceDlg';
+    d.style.cssText = 'position:fixed;inset:0;z-index:2147483300;background:radial-gradient(900px 600px at 50% 40%,rgba(0,120,200,.18),transparent 70%),rgba(3,6,14,.86);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto;';
+    d.innerHTML = '<div class="auth-wrap" style="perspective:1200px"><div class="auth-card fid-card">'+inner+'</div></div>';
+    document.body.appendChild(d); return d;
+  }
+  function sndBtn(){ return '<button class="fid-snd" id="fidSnd" type="button" title="'+esc2(t('snd'))+'" aria-label="'+esc2(t('snd'))+'">'+SVG_SND+'</button>'; }
+  function bindSnd(){ var b = $g('fidSnd'); if(!b) return; function upd(){ b.classList.toggle('off', muted()); } upd(); b.addEventListener('click', function(){ try{ Sound.setMuted(!muted()); }catch(e){} upd(); if(!muted()) S.prompt(); }); }
+  function openDlg(title, enrol){
+    var st = [t('s1'), t('s2'), enrol ? t('s3e') : t('s3')];
+    shellDlg('<div class="fid-top"><div class="auth-badge">'+ICO+'</div><h2>'+esc2(title)+'</h2>'+sndBtn()+'</div>'+
+      '<div class="fid-stage" id="fidStage" data-s="load">'+
+        '<svg class="fid-arc" viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="56"/><circle class="prg" id="fidArc" cx="60" cy="60" r="56"/></svg>'+
+        '<div class="fid-cam"><video id="fidVid" playsinline muted autoplay></video><div class="fid-load"><i></i><i></i><i></i></div><i class="fid-grid"></i><i class="fid-sweep"></i><div class="fid-mark ok">'+SVG_OK+'</div><div class="fid-mark bad">'+SVG_X+'</div></div>'+
+        '<i class="fb tl"></i><i class="fb tr"></i><i class="fb bl"></i><i class="fb br"></i></div>'+
+      '<div class="fid-chip"><span class="dot"></span><span id="fidStep">'+esc2(t('loadM'))+'</span></div>'+
+      '<ol class="fid-steps" id="fidSteps"><li><b>1</b>'+esc2(st[0])+'</li><li><b>2</b>'+esc2(st[1])+'</li><li><b>3</b>'+esc2(st[2])+'</li></ol>'+
+      '<div class="fid-prog"><i id="fidBar"></i></div>'+
+      '<div class="auth-err fid-err" id="fidErr"></div><div class="auth-actions"><button class="btn" type="button" id="fidCancel">'+esc2(t('cancel'))+'</button></div>');
+    $g('fidCancel').addEventListener('click', stopRun); bindSnd(); S.open();
+  }
+  function setState(s, idx){
+    var g = $g('fidStage'); if(g) g.setAttribute('data-s', s);
+    var cd = document.querySelector('#faceDlg .fid-card'); if(cd) cd.setAttribute('data-s', s);
+    var li = document.querySelectorAll('#fidSteps li');
+    for(var i=0;i<li.length;i++){ li[i].className = (idx != null && i < idx) ? 'done' : (i === idx ? 'on' : ''); }
+    if(pulseT){ clearInterval(pulseT); pulseT = null; }
+    if(s === 'verify'){ S.pulse(); pulseT = setInterval(S.pulse, 1300); }
+  }
+  function step(msg, pct){
+    var s = $g('fidStep'); if(s) s.textContent = msg;
+    if(pct != null){ var b = $g('fidBar'); if(b) b.style.width = pct+'%'; var a = $g('fidArc'); if(a) a.style.strokeDashoffset = String(351.86*(1-Math.max(0, Math.min(100, pct))/100)); }
+  }
+  function err(msg){ var e = $g('fidErr'); if(e) e.textContent = msg||''; }
+  function finish(job, ok, msg){
+    job.stop = true; if(pulseT){ clearInterval(pulseT); pulseT = null; }
+    try{ job.stream && job.stream.getTracks().forEach(function(tr){ tr.stop(); }); }catch(e){}
+    setState(ok ? 'ok' : 'fail', ok ? 3 : null);
+    if(ok){ step(msg || t('ok'), 100); S.ok(); }
+    else { step('', 0); err(msg || ''); S.fail(); var c = $g('fidCancel'); if(c) c.textContent = t('close'); }
+  }
+  function openCamera(){
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return Promise.reject(new Error('nocam'));
+    return navigator.mediaDevices.getUserMedia({video:{width:{ideal:640}, height:{ideal:480}, facingMode:'user'}, audio:false});
+  }
+  function frames(job, onFrame){
+    var fa = window.faceapi, opts = new fa.TinyFaceDetectorOptions({inputSize:224, scoreThreshold:0.5}), v = $g('fidVid');
+    function loop(){
+      if(job.stop || !v) return;
+      fa.detectAllFaces(v, opts).withFaceLandmarks(true).withFaceDescriptors().then(function(res){
+        if(job.stop) return;
+        var r = onFrame(res);
+        if(r === 'done') return;
+        setTimeout(loop, 60);
+      }).catch(function(){ if(!job.stop) setTimeout(loop, 250); });
+    }
+    loop();
+  }
+  function startCam(job){
+    return openCamera().then(function(stream){
+      if(job.stop){ stream.getTracks().forEach(function(tr){ tr.stop(); }); return Promise.reject(new Error('stopped')); }
+      job.stream = stream; var v = $g('fidVid'); v.srcObject = stream;
+      return new Promise(function(res){ if(v.readyState >= 2) res(); else v.onloadeddata = res; setTimeout(res, 4000); }).then(function(){ return v.play && v.play().catch(function(){}); });
+    });
+  }
+  function fatal(job, e){
+    if(job.stop || (e && e.message === 'stopped')) return;
+    var pr = location.protocol, prev = !(pr === 'file:' || pr === 'http:' || pr === 'https:');
+    var m = prev ? t('noPrev') : (e && e.message === 'nolib') ? t('noLib')+'\n'+t('lookedIn')+' '+(function(){ try{ return decodeURI(new URL(DIR, location.href).href); }catch(x){ return DIR; } })() : t('noCam');
+    finish(job, false, m);
+  }
+  function mkWatch(){ /* sounds for first detection / prompts */
+    var w = {face:false, prompted:false, lost:0};
+    return w;
+  }
+
+  /* ---- sign-in scan ---- */
+  function scanLogin(){
+    var ll = lockLeft(); var host = $g('aErr');
+    if(ll){ if(host) host.textContent = t('locked').replace('{n}', ll); S.warn(); return; }
+    var faces = Auth.face.get(); if(!faces.some(Boolean)) return;
+    actx();
+    openDlg(t('scanH'), false);
+    var job = run = {stop:false, stream:null}, blink = blinkTracker(), blinked = !NEED_BLINK, streak = 0, who = -1, t0 = Date.now(), lastMsg = '', w = mkWatch();
+    function say(m, p, s, i){ if(m !== lastMsg){ lastMsg = m; step(m, p); } setState2(s, i); }
+    var curS = '';
+    function setState2(s, i){ var key = s+i; if(key !== curS){ curS = key; setState(s, i); } }
+    loadModels().then(function(){ if(job.stop) return Promise.reject(new Error('stopped')); step(t('cam'), 8); return startCam(job); }).then(function(){
+      if(job.stop) return; say(t('look'), 20, 'find', 0);
+      frames(job, function(res){
+        if(Date.now()-t0 > 30000){ addFail(); finish(job, false, t('timeout')); return 'done'; }
+        if(res.length !== 1){ streak = 0; w.face = false; say(res.length > 1 ? t('one') : t('look'), 20, 'find', 0); return; }
+        var f = res[0];
+        if(!w.face){ w.face = true; S.found(); }
+        if(!blinked){
+          if(!w.prompted){ w.prompted = true; S.prompt(); }
+          say(t('blink'), 40, 'blink', 1);
+          if(blink(ear(f.landmarks.positions))){ blinked = true; S.blink(); }
+          return;
+        }
+        say(t('match'), 65 + streak*10, 'verify', 2);
+        var b = bestOf(Array.prototype.slice.call(f.descriptor), faces);
+        if(b.i >= 0 && b.d < TH && (who < 0 || who === b.i)){ who = b.i; streak++; }
+        else { streak = 0; who = -1; if(b.d >= TH+0.08){ addFail(); finish(job, false, t('nomatch')); return 'done'; } }
+        if(streak >= 3){ clearFails(); var i = who; finish(job, true, t('ok')); setTimeout(function(){ stopRun(); Auth.face.unlock(i); }, 1100); return 'done'; }
+      });
+    }).catch(function(e){ fatal(job, e); });
+  }
+
+  /* ---- enrolment (signed-in) ---- */
+  function openEnrol(){
+    var cur = Auth.face.cur(); if(cur < 0) return;
+    var mine = Auth.face.get()[cur];
+    actx();
+    var when = mine ? new Date(mine.t).toLocaleString() : '';
+    var SH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/><path d="M12 8v5M12 16v.01"/></svg>';
+    var d = shellDlg('<div class="fid-top"><div class="auth-badge">'+ICO+'</div><h2>'+esc2(t('enrolH'))+'</h2>'+sndBtn()+'</div>'+
+      '<div class="fid-pill '+(mine ? 'on' : '')+'"><i></i>'+esc2(mine ? t('statOn')+' · '+when : t('stat0'))+'</div>'+
+      '<div class="fid-note"><span class="ic">'+SH+'</span><div><b>'+esc2(t('consentH'))+'</b><br>'+esc2(t('consent'))+'</div></div>'+
+      '<div class="fid-warn">'+esc2(t('warn'))+'</div>'+
+      '<label class="auth-chk"><input type="checkbox" id="fidChk"> '+esc2(t('chk'))+'</label>'+
+      '<div class="auth-f fl"><div class="iw"><input id="fidPw" type="password" placeholder=" " autocomplete="current-password"><label for="fidPw">'+esc2(t('pw'))+'</label></div></div>'+
+      '<div class="auth-err fid-err" id="fidErr"></div>'+
+      '<div class="auth-actions"><button class="btn btn-primary" type="button" id="fidGo" disabled>'+esc2(t('start'))+'</button>'+
+      (mine ? '<button class="btn" type="button" id="fidDel" style="color:var(--danger)">'+esc2(t('remove'))+'</button>' : '')+
+      '<button class="btn" type="button" id="fidCancel">'+esc2(t('cancel'))+'</button></div>');
+    $g('fidCancel').addEventListener('click', stopRun); bindSnd(); S.open();
+    var chk = $g('fidChk'), go = $g('fidGo'), pw = $g('fidPw');
+    function upd(){ go.disabled = !(chk.checked && pw.value); }
+    chk.addEventListener('change', function(){ upd(); S.prompt(); }); pw.addEventListener('input', upd);
+    function verify(){ return Auth.face.check(pw.value).then(function(ok){ if(!ok){ err(t('badPw')); S.fail(); pw.value = ''; upd(); } return ok; }); }
+    var del = $g('fidDel');
+    if(del) del.addEventListener('click', function(){ if(!pw.value){ err(t('badPw')); S.fail(); return; } verify().then(function(ok){ if(!ok) return; Auth.face.set(cur, null); stopRun(); refreshSide(); try{ toast(t('removed')); }catch(e){} try{ Sound.close(); }catch(e){} }); });
+    go.addEventListener('click', function(){ verify().then(function(ok){ if(ok) captureEnrol(cur); }); });
+    setTimeout(function(){ pw.focus(); }, 50);
+  }
+  function captureEnrol(cur){
+    openDlg(t('enrolH'), true);
+    var job = run = {stop:false, stream:null}, blink = blinkTracker(), blinked = !NEED_BLINK, got = [], lastT = 0, t0 = Date.now(), lastMsg = '', curS = '', w = mkWatch();
+    function say(m, p, s, i){ if(m !== lastMsg){ lastMsg = m; step(m, p); } var key = s+i; if(key !== curS){ curS = key; setState(s, i); } }
+    loadModels().then(function(){ if(job.stop) return Promise.reject(new Error('stopped')); step(t('cam'), 8); return startCam(job); }).then(function(){
+      if(job.stop) return; say(t('look'), 15, 'find', 0);
+      frames(job, function(res){
+        if(Date.now()-t0 > 60000){ finish(job, false, t('timeout')); return 'done'; }
+        if(res.length !== 1){ w.face = false; say(res.length > 1 ? t('one') : t('look'), 15, 'find', 0); return; }
+        var f = res[0];
+        if(!w.face){ w.face = true; S.found(); }
+        if(!blinked){
+          if(!w.prompted){ w.prompted = true; S.prompt(); }
+          say(t('blink'), 25, 'blink', 1);
+          if(blink(ear(f.landmarks.positions))){ blinked = true; S.blink(); }
+          return;
+        }
+        if(Date.now()-lastT < 450) return;
+        lastT = Date.now();
+        got.push(Array.prototype.slice.call(f.descriptor).map(function(x){ return Math.round(x*10000)/10000; }));
+        lastMsg = ''; say(t('cap').replace('{a}', got.length).replace('{b}', SAMPLES), 35 + got.length*13, 'verify', 2); S.cap(got.length);
+        if(got.length >= SAMPLES){
+          var mx = 0; for(var i=0;i<got.length;i++) for(var j=i+1;j<got.length;j++) mx = Math.max(mx, dist(got[i], got[j]));
+          if(mx > 0.45){ finish(job, false, t('unstable')); return 'done'; }
+          Auth.face.set(cur, {v:1, d:got, t:new Date().toISOString()}); finish(job, true, t('saved'));
+          setTimeout(function(){ stopRun(); refreshSide(); try{ toast(t('saved')); }catch(e){} }, 1300);
+          return 'done';
+        }
+      });
+    }).catch(function(e){ fatal(job, e); });
+  }
+
+  /* ---- UI hooks ---- */
+  function refreshSide(){
+    var b = $g('faceBtn'); if(!b) return;
+    var c = Auth.face.cur(), on = c >= 0 && !!Auth.face.get()[c];
+    b.querySelector('.fb-t').textContent = on ? 'Face ID ✓' : 'Face ID';
+  }
+  function addSideBtn(){
+    if($g('faceBtn')) return; var pb = $g('pwBtn'); if(!pb || !pb.parentNode) return;
+    var acts = $g('gsbActs');
+    if(acts){ var fb = document.createElement('button'); fb.className = 'ga ga-face'; fb.id = 'faceBtn'; fb.type = 'button'; fb.setAttribute('role', 'menuitem');
+      fb.innerHTML = '<span class="ga-i fb-i">'+ICO+'</span><span class="ga-tw"><span class="ga-t fb-t"></span><span class="ga-s">'+esc2(t('s3e') ? t('btnSub') : '')+'</span></span><span class="ga-c"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6l-6 6"></path></svg></span>'; acts.appendChild(fb); $g('faceBtn').addEventListener('click', openEnrol); refreshSide(); return; }
+    var row = document.createElement('div'); row.style.cssText = 'margin:-6px 0 12px;';
+    row.innerHTML = '<button class="btn btn-sm" id="faceBtn" type="button" style="width:100%; background:rgba(41,241,255,.08); border-color:var(--border); color:#fff; display:flex; align-items:center; justify-content:center; gap:8px;"><span class="fb-i" style="display:inline-grid;font-size:16px;color:#00EEFF">'+ICO+'</span><span class="fb-t"></span></button>';
+    pb.parentNode.parentNode.insertBefore(row, pb.parentNode.nextSibling);
+    $g('faceBtn').addEventListener('click', openEnrol);
+    refreshSide();
+  }
+  function login(){
+    var form = $g('aForm'); if(!form || $g('fidLoginBtn')) return;
+    if(!Auth.face.get().some(Boolean)) return;
+    var w = document.createElement('div'); w.className = 'fid-login';
+    w.innerHTML = '<div class="fid-or"><span>'+esc2(t('or'))+'</span></div><button class="btn fid-btn" type="button" id="fidLoginBtn"><span class="fi">'+ICO+'</span>'+esc2(t('btn'))+'</button>';
+    form.parentNode.insertBefore(w, form.nextSibling);
+    $g('fidLoginBtn').addEventListener('click', scanLogin);
+  }
+  window.KGSFace = { login:login, sideRefresh:function(){ addSideBtn(); refreshSide(); }, _blink:blinkTracker, _ear:ear, _dist:dist };
+  function boot(){ addSideBtn(); var ac = $g('acctBox'); if(ac && window.MutationObserver) new MutationObserver(function(){ addSideBtn(); refreshSide(); }).observe(ac, {childList:true, subtree:true, characterData:true}); }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+
+
+/* ---------- Settings menu on the logo ---------- */
+(function kgsSettingsMenu(){
+  function $g(id){ return document.getElementById(id); }
+  var open = false, GEAR = '<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065"></path><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path></svg>';
+  function nameNow(){ var n = $g('gdName'); var t = n ? n.textContent.trim() : ''; if(!t){ var a = $g('acctBox'); t = a ? (a.textContent.split(':').pop() || '').trim() : ''; } return t || 'KGS IT'; }
+  function place(){
+    var b = $g('gsbSet'), m = $g('gsbMenu'); if(!b || !m) return;
+    /* full-screen overlay: positioned by CSS (inset:0) */
+  }
+  function countUp(id, to, dec){ var e = $g(id); if(!e) return; var t0 = performance.now(), D = 700; (function f(now){ var k = Math.min(1, (now - t0) / D), v = to * (1 - Math.pow(1 - k, 3)); e.textContent = dec ? v.toFixed(dec) : Math.round(v).toLocaleString('en-US'); if(k < 1) requestAnimationFrame(f); })(t0); }
+  function refreshStats(){
+    var grp = 0, rec = 0, chars = 0;
+    try{ var all = state.db ? state.db.exportAll() : {}; Object.keys(all).forEach(function(k){ grp++; var v = all[k]; if(v && typeof v === 'object') rec += Object.keys(v).length; }); chars = JSON.stringify(all).length; }catch(e){}
+    countUp('gmSGrp', grp); countUp('gmSRec', rec); countUp('gmSKb', chars / 1024, 1);
+    var bar = $g('gmSBar'); if(bar){ bar.style.width = '0'; setTimeout(function(){ bar.style.width = Math.min(100, chars / 5000000 * 100).toFixed(1) + '%'; }, 60); }
+    var m = false; try{ m = Sound.isMuted(); }catch(e){} var s = $g('gmSSnd'); if(s) s.textContent = m ? 'OFF' : 'ON';
+  }
+  function setOpen(v){
+    var b = $g('gsbSet'), m = $g('gsbMenu'); if(!b || !m || v === open) return; open = v;
+    if(v){ var n = nameNow(); $g('gmName').textContent = n; $g('gmAv').textContent = n.charAt(0).toUpperCase(); $g('gmName2').textContent = n; $g('gmAv2').textContent = n.charAt(0).toUpperCase(); refreshStats(); place(); m.hidden = false; void m.offsetWidth; m.classList.add('on'); try{ Sound.open(); }catch(e){} try{ if(window.KGSFace) KGSFace.sideRefresh(); }catch(e){} }
+    else { m.classList.remove('on'); setTimeout(function(){ if(!open) m.hidden = true; }, 160); try{ Sound.close(); }catch(e){} }
+    b.setAttribute('aria-expanded', v ? 'true' : 'false'); b.classList.toggle('open', v);
+  }
+  function init(){
+    var b = $g('gsbSet'), m = $g('gsbMenu'); if(!b || !m) return;
+    document.body.appendChild(m);
+    if(!b.querySelector('.gsb-gear')){ var g = document.createElement('span'); g.className = 'gsb-gear'; g.innerHTML = GEAR; b.appendChild(g); }
+    b.addEventListener('click', function(e){ e.stopPropagation(); setOpen(!open); });
+    b.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); setOpen(!open); } });
+    m.addEventListener('click', function(e){ e.stopPropagation(); var t = e.target; if(t.closest && (t.closest('.ga') || t.closest('#gmX'))) setOpen(false); else if(t === m || (t.classList && (t.classList.contains('gm-body') || t.classList.contains('gm-grid') || t.classList.contains('gm-head') || t.classList.contains('gm-notes')))) setOpen(false); });
+    document.addEventListener('click', function(){ if(open) setOpen(false); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && open) setOpen(false); });
+    window.addEventListener('resize', function(){ if(open) place(); });
+    var nv = $g('navRoot'); if(nv) nv.addEventListener('click', function(){ if(open) setOpen(false); });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
+/* ---------- Task HUD: full-screen progress for heavy jobs (backup / restore / import / export) ---------- */
+var KGSTask = (function(){
+  var NS = 'http://www.w3.org/2000/svg';
+  function lang(){ try{ return (state && state.lang === 'en') ? 'en' : 'lo'; }catch(e){ return 'lo'; } }
+  function L(lo, en){ return (lang() === 'en' && en) ? en : lo; }
+  var KINDS = {
+    backup:  {lo:'ສຳຮອງຂໍ້ມູນ',       en:'Backup',           ic:'db-down'},
+    restore: {lo:'ກູ້ຄືນຂໍ້ມູນ',       en:'Restore',          ic:'db-up'},
+    import:  {lo:'ນຳເຂົ້າຈາກ Excel',   en:'Excel import',     ic:'xl-in'},
+    xlsx:    {lo:'ສົ່ງອອກ Excel',      en:'Excel export',     ic:'xl-out'},
+    zip:     {lo:'ສົ່ງອອກ CSV (ZIP)',  en:'CSV export (ZIP)', ic:'zip'},
+    save:    {lo:'ບັນທຶກຂໍ້ມູນ',       en:'Save record',      ic:'save'},
+    del:     {lo:'ລຶບຂໍ້ມູນ',          en:'Delete record',    ic:'trash'}
+  };
+  var P = {
+    'db-down':'<ellipse cx="12" cy="5.5" rx="7" ry="2.8"/><path d="M5 5.5v6c0 1.5 3.1 2.8 7 2.8"/><path d="M5 11.5v6c0 1.5 3.1 2.8 7 2.8"/><path d="M19 5.5v4"/><path d="M19 13v7m0 0l-2.6-2.6M19 20l2.6-2.6"/>',
+    'db-up':'<ellipse cx="12" cy="5.5" rx="7" ry="2.8"/><path d="M5 5.5v6c0 1.5 3.1 2.8 7 2.8"/><path d="M5 11.5v6c0 1.5 3.1 2.8 7 2.8"/><path d="M19 5.5v4"/><path d="M19 20v-7m0 0l-2.6 2.6M19 13l2.6 2.6"/>',
+    'xl-in':'<path d="M14 3H6.5A1.5 1.5 0 005 4.5v15A1.5 1.5 0 006.5 21H17.5a1.5 1.5 0 001.5-1.5V8z"/><path d="M14 3v5h5"/><path d="M12 11v7m0 0l-2.5-2.5M12 18l2.5-2.5"/>',
+    'xl-out':'<path d="M14 3H6.5A1.5 1.5 0 005 4.5v15A1.5 1.5 0 006.5 21H17.5a1.5 1.5 0 001.5-1.5V8z"/><path d="M14 3v5h5"/><path d="M12 18v-7m0 0l-2.5 2.5M12 11l2.5 2.5"/>',
+    'zip':'<path d="M4 7.5l8-4 8 4v9l-8 4-8-4z"/><path d="M4 7.5l8 4 8-4"/><path d="M12 11.5v9"/>',
+    'save':'<path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4"/><path d="M8.5 20v-6h7v6"/>',
+    'trash':'<path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6.5 7l.9 13h9.2l.9-13"/><path d="M10 11v6m4-6v6"/>',
+    'warn':'<path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v5"/><circle cx="12" cy="17.6" r=".6"/>',
+    'check':'<path d="M4.5 12.5l5 5 10-11"/>'
+  };
+  function icon(n){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + (P[n] || '') + '</svg>'; }
+
+  /* ---------- sound (respects the app's sound switch) ---------- */
+  var AC = null;
+  function ac(){ try{ if(!AC){ var C = window.AudioContext || window.webkitAudioContext; if(C) AC = new C(); } if(AC && AC.state === 'suspended') AC.resume(); }catch(e){} return AC; }
+  function muted(){ try{ return Sound.isMuted(); }catch(e){ return false; } }
+  function tone(f, t0, d, type, g, f2){
+    var a = ac(); if(!a || muted()) return;
+    try{
+      var o = a.createOscillator(), G = a.createGain(), T = a.currentTime + (t0 || 0);
+      o.type = type || 'sine'; o.frequency.setValueAtTime(f, T); if(f2) o.frequency.exponentialRampToValueAtTime(f2, T + d);
+      G.gain.setValueAtTime(0.0001, T); G.gain.exponentialRampToValueAtTime(g || 0.06, T + 0.012); G.gain.exponentialRampToValueAtTime(0.0001, T + d);
+      o.connect(G); G.connect(a.destination); o.start(T); o.stop(T + d + 0.03);
+    }catch(e){}
+  }
+  var SND = {
+    start:function(){ tone(180, 0, .38, 'sawtooth', .025, 900); tone(360, 0, .38, 'sine', .04, 1500); },
+    tick:function(p){ tone(520 + p * 6, 0, .05, 'sine', .035); },
+    ok:function(){ [523.25, 659.25, 783.99, 1046.5].forEach(function(f, i){ tone(f, i * .09, .26, 'triangle', .07); }); },
+    warn:function(){ tone(440, 0, .16, 'square', .035); tone(440, .22, .16, 'square', .035); tone(587, .44, .22, 'square', .035); },
+    fail:function(){ tone(230, 0, .38, 'sawtooth', .07, 110); tone(170, .32, .55, 'sawtooth', .07, 80); }
+  };
+
+  /* ---------- DOM ---------- */
+  var root = null, els = {}, cur = null, shown = 0, target = 0, last = 0, raf = 0, bucket = 0, t0 = 0, timer = 0;
+  var CIRC = 2 * Math.PI * 96;
+  function circuits(){
+    var L1 = ['M0 120 H240 L300 180 H470', 'M0 205 H120 L160 245 H330 L360 275 H470', 'M0 300 H210 L250 340 H470', 'M0 70 H110 L140 100 H300'];
+    var o = '';
+    L1.forEach(function(d, i){
+      o += '<path class="kt-wire" d="' + d + '"/><circle r="4" class="kt-dot"><animateMotion dur="' + (3.2 + i * .7) + 's" begin="' + (i * .5) + 's" repeatCount="indefinite" path="' + d + '"/></circle>';
+    });
+    return '<svg class="kt-ckt kt-l" viewBox="0 0 470 380" preserveAspectRatio="xMinYMid meet">' + o + '</svg>' +
+           '<svg class="kt-ckt kt-r" viewBox="0 0 470 380" preserveAspectRatio="xMinYMid meet">' + o + '</svg>';
+  }
+  function discs(){
+    function d(cls){ return '<svg class="kt-disc ' + cls + '" viewBox="0 0 600 150"><ellipse class="kt-e1" cx="300" cy="75" rx="290" ry="62"/><ellipse class="kt-e2" cx="300" cy="75" rx="236" ry="48"/><ellipse class="kt-e3" cx="300" cy="75" rx="170" ry="34"/><ellipse class="kt-e4" cx="300" cy="75" rx="100" ry="20"/></svg>'; }
+    return d('kt-top') + d('kt-bot');
+  }
+  function core(){
+    return '<div class="kt-core"><svg viewBox="-150 -150 300 300">' +
+      '<circle class="kt-r1" r="143" fill="none"/>' +
+      '<circle class="kt-r2" r="128" fill="none"/>' +
+      '<circle class="kt-r3" r="112" fill="none"/>' +
+      '<circle class="kt-track" r="96" fill="none"/>' +
+      '<circle class="kt-arc" id="ktArc" r="96" fill="none" transform="rotate(-90)" stroke-dasharray="0 ' + CIRC.toFixed(1) + '"/>' +
+      '<circle class="kt-r4" r="80" fill="none"/>' +
+      '<circle class="kt-glow" r="66"/>' +
+      '</svg><div class="kt-in"><div class="kt-ic" id="ktIc"></div><div class="kt-pct"><b id="ktNum">0</b><i>%</i></div></div></div>';
+  }
+  function build(){
+    if(root) return;
+    root = document.createElement('div'); root.className = 'kt-root'; root.id = 'ktRoot'; root.hidden = true; root.setAttribute('role', 'alertdialog'); root.setAttribute('aria-live', 'polite');
+    root.innerHTML = '<div class="kt-vig"></div><div class="kt-grid"></div>' + discs() + circuits() + core() +
+      '<div class="kt-txt"><div class="kt-title" id="ktTitle"></div><div class="kt-stage" id="ktStage"></div>' +
+      '<div class="kt-bar"><i id="ktBar"></i></div><div class="kt-msg" id="ktMsg"></div>' +
+      '<div class="kt-btns"><button type="button" class="kt-btn" id="ktRetry" hidden></button><button type="button" class="kt-btn kt-btn-x" id="ktClose" hidden></button></div>' +
+      '<div class="kt-time" id="ktTime"></div></div>';
+    document.body.appendChild(root);
+    ['Arc', 'Num', 'Ic', 'Title', 'Stage', 'Bar', 'Msg', 'Retry', 'Close', 'Time'].forEach(function(k){ els[k] = document.getElementById('kt' + k); });
+    els.Close.addEventListener('click', function(){ closeNow(); });
+    els.Retry.addEventListener('click', function(){ var f = cur && cur.retry; closeNow(); if(f) setTimeout(f, 60); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && cur && cur.final && cur.state !== 'run') closeNow(); });
+  }
+  function setState(s){
+    root.setAttribute('data-s', s); cur.state = s;
+    els.Ic.innerHTML = icon((s === 'fail' || s === 'warn') ? 'warn' : s === 'ok' ? 'check' : (KINDS[cur.kind] || KINDS.backup).ic);
+  }
+  function paint(){
+    var v = Math.max(0, Math.min(100, shown));
+    els.Num.textContent = String(Math.floor(v + 1e-6 >= 99.5 && v < 100 ? 100 : v));
+    els.Arc.setAttribute('stroke-dasharray', (CIRC * v / 100).toFixed(1) + ' ' + CIRC.toFixed(1));
+    els.Bar.style.width = v + '%';
+    els.Time.textContent = ((performance.now() - t0) / 1000).toFixed(1) + ' s';
+  }
+  function frame(ts){
+    raf = 0; if(!cur) return;
+    var dt = Math.min(0.1, (ts - (last || ts)) / 1000); last = ts;
+    if(cur.state === 'run' || (cur.state !== 'fail' && shown < target)){
+      var diff = target - shown;
+      if(diff > 0){
+        var step = Math.min(diff * Math.min(1, dt * 5), 115 * dt); if(diff < 0.25) step = diff;
+        shown += step;
+        var b = Math.floor(shown / 10); if(b > bucket && b < 10){ bucket = b; SND.tick(b * 10); }
+      }
+      paint();
+      if(cur.final && shown >= target - 0.01){ finish(); return; }
+    } else return;
+    raf = requestAnimationFrame(frame);
+  }
+  function kick(){ if(!raf) raf = requestAnimationFrame(frame); }
+  function finish(){
+    var c = cur; shown = target; paint();
+    if(c.final === 'ok'){
+      setState(c.warn ? 'warn' : 'ok'); els.Stage.textContent = c.msg || ''; els.Msg.textContent = c.sub || '';
+      if(c.warn) SND.warn(); else SND.ok();
+      els.Close.hidden = false; els.Close.textContent = L('ປິດ', 'Close');
+      c.timeoutId = setTimeout(closeNow, c.warn ? 2600 : 1500);
+    } else closeNow();
+  }
+  function closeNow(){
+    if(!cur) return; var c = cur; cur = null; clearTimeout(c.timeoutId); cancelAnimationFrame(raf); raf = 0;
+    root.classList.remove('on'); setTimeout(function(){ if(!cur) root.hidden = true; }, 220);
+    try{ Sound.close(); }catch(e){}
+    if(c.resolve) c.resolve(c.state);
+  }
+  function dummy(){ var r = Promise.resolve(); return { dummy:true, set:function(){}, yield:function(){ return r; }, done:function(){ return r; }, fail:function(){ return r; } }; }
+  function yieldUi(){ return new Promise(function(res){ var d = false; function go(){ if(!d){ d = true; res(); } } try{ requestAnimationFrame(function(){ setTimeout(go, 0); }); }catch(e){} setTimeout(go, 40); }); }
+
+  function begin(kind, opts){
+    build();
+    if(cur && !cur.final) return dummy();
+    if(cur) closeNow();
+    opts = opts || {};
+    cur = { kind:kind, state:'run', retry:opts.retry, final:null };
+    shown = 0; target = 0; bucket = 0; last = 0; t0 = performance.now();
+    var K = KINDS[kind] || KINDS.backup;
+    els.Title.textContent = L(K.lo, K.en); els.Stage.textContent = L('ກຳລັງເລີ່ມ...', 'Starting...'); els.Msg.textContent = '';
+    els.Retry.hidden = true; els.Close.hidden = true; paint(); setState('run');
+    root.hidden = false; void root.offsetWidth; root.classList.add('on'); SND.start(); kick();
+    var self = cur;
+    var api = {
+      set:function(p, lo, en){ if(cur !== self) return; target = Math.max(target, Math.min(99, p)); if(lo) els.Stage.textContent = L(lo, en); kick(); },
+      yield:yieldUi,
+      done:function(lo, en, o){ return new Promise(function(res){ if(cur !== self) return res(); o = o || {}; self.final = 'ok'; self.msg = L(lo, en); self.warn = !!o.warn; self.sub = o.sub || ''; self.resolve = res; target = 100; kick(); }); },
+      fail:function(lo, en, detail){ return new Promise(function(res){ if(cur !== self) return res(); self.final = 'fail'; self.resolve = res; setState('fail'); els.Stage.textContent = L(lo, en); els.Msg.textContent = detail || ''; els.Close.hidden = false; els.Close.textContent = L('ປິດ', 'Close'); if(self.retry){ els.Retry.hidden = false; els.Retry.textContent = L('ລອງໃໝ່', 'Retry'); } SND.fail(); paint(); cancelAnimationFrame(raf); raf = 0; }); }
+    };
+    return api;
+  }
+
+  /* ---------- small corner flash for quick actions (save / delete) ---------- */
+  var fl = null, flT = 0;
+  function flash(kind, ok, lo, en, detail){
+    if(!fl){ fl = document.createElement('div'); fl.className = 'kt-flash'; fl.setAttribute('role', 'status'); document.body.appendChild(fl); fl.addEventListener('click', function(){ fl.classList.remove('on'); }); }
+    var K = KINDS[kind] || KINDS.save; clearTimeout(flT);
+    fl.setAttribute('data-s', ok ? 'ok' : 'fail');
+    fl.innerHTML = '<span class="kt-fi"><svg class="kt-fring" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="none"/></svg>' + icon(ok ? K.ic : 'warn') + '</span><span class="kt-ft"><b>' + (ok ? L(K.lo, K.en) : L('ບໍ່ສຳເລັດ', 'Failed')) + '</b><i></i></span>';
+    fl.querySelector('i').textContent = L(lo, en) + (detail ? ' — ' + detail : '');
+    fl.classList.remove('on'); void fl.offsetWidth; fl.classList.add('on');
+    try{ ok ? Sound.success() : SND.fail(); }catch(e){}
+    flT = setTimeout(function(){ fl.classList.remove('on'); }, ok ? 2200 : 7000);
+  }
+  return { begin:begin, flash:flash, _snd:SND };
 })();
 
 Auth.start(initShell);
