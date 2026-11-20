@@ -8538,7 +8538,7 @@ var Auth = (function(){
   }
 
   /* ---- sign-in scan ---- */
-  function needBlinkLogin(){ try{ return localStorage.getItem('kgsit_faceblink') === '1'; }catch(e){ return false; } }
+  function needBlinkLogin(){ return true; }  /* liveness is mandatory: a still photo must not sign in */
   function scanLogin(){
     var ll = lockLeft(); var host = $g('aErr');
     if(ll){ if(host) host.textContent = t('locked').replace('{n}', ll); S.warn(); return; }
@@ -8583,14 +8583,12 @@ var Auth = (function(){
       '<div class="fid-note"><span class="ic">'+SH+'</span><div><b>'+esc2(t('consentH'))+'</b><br>'+esc2(t('consent'))+'</div></div>'+
       '<div class="fid-warn">'+esc2(t('warn'))+'</div>'+
       '<label class="auth-chk"><input type="checkbox" id="fidChk"> '+esc2(t('chk'))+'</label>'+
-      '<label class="auth-chk"><input type="checkbox" id="fidBl"> '+esc2(t('blinkOpt'))+'</label>'+
       '<div class="auth-f fl"><div class="iw"><input id="fidPw" type="password" placeholder=" " autocomplete="current-password"><label for="fidPw">'+esc2(t('pw'))+'</label></div></div>'+
       '<div class="auth-err fid-err" id="fidErr"></div>'+
       '<div class="auth-actions"><button class="btn btn-primary" type="button" id="fidGo" disabled>'+esc2(t('start'))+'</button>'+
       (mine ? '<button class="btn" type="button" id="fidDel" style="color:var(--danger)">'+esc2(t('remove'))+'</button>' : '')+
       '<button class="btn" type="button" id="fidCancel">'+esc2(t('cancel'))+'</button></div>');
     $g('fidCancel').addEventListener('click', stopRun); bindSnd(); S.open();
-    var bl = $g('fidBl'); if(bl){ bl.checked = needBlinkLogin(); bl.addEventListener('change', function(){ try{ localStorage.setItem('kgsit_faceblink', bl.checked ? '1' : '0'); }catch(e){} }); }
     var chk = $g('fidChk'), go = $g('fidGo'), pw = $g('fidPw');
     function upd(){ go.disabled = !(chk.checked && pw.value); }
     chk.addEventListener('change', function(){ upd(); S.prompt(); }); pw.addEventListener('input', upd);
