@@ -8069,7 +8069,7 @@ var Auth = (function(){
       function fail(msg){ aBusy = false; err.textContent = msg; shake(); $('#aGo').disabled = false; busy('aGo', false, tt('go')); }
       var work = (idx<0) ? delay(700).then(function(){ return false; }) : within(Promise.all([check(rec.users[idx], p.value), delay(380)]), 12000).then(function(r){ return r[0]; });
       work.then(function(ok){
-        if(ok){ unlock(idx, true); } else { fail(tt('bad')); p.value = ''; p.focus(); }
+        if(ok){ try{ rec.users[idx].pwAt = Date.now(); }catch(e){} unlock(idx, true); } else { fail(tt('bad')); p.value = ''; p.focus(); }
       }).catch(function(er){ fail(tt('noCrypto')+' ['+(er && er.message || er)+']'); });
       }catch(er2){ aBusy = false; err.textContent = 'Error: '+(er2 && er2.message || er2); var g = $('#aGo'); if(g) g.disabled = false; }
     }
@@ -8216,8 +8216,9 @@ var Auth = (function(){
       get:function(){ return rec ? rec.users.map(function(u){ return u.face || null; }) : []; },
       cur:function(){ return cur; },
       set:function(i, v){ if(!rec || i !== cur) return false; if(v) rec.users[i].face = v; else delete rec.users[i].face; return save(); },
-      check:function(pw){ return (rec && cur>=0) ? check(rec.users[cur], pw) : Promise.resolve(false); },
-      unlock:function(i){ if(rec && rec.users[i]) unlock(i, true); }
+      check:function(pw){ if(!(rec && cur>=0)) return Promise.resolve(false); var ci = cur; return check(rec.users[ci], pw).then(function(ok){ if(ok){ try{ rec.users[ci].pwAt = Date.now(); save(); }catch(e){} } return ok; }); },
+      unlock:function(i){ if(rec && rec.users[i]) unlock(i, true); },
+      fresh:function(i){ var u = rec && rec.users[i]; return !!(u && u.pwAt && Date.now() - u.pwAt < 7*864e5); }   /* face sign-in only within 7 days of the last password sign-in */
     },
     IDLE_MIN:AUTH_IDLE_MIN
   };
@@ -8360,7 +8361,7 @@ var Auth = (function(){
     lo:{ btn:'ເຂົ້າດ້ວຍໃບໜ້າ', or:'ຫຼື', side:'Face ID / ສະແກນໜ້າ', sideOn:'Face ID ✓', scanH:'ສະແກນໜ້າເພື່ອເຂົ້າລະບົບ', enrolH:'ຕັ້ງຄ່າ Face ID',
       loadM:'ກຳລັງໂຫຼດໂມເດວໃບໜ້າ…', cam:'ກຳລັງເປີດກ້ອງ…', look:'ເບິ່ງກົງກ້ອງ ໃຫ້ເຫັນໜ້າຊັດເຈນ', one:'ໃຫ້ມີແຕ່ໜ້າດຽວໃນກອບ', blink:'ກະພິບຕາ 1 ເທື່ອ ເພື່ອຢືນຢັນວ່າເປັນຄົນຈິງ',
       match:'ກຳລັງກວດໃບໜ້າ…', ok:'ສຳເລັດ', nomatch:'ບໍ່ກົງກັບໃບໜ້າທີ່ລົງທະບຽນ', timeout:'ໝົດເວລາ — ລອງໃໝ່ ຫຼື ໃຊ້ລະຫັດຜ່ານ', cancel:'ຍົກເລີກ', close:'ປິດ',
-      noCam:'ເປີດກ້ອງບໍ່ໄດ້ (ກວດສິດໃຊ້ກ້ອງ ຫຼື ມີແອັບອື່ນໃຊ້ຢູ່) — ໃຊ້ລະຫັດຜ່ານແທນ', noLib:'ບໍ່ພົບໂຟນເດີ faceid ຂ້າງໄຟລ໌ນີ້ — ໃຊ້ລະຫັດຜ່ານແທນ', lookedIn:'ຄົ້ນຫາຢູ່:', blinkOpt:'ຕ້ອງກະພິບຕາທຸກເທື່ອທີ່ເຂົ້າລະບົບ (ປອດໄພກວ່າ ແຕ່ຊ້າກວ່າ)', btnSub:'ສະແກນໜ້າເຂົ້າລະບົບ', noPrev:'ໄຟລ໌ນີ້ຖືກເປີດໃນໜ້າຕ່າງ preview ຂອງແອັບ ບໍ່ແມ່ນຈາກໂຟນເດີ — ປິດແລ້ວເປີດຈາກ File Explorer: D:\\IT System\\KGS_IT_System_FACEID_SAMPLE.html ດ້ວຍ Chrome ຫຼື Edge', s1:'ຊອກຫາໃບໜ້າ', s2:'ກະພິບຕາ', s3:'ກວດຕົວຕົນ', s3e:'ເກັບຕົວຢ່າງ', snd:'ສຽງ', ready:'ກ້ອງພ້ອມ', found:'ພົບໃບໜ້າ', stat1:'ຄົນດຽວໃນກອບ · ແສງພໍ', statOn:'ລົງທະບຽນແລ້ວ',
+      noCam:'ເປີດກ້ອງບໍ່ໄດ້ (ກວດສິດໃຊ້ກ້ອງ ຫຼື ມີແອັບອື່ນໃຊ້ຢູ່) — ໃຊ້ລະຫັດຜ່ານແທນ', noLib:'ບໍ່ພົບໂຟນເດີ faceid ຂ້າງໄຟລ໌ນີ້ — ໃຊ້ລະຫັດຜ່ານແທນ', lookedIn:'ຄົ້ນຫາຢູ່:', mouthC:'ອ້າປາກໃຫ້ກວ້າງ ແລ້ວຄ່ອຍຫຍໍ້', pwDue:'ຄົບ 7 ວັນແລ້ວ — ເຂົ້າດ້ວຍລະຫັດຜ່ານ 1 ເທື່ອ ແລ້ວ Face ID ຈະໃຊ້ໄດ້ອີກ', stepTo:'ໝົດເວລາໃນຂັ້ນຕອນນີ້ — ລອງໃໝ່', turnR:'ຫັນໜ້າຊ້າໆ ໄປທາງຂວາ  →', turnL:'ຫັນໜ້າຊ້າໆ ໄປທາງຊ້າຍ  ←', backC:'ດີ — ຫັນກັບມາກົງກ້ອງ', wrongTurn:'ຫັນຜິດທາງ — ລອງໃໝ່ ຫຼື ໃຊ້ລະຫັດຜ່ານ', blinkOpt:'ຕ້ອງກະພິບຕາທຸກເທື່ອທີ່ເຂົ້າລະບົບ (ປອດໄພກວ່າ ແຕ່ຊ້າກວ່າ)', btnSub:'ສະແກນໜ້າເຂົ້າລະບົບ', noPrev:'ໄຟລ໌ນີ້ຖືກເປີດໃນໜ້າຕ່າງ preview ຂອງແອັບ ບໍ່ແມ່ນຈາກໂຟນເດີ — ປິດແລ້ວເປີດຈາກ File Explorer: D:\\IT System\\KGS_IT_System_FACEID_SAMPLE.html ດ້ວຍ Chrome ຫຼື Edge', s1:'ຊອກຫາໃບໜ້າ', s2:'ກະພິບຕາ', s3:'ກວດຕົວຕົນ', s3e:'ເກັບຕົວຢ່າງ', snd:'ສຽງ', ready:'ກ້ອງພ້ອມ', found:'ພົບໃບໜ້າ', stat1:'ຄົນດຽວໃນກອບ · ແສງພໍ', statOn:'ລົງທະບຽນແລ້ວ',
       locked:'ລອງຜິດຫຼາຍເທື່ອ — ລໍຖ້າ {n} ວິນາທີ ຫຼື ໃຊ້ລະຫັດຜ່ານ', consentH:'ຂໍ້ມູນໃບໜ້າ (ຂໍ້ມູນຊີວະມິຕິ)',
       consent:'ລະບົບຈະເກັບ “ຄ່າຕົວເລກຂອງໃບໜ້າ” (128 ຄ່າ) ໄວ້ໃນເຄື່ອງນີ້ເທົ່ານັ້ນ — ບໍ່ເກັບຮູບ ແລະ ບໍ່ສົ່ງອອກນອກເຄື່ອງ. ລຶບໄດ້ທຸກເວລາ. ໃຊ້ເປັນທາງເຂົ້າເພີ່ມເຕີມ; ລະຫັດຜ່ານຍັງໃຊ້ໄດ້ສະເໝີ.',
       chk:'ຂ້ອຍຍິນຍອມໃຫ້ເກັບຄ່າໃບໜ້າຂອງຂ້ອຍໃນເຄື່ອງນີ້', pw:'ຢືນຢັນລະຫັດຜ່ານປັດຈຸບັນ', badPw:'ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ', start:'ເລີ່ມສະແກນ', remove:'ລຶບ Face ID', removed:'ລຶບ Face ID ແລ້ວ',
@@ -8368,7 +8369,7 @@ var Auth = (function(){
     en:{ btn:'Sign in with face', or:'or', side:'Face ID / Face scan', sideOn:'Face ID ✓', scanH:'Face scan sign-in', enrolH:'Set up Face ID',
       loadM:'Loading face models…', cam:'Opening camera…', look:'Look straight at the camera, face clearly visible', one:'Only one face in frame, please', blink:'Blink once to confirm you are live',
       match:'Checking face…', ok:'Done', nomatch:'Face does not match an enrolled account', timeout:'Timed out — try again or use your password', cancel:'Cancel', close:'Close',
-      noCam:'Cannot open the camera (check permission or another app using it) — use your password', noLib:'The faceid folder next to this file was not found — use your password', lookedIn:'Looked in:', blinkOpt:'Require a blink at every sign-in (safer, slower)', btnSub:'Sign in by face scan', noPrev:'This file is open inside an app preview, not from its folder — close it and open D:\\IT System\\KGS_IT_System_FACEID_SAMPLE.html from File Explorer with Chrome or Edge', s1:'Find face', s2:'Blink', s3:'Verify', s3e:'Capture', snd:'Sound', ready:'Camera ready', found:'Face found', stat1:'One person · good light', statOn:'Enrolled',
+      noCam:'Cannot open the camera (check permission or another app using it) — use your password', noLib:'The faceid folder next to this file was not found — use your password', lookedIn:'Looked in:', mouthC:'Open your mouth wide, then relax', pwDue:'7 days passed — sign in with your password once, then Face ID works again', stepTo:'Step timed out — try again', turnR:'Slowly turn your head to the right  →', turnL:'Slowly turn your head to the left  ←', backC:'Good — face the camera again', wrongTurn:'Wrong direction — try again or use your password', blinkOpt:'Require a blink at every sign-in (safer, slower)', btnSub:'Sign in by face scan', noPrev:'This file is open inside an app preview, not from its folder — close it and open D:\\IT System\\KGS_IT_System_FACEID_SAMPLE.html from File Explorer with Chrome or Edge', s1:'Find face', s2:'Blink', s3:'Verify', s3e:'Capture', snd:'Sound', ready:'Camera ready', found:'Face found', stat1:'One person · good light', statOn:'Enrolled',
       locked:'Too many failures — wait {n} s or use your password', consentH:'Face data (biometric)',
       consent:'The app stores a “face template” (128 numbers) on this device only — no photo, nothing leaves the device. You can delete it any time. It is an extra way in; the password always works.',
       chk:'I consent to storing my face template on this device', pw:'Confirm current password', badPw:'Incorrect password', start:'Start scan', remove:'Remove Face ID', removed:'Face ID removed',
@@ -8405,6 +8406,12 @@ var Auth = (function(){
     function d(i, j){ return Math.hypot(p[i].x-p[j].x, p[i].y-p[j].y); }
     function one(o){ return (d(o+1, o+5) + d(o+2, o+4)) / (2*d(o, o+3) || 1); }
     return (one(36) + one(42)) / 2;
+  }
+  function yawRatio(p){ /* nose-tip position between the jaw ends: ~0.5 facing the camera, moves when the head turns (3-D cue; a flat photo stays ~constant) */
+    var w = p[16].x - p[0].x; return w ? (p[30].x - p[0].x) / w : 0.5;
+  }
+  function mouthOpen(p){ /* inner-lip gap / mouth width: ~0 closed, >0.3 open */
+    var w = Math.hypot(p[60].x-p[64].x, p[60].y-p[64].y) || 1; return Math.hypot(p[62].x-p[66].x, p[62].y-p[66].y) / w;
   }
   function blinkTracker(){
     var hist = [], st = 0;
@@ -8505,8 +8512,8 @@ var Auth = (function(){
     if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return Promise.reject(new Error('nocam'));
     return navigator.mediaDevices.getUserMedia({video:{width:{ideal:640}, height:{ideal:480}, facingMode:'user'}, audio:false});
   }
-  function frames(job, onFrame, needDesc){
-    var fa = window.faceapi, opts = new fa.TinyFaceDetectorOptions({inputSize:224, scoreThreshold:0.5}), v = $g('fidVid');
+  function frames(job, onFrame, needDesc, size){
+    var fa = window.faceapi, opts = new fa.TinyFaceDetectorOptions({inputSize:size||224, scoreThreshold:0.5}), v = $g('fidVid');
     function loop(){
       if(job.stop || !v) return;
       var q = fa.detectAllFaces(v, opts).withFaceLandmarks(true); if(!needDesc || needDesc()) q = q.withFaceDescriptors();
@@ -8551,23 +8558,42 @@ var Auth = (function(){
     function setState2(s, i){ var key = s+i; if(key !== curS){ curS = key; setState(s, i); } }
     loadModels().then(function(){ if(job.stop) return Promise.reject(new Error('stopped')); step(t('cam'), 8); return startCam(job); }).then(function(){
       if(job.stop) return; say(t('look'), 20, 'find', 0); t0 = Date.now();
+      /* random live challenge, 2 steps in random order, each with its own time limit: turn right / turn left / open mouth.
+         A recording made in advance cannot know the order; a photo cannot do any of them. */
+      var lastD = 0, NEEDM = 2, base = [], mb = [], r0 = null, m0 = 0, frontal = true, mOpen = false, THR = 0.09, MTHR = 0.15, STEP_MS = 8000;
+      var pool = ['R', 'L', 'M']; var c1 = pool.splice(Math.floor(Math.random()*3), 1)[0], c2 = pool[Math.floor(Math.random()*2)];
+      var seq = [c1, c2], si = 0, stepAt = 0, turned = false;
+      function stepText(c){ return c === 'R' ? t('turnR') : c === 'L' ? t('turnL') : t('mouthC'); }
       frames(job, function(res){
-        if(Date.now()-t0 > 30000){ addFail(); finish(job, false, t('timeout')); return 'done'; }
+        var now = Date.now();
+        if(now-t0 > 40000){ addFail(); finish(job, false, t('timeout')); return 'done'; }
         if(res.length !== 1){ streak = 0; w.face = false; say(res.length > 1 ? t('one') : t('look'), 20, 'find', 0); return; }
-        var f = res[0];
+        var f = res[0], P = f.landmarks.positions;
         if(!w.face){ w.face = true; S.found(); }
-        if(!blinked){
-          if(!w.prompted){ w.prompted = true; S.prompt(); }
-          say(t('blink'), 40, 'blink', 1);
-          if(blink(ear(f.landmarks.positions))){ blinked = true; S.blink(); }
-          return;
+        var r = yawRatio(P), m = mouthOpen(P);
+        if(r0 === null){ base.push(r); mb.push(m); if(base.length >= 3){ base.sort(function(a, b){ return a-b; }); mb.sort(function(a, b){ return a-b; }); r0 = base[1]; m0 = mb[1]; stepAt = now; } else { say(t('look'), 25, 'find', 0); return; } }
+        var dl = (r - r0) * (seq[si] === 'R' ? -1 : 1);   /* >0 = turning the requested way (mirror view: right = raw ratio falls) */
+        frontal = Math.abs(r - r0) < 0.06; mOpen = (m - m0) > 0.08;
+        if(!turned){
+          var c = seq[si], okStep = false;
+          if(c === 'M') okStep = (m - m0) >= MTHR;
+          else if(dl >= THR) okStep = true;
+          else if(dl <= -THR){ addFail(); finish(job, false, t('wrongTurn')); return 'done'; }
+          if(!okStep && now-stepAt > STEP_MS){ addFail(); finish(job, false, t('stepTo')); return 'done'; }
+          if(okStep){ S.blink(); si++; stepAt = now; if(si >= seq.length) turned = true; }
         }
-        say(t('match'), 65 + streak*10, 'verify', 2);
-        var b = bestOf(Array.prototype.slice.call(f.descriptor), faces);
-        if(b.i >= 0 && b.d < TH && (who < 0 || who === b.i)){ who = b.i; streak++; }
-        else { streak = 0; who = -1; if(b.d >= TH+0.08){ addFail(); finish(job, false, t('nomatch')); return 'done'; } }
-        if(streak >= 3){ clearFails(); var i = who; finish(job, true, t('ok')); setTimeout(function(){ stopRun(); Auth.face.unlock(i); }, 700); return 'done'; }
-      }, function(){ return blinked; });
+        if(frontal && !mOpen && f.descriptor){
+          var b = bestOf(Array.prototype.slice.call(f.descriptor), faces);
+          if(b.i >= 0 && b.d < TH && (who < 0 || who === b.i)){ who = b.i; streak++; }
+          else { streak = 0; who = -1; if(b.d >= TH+0.08){ addFail(); finish(job, false, t('nomatch')); return 'done'; } }
+        }
+        if(turned && streak >= NEEDM){
+          if(!Auth.face.fresh(who)){ finish(job, false, t('pwDue')); return 'done'; }
+          clearFails(); var i = who; finish(job, true, t('ok')); setTimeout(function(){ stopRun(); Auth.face.unlock(i); }, 350); return 'done';
+        }
+        if(!turned){ if(!w.prompted){ w.prompted = true; S.prompt(); } say(stepText(seq[si]), 35 + si*20, 'blink', 1); }
+        else say((frontal && !mOpen) ? t('match') : t('backC'), 75 + streak*10, 'verify', 2);
+      }, function(){ var n = Date.now(); if(frontal && !mOpen && n-lastD >= 110){ lastD = n; return true; } return false; }, 160);
     }).catch(function(e){ fatal(job, e); });
   }
 
