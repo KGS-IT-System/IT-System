@@ -8560,7 +8560,7 @@ var Auth = (function(){
       if(job.stop) return; say(t('look'), 20, 'find', 0); t0 = Date.now();
       /* random live challenge, 2 steps in random order, each with its own time limit: turn right / turn left / open mouth.
          A recording made in advance cannot know the order; a photo cannot do any of them. */
-      var lastD = 0, NEEDM = 2, base = [], mb = [], r0 = null, m0 = 0, frontal = true, mOpen = false, THR = 0.09, MTHR = 0.15, STEP_MS = 8000;
+      var lastD = 0, NEEDM = 2, base = [], mb = [], r0 = null, m0 = 0, frontal = true, mOpen = false, THR = 0.07, MTHR = 0.12, STEP_MS = 12000, prog = 0;
       var pool = ['R', 'L', 'M']; var c1 = pool.splice(Math.floor(Math.random()*3), 1)[0], c2 = pool[Math.floor(Math.random()*2)];
       var seq = [c1, c2], si = 0, stepAt = 0, turned = false;
       function stepText(c){ return c === 'R' ? t('turnR') : c === 'L' ? t('turnL') : t('mouthC'); }
@@ -8579,7 +8579,8 @@ var Auth = (function(){
           if(c === 'M') okStep = (m - m0) >= MTHR;
           else if(dl >= THR) okStep = true;
           else if(dl <= -THR){ addFail(); finish(job, false, t('wrongTurn')); return 'done'; }
-          if(!okStep && now-stepAt > STEP_MS){ addFail(); finish(job, false, t('stepTo')); return 'done'; }
+          prog = Math.max(0, Math.min(1, c === 'M' ? (m - m0) / MTHR : dl / THR));
+          if(!okStep && now-stepAt > STEP_MS){ addFail(); finish(job, false, t('stepTo') + ' [' + (si+1) + '/2: ' + stepText(c).split(' ')[0] + ' ' + stepText(c).split(' ')[1] + ']'); return 'done'; }
           if(okStep){ S.blink(); si++; stepAt = now; if(si >= seq.length) turned = true; }
         }
         if(frontal && !mOpen && f.descriptor){
@@ -8591,7 +8592,7 @@ var Auth = (function(){
           if(!Auth.face.fresh(who)){ finish(job, false, t('pwDue')); return 'done'; }
           clearFails(); var i = who; finish(job, true, t('ok')); setTimeout(function(){ stopRun(); Auth.face.unlock(i); }, 350); return 'done';
         }
-        if(!turned){ if(!w.prompted){ w.prompted = true; S.prompt(); } say(stepText(seq[si]), 35 + si*20, 'blink', 1); }
+        if(!turned){ if(!w.prompted){ w.prompted = true; S.prompt(); } say(stepText(seq[si]) + '  (' + (si+1) + '/2 · ' + Math.max(0, Math.ceil((STEP_MS - (now-stepAt))/1000)) + ' s)', 35 + si*20 + Math.round(prog*15), 'blink', 1); }
         else say((frontal && !mOpen) ? t('match') : t('backC'), 75 + streak*10, 'verify', 2);
       }, function(){ var n = Date.now(); if(frontal && !mOpen && n-lastD >= 110){ lastD = n; return true; } return false; }, 160);
     }).catch(function(e){ fatal(job, e); });
