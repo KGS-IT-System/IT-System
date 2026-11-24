@@ -1025,6 +1025,12 @@ html,body{margin:0; padding:0;}
   .mode-pill{font-size:11px; padding:2px 9px; border-radius:20px; border:1px solid; font-family:inherit; letter-spacing:.02em; font-weight:600;}
   .mode-pill.view{color:var(--teal); border-color:rgba(41,241,255,.4); background:rgba(41,241,255,.08);}
   .mode-pill.edit{color:#FFC85C; border-color:rgba(255,200,92,.55); background:rgba(255,200,92,.1);}
+  .lk-box{grid-column:1 / -1; margin-top:6px; padding:10px 12px; border:1px solid rgba(41,241,255,.22); border-radius:10px; background:rgba(41,241,255,.05);}
+  .lk-h{font:700 12px 'Inter',sans-serif; color:#7fe9ff; margin-bottom:8px;} .lk-h span{font-weight:500; color:var(--text-faint); margin-left:8px;}
+  .lk-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:8px 12px; margin-bottom:10px;}
+  .lk-i i{display:block; font-style:normal; font-size:10.5px; color:var(--text-faint); letter-spacing:.03em;} .lk-i b{font-weight:600; font-size:12.5px; word-break:break-word;}
+  .lk-edit{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:10px 12px;}
+  .lk-miss{font-size:12px; color:#FFC85C;}
   .ro-val{padding:8px 10px; border-radius:7px; border:1px dashed rgba(41,241,255,.16); background:rgba(5,8,16,.35); min-height:35px; white-space:pre-wrap; word-break:break-word; font-size:13.5px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
   .ro-val .ro-empty{color:var(--text-faint);}
   .modal-meta{font-size:11px; color:var(--text-faint); padding:8px 20px 12px;}
@@ -4179,6 +4185,12 @@ function renderModule(key){
     $('#tableHolder').innerHTML = '<div class="empty-state">⚠ ບໍ່ສາມາດໂຫຼດຂໍ້ມູນໄດ້ ('+esc(e && e.code || 'error')+')</div>';
   });
   state.unsubs.push(unsub);
+  /* device columns come from the Asset Register — refresh when an asset is edited (e.g. from a licence form) */
+  if(cfg.linkAssets && key!=='assets'){
+    state.unsubs.push(state.db.collection('assets').onSnapshot(function(){
+      if(state.currentKey===key && state.cache[key]) renderTable(key, $('#searchBox')? $('#searchBox').value : '');
+    }));
+  }
 }
 
 function maskSecret(v){
@@ -4741,6 +4753,31 @@ function editFieldHtml(f, rec){
   return '<div class="field'+(f.type==='textarea'?' span2':'')+'"><label>'+esc(f.label)+reqStar+'</label>'+inputHtml+'</div>';
 }
 var recEscBound = false;
+var LK_ALL = [['assetType','Device Type'],['description','Brand/Model'],['serial','Serial No.'],['owner','Position/Department'],['department','Location'],['userName','User Name'],['status','Asset Status']];
+function linkedAssetFor(cfg, rec){
+  if(!cfg || !cfg.linkAssets || !rec || !rec.assetId) return null;
+  return assetLookup()[String(rec.assetId).trim().toLowerCase()] || false;
+}
+function linkedAssetHtml(cfg, rec, editing){
+  var a = linkedAssetFor(cfg, rec);
+  if(a===null) return '';
+  if(a===false) return '<div class="lk-box"><div class="lk-h">ຂໍ້ມູນຈາກ IT Asset Register</div><div class="lk-miss">ບໍ່ພົບ Asset ID "'+esc(rec.assetId)+'" ໃນ IT Asset Register — ກວດ ID ຫຼື ນຳເຂົ້າ/ເພີ່ມອຸປະກອນກ່ອນ</div></div>';
+  if(editing){
+    var defs = MODULES.assets.fields, body = '';
+    LK_ALL.forEach(function(p){
+      var f = null; defs.forEach(function(d){ if(d.key===p[0]) f = d; });
+      if(!f) return;
+      var g = {}; Object.keys(f).forEach(function(k){ g[k] = f[k]; });
+      g.key = 'lk__'+f.key; g.required = false; if(f.key==='status') g.label = 'Asset Status'; g.suggest = f.suggest;
+      var tmp = {}; tmp[g.key] = a[f.key];
+      body += editFieldHtml(g, tmp);
+    });
+    return '<div class="lk-box"><div class="lk-h">ຂໍ້ມູນອຸປະກອນ <span>ແກ້ໄຂໄດ້ທີ່ນີ້ — ເມື່ອກົດບັນທຶກ ຈະອັບເດດ IT Asset Register ໃຫ້ອັດຕະໂນມັດ (ທຸກໜ້າທີ່ເຊື່ອມ ID ນີ້ປ່ຽນຕາມ)</span></div><div class="lk-edit">'+body+'</div></div>';
+  }
+  return '<div class="lk-box"><div class="lk-h">ຂໍ້ມູນຈາກ IT Asset Register <span>ກົດ "ແກ້ໄຂ" ເພື່ອແກ້ຂໍ້ມູນອຸປະກອນນີ້ພ້ອມກັນ</span></div><div class="lk-grid">'+
+    LK_ALL.map(function(p){ var v = a[p[0]]; return '<div class="lk-i"><i>'+esc(p[1])+'</i><b>'+(v===undefined||v===null||v===''? '—' : esc(v))+'</b></div>'; }).join('')+
+    '</div><button type="button" class="btn btn-sm" id="linkAssetBtn">↗ ເປີດໃນ Asset Register</button></div>';
+}
 function openRecordModal(key, id, prefill, startEdit){
   var cfg = MODULES[key];
   var rec = id ? (state.cache[key]||[]).find(function(r){ return r.id===id; }) : (prefill || {});
@@ -4762,6 +4799,7 @@ function openRecordModal(key, id, prefill, startEdit){
       var ds = cfg.derivedStatus(rec);
       fieldsHtml += '<div class="field"><label>'+esc(cfg.derivedLabel||'ສະຖານະ')+'</label><div class="ro-val">'+(ds ? '<span class="badge '+ds.cls+'">'+esc(ds.label)+'</span>' : '<span class="ro-empty">—</span>')+'</div></div>';
     }
+    fieldsHtml += linkedAssetHtml(cfg, rec, editing);
     var title = !id ? 'ເພີ່ມລາຍການໃໝ່' : (editing ? 'ແກ້ໄຂລາຍການ' : 'ລາຍລະອຽດ');
     var pill = editing ? '<span class="mode-pill edit">'+(id ? '✎ ກຳລັງແກ້ໄຂ' : '＋ ໃໝ່')+'</span>' : '<span class="mode-pill view">🔒 ອ່ານຢ່າງດຽວ</span>';
     var stamp = rec._updatedAt ? ('ແກ້ໄຂຄັ້ງຫຼ້າສຸດ: '+fmtFull(rec._updatedAt)) : (rec._createdAt ? ('ສ້າງເມື່ອ: '+fmtFull(rec._createdAt)) : '');
@@ -4778,6 +4816,14 @@ function openRecordModal(key, id, prefill, startEdit){
       '</div></div>';
     animate = false;
     $('#closeModal').addEventListener('click', function(){ if(editing && !discardOk()) return; close(); });
+    var lkb = $('#linkAssetBtn');
+    if(lkb) lkb.addEventListener('click', function(){
+      var a = linkedAssetFor(cfg, rec); if(!a || !a.id) return;
+      if(editing && !discardOk()) return;
+      close();
+      try{ navigate('assets','module'); }catch(e){}
+      setTimeout(function(){ try{ state.cache.assets = state.db.getAll('assets')||[]; openRecordModal('assets', a.id, null, true); }catch(e){} }, 450);
+    });
     $('#cancelBtn').addEventListener('click', function(){
       if(editing && id){ if(!discardOk()) return; editing = false; dirty = false; draw(); }
       else { if(editing && !discardOk()) return; close(); }
@@ -4812,7 +4858,30 @@ function openRecordModal(key, id, prefill, startEdit){
         data[f.key] = f.type==='number' ? (v===''? '' : Number(v)) : v;
       });
       if(missing){ toast('ກະລຸນາຕື່ມຂໍ້ມູນທີ່ຈຳເປັນ (*)', true); return; }
-      saveRecord(key, id, data, close);
+      var la = (id && cfg.linkAssets) ? linkedAssetFor(cfg, rec) : null, lkChg = null;
+      if(la && la.id){
+        var chg = {}, any = false;
+        LK_ALL.forEach(function(p){
+          var n = $('#f_lk__'+p[0]); if(!n) return;
+          var nv = n.value, ov = (la[p[0]]===undefined||la[p[0]]===null) ? '' : String(la[p[0]]);
+          if(nv!==ov){ chg[p[0]] = nv; any = true; }
+        });
+        if(any){
+          if(String(data.assetId||'').trim().toLowerCase()!==String(rec.assetId||'').trim().toLowerCase()){
+            toast('ແກ້ Asset ID ແລະ ຂໍ້ມູນອຸປະກອນພ້ອມກັນບໍ່ໄດ້ — ບັນທຶກ Asset ID ກ່ອນ ແລ້ວຈຶ່ງແກ້ຂໍ້ມູນອຸປະກອນ', true); return;
+          }
+          lkChg = chg;
+        }
+      }
+      saveRecord(key, id, data, function(){
+        if(lkChg){
+          lkChg._updatedAt = new Date().toISOString();
+          state.db.collection('assets').doc(la.id).update(lkChg)
+            .then(function(){ toast('ອັບເດດ IT Asset Register ('+(la.assetId||'')+') ແລ້ວ'); })
+            .catch(function(e){ toast('ບັນທຶກ License ແລ້ວ ແຕ່ອັບເດດ Asset Register ບໍ່ສຳເລັດ: '+String(e&&e.message||e), true); });
+        }
+        close();
+      });
     });
   }
   try{ Sound.open(); }catch(e){}
@@ -9315,8 +9384,8 @@ var KGSTask = (function(){
 
 /* ---- App version label (sidebar + Settings) ---- */
 (function(){
-  var B = {ver:'2026.11.24-r1', date:'24/11/2026',
-    note:'RPT-013 KPI importer + KPI Dashboard table; Task HUD v4; Face ID head-turn x2; CSS leak fixed'};
+  var B = {ver:'2026.11.24-r3', date:'24/11/2026',
+    note:'r3: edit device info from licence/issue forms (writes to Asset Register); r2: linked Asset Register info in record forms; RPT-013 KPI importer + KPI Dashboard table; Task HUD v4; Face ID head-turn x2; CSS leak fixed'};
   window.KGS_BUILD = B;
   function paint(){
     ['appVer','gmVer'].forEach(function(id){
