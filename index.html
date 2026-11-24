@@ -353,6 +353,9 @@
   }
   .modal-head h3{font-size:14.5px; font-family:'Rajdhani',sans-serif; letter-spacing:.02em; color:#EAFBFF;}
   .modal-body{padding:18px 20px; display:flex; flex-direction:column; gap:13px; max-height:64vh; overflow-y:auto;}
+  html .modal-scrim .modal{display:flex; flex-direction:column; max-height:100%;}
+  html .modal-scrim .modal .modal-head, html .modal-scrim .modal .modal-foot, html .modal-scrim .modal .modal-meta{flex:none;}
+  html .modal-scrim .modal .modal-body{flex:1 1 auto; min-height:0; max-height:none; overflow-y:auto;}
   .modal-foot{padding:14px 20px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:8px;}
   .field{display:flex; flex-direction:column; gap:5px;}
   .field label{font-size:12px; font-weight:600; color:var(--text-muted);}
@@ -2817,7 +2820,7 @@ var MODULES = {
       {key:'ip', label:'IP Address', type:'text'},
       {key:'userName', label:'User Name', type:'text'},
       {key:'oldId', label:'Old ID', type:'text'},
-      {key:'remarks', label:'ໝາຍເຫດ (Remarks)', type:'textarea'}
+      {key:'remarks', label:'ໝາຍເຫດ (Remarks)', type:'textarea', tableShow:true}
     ]
   },
   winLicenses:{
@@ -2834,7 +2837,7 @@ var MODULES = {
       {key:'startDate', label:'Start Date/Purchasse Date', type:'date'},
       {key:'expiryDate', label:'Expiry Date', type:'text'},
       {key:'status', label:'Status', type:'select', options:REG003_LIC_STATUS, badge:true},
-      {key:'remark', label:'Remark', type:'textarea'}
+      {key:'remark', label:'Remark', type:'textarea', tableShow:true}
     ]
   },
   secLicenses:{
@@ -2851,7 +2854,7 @@ var MODULES = {
       {key:'startDate', label:'Start Date', type:'date'},
       {key:'expiryDate', label:'Expiry Date', type:'text'},
       {key:'status', label:'Status', type:'select', options:REG003_LIC_STATUS, badge:true},
-      {key:'remark', label:'Remark', type:'textarea'}
+      {key:'remark', label:'Remark', type:'textarea', tableShow:true}
     ]
   },
   officeLicenses:{
@@ -2867,7 +2870,7 @@ var MODULES = {
       {key:'installDate', label:'Install Date', type:'date'},
       {key:'expiryDate', label:'Expiry Date', type:'text'},
       {key:'status', label:'Status', type:'select', options:REG003_LIC_STATUS, badge:true},
-      {key:'remark', label:'Remark', type:'textarea'}
+      {key:'remark', label:'Remark', type:'textarea', tableShow:true}
     ]
   },
   spares:{
@@ -4263,7 +4266,7 @@ function renderTable(key, filterText){
     holder.innerHTML = '<div class="empty-state"><div class="big">🗂️</div>'+(ft2? 'ບໍ່ພົບຂໍ້ມູນທີ່ຄົ້ນຫາ' : 'ຍັງບໍ່ມີຂໍ້ມູນ — ກົດ "ເພີ່ມລາຍການ" ເພື່ອເລີ່ມບັນທຶກ')+'</div>';
     return;
   }
-  var cols = cfg.fields.filter(function(f){ return f.type!=='textarea'; });
+  var cols = cfg.fields.filter(function(f){ return f.type!=='textarea' || f.tableShow; });
   var amap = null;
   if(cfg.linkAssets){
     amap = assetLookup();
@@ -4801,7 +4804,7 @@ function openRecordModal(key, id, prefill, startEdit){
       var ds = cfg.derivedStatus(rec);
       fieldsHtml += '<div class="field"><label>'+esc(cfg.derivedLabel||'ສະຖານະ')+'</label><div class="ro-val">'+(ds ? '<span class="badge '+ds.cls+'">'+esc(ds.label)+'</span>' : '<span class="ro-empty">—</span>')+'</div></div>';
     }
-    fieldsHtml += linkedAssetHtml(cfg, rec, editing);
+    fieldsHtml = linkedAssetHtml(cfg, rec, editing) + fieldsHtml;
     var title = !id ? 'ເພີ່ມລາຍການໃໝ່' : (editing ? 'ແກ້ໄຂລາຍການ' : 'ລາຍລະອຽດ');
     var pill = editing ? '<span class="mode-pill edit">'+(id ? '✎ ກຳລັງແກ້ໄຂ' : '＋ ໃໝ່')+'</span>' : '<span class="mode-pill view">🔒 ອ່ານຢ່າງດຽວ</span>';
     var stamp = rec._updatedAt ? ('ແກ້ໄຂຄັ້ງຫຼ້າສຸດ: '+fmtFull(rec._updatedAt)) : (rec._createdAt ? ('ສ້າງເມື່ອ: '+fmtFull(rec._createdAt)) : '');
@@ -9386,8 +9389,8 @@ var KGSTask = (function(){
 
 /* ---- App version label (sidebar + Settings) ---- */
 (function(){
-  var B = {ver:'2026.11.24-r4', date:'24/11/2026',
-    note:'r4: Serial + Department columns in licence tables, device columns in CSV export; r3: edit device info from licence/issue forms (writes to Asset Register); r2: linked Asset Register info in record forms; RPT-013 KPI importer + KPI Dashboard table; Task HUD v4; Face ID head-turn x2; CSS leak fixed'};
+  var B = {ver:'2026.11.24-r5', date:'24/11/2026',
+    note:'r5: device info shown first in forms, Remark column in tables, taller forms; r4: Serial + Department columns in licence tables, device columns in CSV export; r3: edit device info from licence/issue forms (writes to Asset Register); r2: linked Asset Register info in record forms; RPT-013 KPI importer + KPI Dashboard table; Task HUD v4; Face ID head-turn x2; CSS leak fixed'};
   window.KGS_BUILD = B;
   function paint(){
     ['appVer','gmVer'].forEach(function(id){
