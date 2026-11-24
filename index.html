@@ -3001,6 +3001,13 @@ var MODULES = {
       {key:'patchCompliance', label:'Patch Compliance %', type:'number'},
       {key:'aiReviewCompliance', label:'AI Review Compliance %', type:'number'},
       {key:'licenseCompliance', label:'License Compliance %', type:'number'},
+      {key:'issueOnTime', label:'Issue Closed On Time % (RPT-013)', type:'number'},
+      {key:'accessReview', label:'Access Review % (RPT-013)', type:'number'},
+      {key:'licenseRenewal', label:'License Renewal On Time % (RPT-013)', type:'number'},
+      {key:'aiOutputReviewed', label:'AI Output Reviewed % (RPT-013)', type:'number'},
+      {key:'cyberScore', label:'Cyber Check Score % (RPT-013)', type:'number'},
+      {key:'overallStatus', label:'ສະຖານະລວມ (RAG)', type:'text'},
+      {key:'improvementAction', label:'Action ປັບປຸງ', type:'textarea'},
       {key:'remarks', label:'ໝາຍເຫດ / ແນວໂນ້ມ', type:'textarea'}
     ]
   },
@@ -6083,6 +6090,49 @@ async function importReg003(wb, summary, warnings){
   return handled;
 }
 
+/* KGS-IT-RPT-013 "IT KPI Report" form: one sheet, one row per month, 6 KPI % + overall RAG + improvement action.
+   Header-name based (sheet name is not relied on). Goes into the IT KPI Report page (month = YYYY-MM, re-import updates the same month). */
+function rptMonthKey(raw){
+  if(raw===null || raw===undefined || raw==='') return '';
+  var t = String(raw).trim(), m, M = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  if((m = /^([A-Za-z]{3})[a-z]*[\s\-\/.,]*(\d{4})$/.exec(t)) && M[m[1].toLowerCase()]) return m[2]+'-'+(M[m[1].toLowerCase()]<10?'0':'')+M[m[1].toLowerCase()];
+  if((m = /^(\d{4})[\-\/.](\d{1,2})$/.exec(t))) return m[1]+'-'+(+m[2]<10?'0':'')+(+m[2]);
+  if((m = /^(\d{1,2})[\-\/.](\d{4})$/.exec(t))) return m[2]+'-'+(+m[1]<10?'0':'')+(+m[1]);
+  var d = parseLooseDate(raw); return d ? d.slice(0,7) : '';
+}
+function rptNum(v){ if(v===null || v===undefined || v==='') return ''; var n = parseFloat(String(v).replace('%','').replace(/,/g,'').trim()); return isFinite(n) ? n : ''; }
+async function importRpt013(wb, summary, warnings){
+  var handled = {}, COLS = {'backupsuccess':'backupSuccess','issueclosedontime':'issueOnTime','accessreview':'accessReview','licenserenewalontime':'licenseRenewal','aioutputreviewed':'aiOutputReviewed','cybercheckscore':'cyberScore'};
+  for(var i=0;i<wb.sheetNames.length;i++){
+    var sn = wb.sheetNames[i], g = wb.sheets[sn] || [], hr = -1, map = {}, r, c;
+    for(r=0;r<Math.min(g.length,25);r++){
+      var cand = {}, hit = 0;
+      (g[r]||[]).forEach(function(v, ci){ var k = normalizeName(kdClean(v)); if(k==='ເດືອນ' || k==='month') cand.month = ci; else if(COLS[k]){ cand[COLS[k]] = ci; hit++; } else if(k==='ສະຖານະລວມ' || k==='overallstatus') cand.overallStatus = ci; else if(k==='actionປັບປຸງ' || k==='actionimprovement') cand.improvementAction = ci; });
+      if(cand.month!==undefined && hit>=4){ hr = r; map = cand; break; }
+    }
+    if(hr<0) continue;
+    handled[normalizeName(sn)] = true;
+    var docRef = '', meta = g[1] || []; meta.forEach(function(v){ var t = kdClean(v); if(/^KGS-IT-RPT/i.test(t)) docRef = t; });
+    var rows = [], blank = 0, bad = [];
+    for(r=hr+1;r<g.length;r++){
+      var row = g[r]; if(!row) continue;
+      var mk = rptMonthKey(row[map.month]), any = false, d = {};
+      Object.keys(map).forEach(function(k){ if(k==='month') return; var v = row[map[k]]; if(k==='overallStatus' || k==='improvementAction'){ var tx = kdClean(v); if(tx){ d[k] = tx; any = true; } } else { var n = rptNum(v); if(n!==''){ d[k] = n; any = true; if(n<0 || n>100) bad.push((mk||'?')+' '+k+'='+n); } } });
+      if(!mk && !any) continue;
+      if(!mk){ blank++; continue; }
+      if(!any){ blank++; continue; }
+      d.month = mk; if(d.backupSuccess!==undefined) d.backupSuccess = d.backupSuccess;
+      if(docRef) d.remarks = 'ຈາກ '+docRef;
+      rows.push(d);
+    }
+    await kdUpsert('kpiReports', 'month', rows, 'KGS-IT-RPT-013 Rev.00', 'IT KPI Report (ຈາກແບບຟອມ '+(docRef||sn)+')', summary, blank);
+    if(!rows.length) warnings.push(sn+': ພົບຫົວຕາຕະລາງ KPI ແຕ່ບໍ່ມີແຖວຂໍ້ມູນເດືອນ — ບໍ່ມີຫຍັງນຳເຂົ້າ');
+    if(bad.length) warnings.push('IT KPI Report: ຄ່າ % ນອກ 0–100 — ກວດໃຫ້ແນ່ໃຈ: '+bad.slice(0,6).join(', '));
+    warnings.push('IT KPI Report (RPT-013): ຄ່າທີ່ນຳເຂົ້າເປັນຄ່າຈາກໄຟລ໌ ບໍ່ໄດ້ຄິດໄລ່ຈາກຂໍ້ມູນໃນແອັບ — KPI 6 ຕົວນີ້ຕ່າງຈາກຟອມ FRM-09 ເດີມ (ມີພຽງ Backup Success % ທີ່ຊື່ກົງກັນ), ຈຶ່ງເກັບໃນຊ່ອງໃໝ່. ໃຫ້ IMS ຢືນຢັນວ່າໃຊ້ແບບໃດເປັນຫຼັກ');
+  }
+  return handled;
+}
+
 async function importExcelFile(file){
   var T = KGSTask.begin('import', {retry: function(){ var f = $('#importExcelFile'); if(f) f.click(); }});
   if(!window.DecompressionStream || !window.DOMParser){
@@ -6104,6 +6154,8 @@ async function importExcelFile(file){
     var kpiHandled = await importKpiWorkbook(wb, summary, warnings, file.name);
     T.set(55, 'ກຳລັງນຳເຂົ້າຂໍ້ມູນ...', 'Importing data...'); await T.yield();
     Object.keys(kpiHandled).forEach(function(k){ regHandled[k] = true; });
+    var rptHandled = await importRpt013(wb, summary, warnings);
+    Object.keys(rptHandled).forEach(function(k){ regHandled[k] = true; });
     for(var i=0;i<wb.sheetNames.length;i++){
       var sname = wb.sheetNames[i];
       T.set(55 + 42*i/wb.sheetNames.length, 'ກຳລັງນຳເຂົ້າຊີດ: '+sname+' ('+(i+1)+'/'+wb.sheetNames.length+')', 'Importing sheet: '+sname+' ('+(i+1)+'/'+wb.sheetNames.length+')'); await T.yield();
