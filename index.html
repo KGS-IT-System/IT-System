@@ -2764,7 +2764,7 @@ var REG003_NORM = {
   department:{'ສຳນັກງານໃຫຍ່':'Head Office'}
 };
 var REG003_LIC_STATUS = ['Activated','Expired','Pending Renewal','Not Activated','Disabled','Activation required'];
-var REG003_LINKS = [['assetType','Device Type'],['description','Brand/Model'],['userName','User Name']];
+var REG003_LINKS = [['assetType','Device Type'],['description','Brand/Model'],['serial','Serial No.'],['owner','Position/Department'],['userName','User Name']];
 
 /* Loose date reader for register values: Excel serial, ISO text, d/m/yyyy text.
    Returns 'YYYY-MM-DD' or null (never guesses on malformed years like "205"). */
@@ -4340,14 +4340,16 @@ var EXAMPLE_ROWS = {
   evidenceFolders: ['01_Policy','ນະໂຍບາຍ (ຕົວຢ່າງ)','IT Policy, AI Usage Policy (ອະນຸມັດແລ້ວ)','ISO 9001 Cl.7.5','Google Drive / ຕູ້ເອກະສານ [TBC]','IT Officer','2026-02-01']
 };
 
-function csvForModule(key){
+function csvForModule(key, withLinks){
   var cfg = MODULES[key];
   var rows = (state.db && state.dbReady) ? state.db.getAll(key) : (state.cache[key] || []);
-  var headers = cfg.fields.map(function(f){ return f.label; });
+  var lk = (withLinks && cfg.linkAssets) ? LK_ALL : [], amap = lk.length ? assetLookup() : null;
+  var headers = cfg.fields.map(function(f){ return f.label; }).concat(lk.map(function(p){ return '[Asset] '+p[1]; }));
   var lines = [headers.map(csvEscape).join(',')];
   if(rows && rows.length){
     rows.forEach(function(r){
-      lines.push(cfg.fields.map(function(f){ return csvEscape(r[f.key]); }).join(','));
+      var a = amap ? (amap[String(r.assetId||'').trim().toLowerCase()] || {}) : {};
+      lines.push(cfg.fields.map(function(f){ return csvEscape(r[f.key]); }).concat(lk.map(function(p){ return csvEscape(a[p[0]]); })).join(','));
     });
   } else if(EXAMPLE_ROWS[key]){
     lines.push(EXAMPLE_ROWS[key].map(csvEscape).join(','));
@@ -4370,7 +4372,7 @@ function csvForAudit(){
 
 function exportCsv(key){
   var cfg = MODULES[key];
-  var csv = csvForModule(key);
+  var csv = csvForModule(key, true);
   var ok = downloadFile(cfg.code+'_'+key+'.csv', csv, 'text/csv;charset=utf-8');
   toast(ok? 'Export ສຳເລັດ' : 'Export ບໍ່ສຳເລັດ', !ok);
 }
@@ -9384,8 +9386,8 @@ var KGSTask = (function(){
 
 /* ---- App version label (sidebar + Settings) ---- */
 (function(){
-  var B = {ver:'2026.11.24-r3', date:'24/11/2026',
-    note:'r3: edit device info from licence/issue forms (writes to Asset Register); r2: linked Asset Register info in record forms; RPT-013 KPI importer + KPI Dashboard table; Task HUD v4; Face ID head-turn x2; CSS leak fixed'};
+  var B = {ver:'2026.11.24-r4', date:'24/11/2026',
+    note:'r4: Serial + Department columns in licence tables, device columns in CSV export; r3: edit device info from licence/issue forms (writes to Asset Register); r2: linked Asset Register info in record forms; RPT-013 KPI importer + KPI Dashboard table; Task HUD v4; Face ID head-turn x2; CSS leak fixed'};
   window.KGS_BUILD = B;
   function paint(){
     ['appVer','gmVer'].forEach(function(id){
