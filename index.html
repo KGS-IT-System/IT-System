@@ -2191,6 +2191,7 @@ body.auth-locked .kt-root,body.auth-locked .kt-flash{display:none !important;}
 .kt-chip[hidden]{display:none;} .kt-chip i{font-size:9.5px; letter-spacing:.16em; color:color-mix(in srgb,var(--c) 85%,#fff);} .kt-chip b{margin-left:auto; font-size:13.5px;}
 .kt-vig{background:radial-gradient(ellipse at 50% 46%, color-mix(in srgb,var(--c) calc(var(--k)*16%), transparent) 0%, transparent 58%), radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,.55) 100%);}
 @media (max-width:900px){ .kt-chip{min-width:110px; padding:4px 8px;} .kt-chip i{display:none;} .kt-chip b{margin-left:0;} }
+.kt-txt{gap:10px;} .kt-bar{height:7px; margin-top:4px;} .kt-btns{margin-top:10px;}
 </style>
 </head>
 <body>
@@ -6518,6 +6519,23 @@ function renderKpiDash(){
         '<div class="kd-m"><span>ເກນ: '+esc(s.crit)+'</span>'+(s.st.txt!=='-'? kdToneBadge(s.st.txt, s.st.tone) : '')+'</div></div></div>';
     }).join('')+'</div>';
 
+    (function(){
+      var yr = String(state.kdYear);
+      var rp = (state.db.getAll('kpiReports')||[]).filter(function(r){
+        return /^\d{4}-\d{2}/.test(String(r.month||'')) && String(r.month).slice(0,4)===yr &&
+          (r.issueOnTime!=null && r.issueOnTime!=='' || r.accessReview!=null && r.accessReview!=='' || r.licenseRenewal!=null && r.licenseRenewal!=='' ||
+           r.aiOutputReviewed!=null && r.aiOutputReviewed!=='' || r.cyberScore!=null && r.cyberScore!=='' || /RPT-013/.test(String(r.remarks||'')));
+      }).sort(function(x,y){ return String(x.month)<String(y.month) ? -1 : 1; });
+      if(!rp.length) return;
+      function f(v){ return (v==null||v==='') ? '—' : esc(kdFmt(kdNum(v))); }
+      h += '<div class="panel kd-rpt"><h3>KPI ຈາກແບບຟອມ KGS-IT-RPT-013 ('+rp.length+' ເດືອນ)</h3>'+
+        '<div class="page-sub" style="max-width:none;margin-bottom:8px;">ຄ່າຈາກໄຟລ໌ທີ່ນຳເຂົ້າ — ບໍ່ໄດ້ຄິດໄລ່ໂດຍແອັບ ແລະ ຍັງບໍ່ມີການກຳນົດເກນຜ່ານ/ບໍ່ຜ່ານ (ລໍຖ້າ IMS ຢືນຢັນ). ກົດແຖວເພື່ອເບິ່ງ/ແກ້ໄຂ.</div>'+
+        '<div class="table-wrap"><div class="table-scroll"><table class="data compact kd-rpt-table"><thead><tr><th>ເດືອນ</th><th>Backup Success %</th><th>Issue Closed On Time %</th><th>Access Review %</th><th>License Renewal On Time %</th><th>AI Output Reviewed %</th><th>Cyber Check Score %</th><th>ສະຖານະລວມ</th><th>Action ປັບປຸງ</th></tr></thead><tbody>'+
+        rp.map(function(r){
+          return '<tr class="kd-rpt-row" data-id="'+esc(r.id)+'"><td>'+esc(r.month)+'</td><td>'+f(r.backupSuccess)+'</td><td>'+f(r.issueOnTime)+'</td><td>'+f(r.accessReview)+'</td><td>'+f(r.licenseRenewal)+'</td><td>'+f(r.aiOutputReviewed)+'</td><td>'+f(r.cyberScore)+'</td><td class="wrap">'+esc(r.overallStatus||'')+'</td><td class="wrap">'+esc(r.improvementAction||'')+'</td></tr>';
+        }).join('')+'</tbody></table></div></div></div>';
+    })();
+
     if(!B.rows.length){
       h += '<div class="empty-state"><div class="big">🎯</div>ຍັງບໍ່ມີນິຍາມ KPI — ກົດ "Import Excel" ດ້ານຊ້າຍ ແລ້ວເລືອກໄຟລ໌ KGS-IT-RPT-KPI (ຊີດ 02_KPI_Data) ເພື່ອນຳເຂົ້າ KPI, ເປົ້າໝາຍ ແລະ ຄ່າລາຍເດືອນ</div>';
     } else {
@@ -6553,6 +6571,7 @@ function renderKpiDash(){
     body.innerHTML = h;
     var tb = body.querySelector('.kd-table');
     if(tb) tb.querySelectorAll('tbody tr').forEach(function(tr){ tr.addEventListener('click', function(){ openRecordModal('kpiDefs', this.getAttribute('data-id')); }); });
+    body.querySelectorAll('.kd-rpt-row').forEach(function(tr){ tr.addEventListener('click', function(){ openRecordModal('kpiReports', this.getAttribute('data-id')); }); });
     body.querySelectorAll('.kd-act-row').forEach(function(tr){ tr.addEventListener('click', function(){ openRecordModal('kpiActions', this.getAttribute('data-id')); }); });
     var ab = $('#kdAddAct'); if(ab) ab.addEventListener('click', function(){ openRecordModal('kpiActions', null); });
   }
@@ -6570,7 +6589,7 @@ function renderKpiDash(){
   });
   var tmr = null;
   function sched(){ clearTimeout(tmr); tmr = setTimeout(draw, 40); }
-  ['kpiDefs','kpiActions','issues','backups','restoreTests','securityChecks','aiUsage','ncrCapa','accessRequests','licenses','winLicenses','secLicenses','officeLicenses'].forEach(function(k){
+  ['kpiDefs','kpiActions','kpiReports','issues','backups','restoreTests','securityChecks','aiUsage','ncrCapa','accessRequests','licenses','winLicenses','secLicenses','officeLicenses'].forEach(function(k){
     state.unsubs.push(state.db.collection(k).onSnapshot(sched));
   });
   state.unsubs.push(function(){ clearTimeout(tmr); });
@@ -9345,5 +9364,3 @@ Auth.start(initShell);
 </script>
 </body>
 </html>
-
-.kt-txt{gap:10px;} .kt-bar{height:7px; margin-top:4px;} .kt-btns{margin-top:10px;}
