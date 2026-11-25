@@ -2716,9 +2716,11 @@ var NAV = [
   ]},
   {group:'ໄລຍະ 2 — ຊັບສິນ ແລະ ການເຂົ້າເຖິງ', items:[
     {key:'assets', label:'IT Asset Register', code:'REG-003', icon:'🖥️', kind:'module'},
+    {key:'winLicenses', label:'Windows License', code:'REG-003', icon:'🪟', kind:'module'},
     {key:'secLicenses', label:'Security License', code:'REG-003', icon:'🛡️', kind:'module'},
     {key:'officeLicenses', label:'MS Office License', code:'REG-003', icon:'📄', kind:'module'},
     {key:'licenseLog', label:'License Log', code:'REG-003', icon:'🧾', kind:'licenselog'},
+    {key:'spares', label:'Spare-IT', code:'REG-003', icon:'📦', kind:'module'},
     {key:'licenses', label:'Software License', code:'FRM-02', icon:'🧾', kind:'module'},
     {key:'specScore', label:'PC Spec Score', code:'TOOL', icon:'🧮', kind:'specscore'},
     {key:'accessRequests', label:'Access Request Form', code:'FRM-04', icon:'📝', kind:'module'}
@@ -2894,7 +2896,7 @@ var MODULES = {
       {key:'assignedTo', label:'Assigned To', type:'text'},
       {key:'status', label:'Status', type:'text', badge:true},
       {key:'lastInspection', label:'Last Inspection', type:'date'},
-      {key:'remarks', label:'Remarks', type:'textarea'}
+      {key:'remarks', label:'Remarks', type:'textarea', tableShow:true}
     ]
   },
   licenses:{
@@ -9389,8 +9391,8 @@ var KGSTask = (function(){
 
 /* ---- App version label (sidebar + Settings) ---- */
 (function(){
-  var B = {ver:'2026.11.24-r5', date:'24/11/2026',
-    note:'r5: device info shown first in forms, Remark column in tables, taller forms; r4: Serial + Department columns in licence tables, device columns in CSV export; r3: edit device info from licence/issue forms (writes to Asset Register); r2: linked Asset Register info in record forms; RPT-013 KPI importer + KPI Dashboard table; Task HUD v4; Face ID head-turn x2; CSS leak fixed'};
+  var B = {ver:'2026.11.24-r6', date:'24/11/2026',
+    note:'r6: Windows License + Spare-IT pages back in the menu; r5: device info shown first in forms, Remark column in tables, taller forms; r4: Serial + Department columns in licence tables, device columns in CSV export; r3: edit device info from licence/issue forms (writes to Asset Register); r2: linked Asset Register info in record forms; RPT-013 KPI importer + KPI Dashboard table; Task HUD v4; Face ID head-turn x2; CSS leak fixed'};
   window.KGS_BUILD = B;
   function paint(){
     ['appVer','gmVer'].forEach(function(id){
